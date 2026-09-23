@@ -1,0 +1,96 @@
+{
+  "generated_at_utc": "2026-09-23T23:05:51.457551+00:00",
+  "model": "m4_full",
+  "metric": "completed-bed outlet CO conversion (%)",
+  "grid": {
+    "h2_co_ratio": [
+      1.0,
+      1.4,
+      1.8,
+      2.2,
+      2.6,
+      2.9968749999999997,
+      3.0,
+      3.4000000000000004,
+      3.8000000000000003,
+      4.2,
+      4.6,
+      5.0
+    ],
+    "inlet_temperature_c": [
+      250.0,
+      280.0,
+      300.0,
+      310.0,
+      340.0,
+      350.0,
+      370.0,
+      385.0,
+      400.0
+    ],
+    "inlet_pressure_bar_abs": [
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      7.0,
+      9.0,
+      12.0,
+      15.0
+    ],
+    "point_count": 972
+  },
+  "fixed_basis": {
+    "co_feed_mol_h": 0.32,
+    "n2_feed_mol_h": 0.799,
+    "n2_co_ratio": 2.496875,
+    "catalyst_mass_g": 3.12,
+    "space_time_kg_s_mol_co": 35.099999999999994,
+    "bed_voidage": 0.9838388484169639,
+    "particle_density_kg_m3_assumed": 1250.0,
+    "reference_h2_co_ratio": 2.9968749999999997,
+    "reference_temperature_c": 350.0,
+    "reference_pressure_bar_abs": 2.0,
+    "source_reported_co_conversion_pct": 40.63
+  },
+  "model_settings": {
+    "thermal_mode": "isothermal",
+    "transport_mode": "ergun",
+    "solver_method": "BDF",
+    "co_feed_fixed_mol_h": 0.32,
+    "n2_co_ratio_fixed": 2.496875
+  },
+  "kinetic_fit_domain": {
+    "temperature_c": [
+      250.0,
+      400.0
+    ],
+    "pressure_bar_abs": [
+      5.0,
+      15.0
+    ],
+    "interpretation": "points below 5 bar extrapolate the pressure-dependent kinetics; values between fit nodes interpolate"
+  },
+  "completed_cases": 972,
+  "failed_or_incomplete_cases": 0,
+  "conversion_range_pct": [
+    10.013068585123365,
+    99.99980533957981
+  ],
+  "minimum_conversion_case": {
+    "h2_co_molar_ratio": 1.0,
+    "inlet_temperature_c": 250.0,
+    "inlet_pressure_bar_abs": 1.0,
+    "outlet_co_conversion_pct": 10.013068585123365
+  },
+  "maximum_conversion_case": {
+    "h2_co_molar_ratio": 5.0,
+    "inlet_temperature_c": 400.0,
+    "inlet_pressure_bar_abs": 15.0,
+    "outlet_co_conversion_pct": 99.99980533957981
+  },
+  "reference_case_conversion_pct": 96.93904420721964,
+  "elapsed_seconds": 77.22651870000118,
+  "interpretation_note": "Space time is omitted as an axis and held at the Experiment 1 reference value by keeping catalyst mass and CO feed fixed. This is an isothermal overview at the Experiment 1 bed/feed basis, unlike the earlier assumed-base-case heat-exchange temperature-pressure map. The 1 in by 12 in geometry and particle density are assumed; their combination with 3.12 g gives a sparse bed. This pre-optimization map is exploratory, not experimental validation."
+}
