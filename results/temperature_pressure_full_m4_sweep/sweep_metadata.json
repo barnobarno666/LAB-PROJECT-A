@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-23T19:37:32.450269+00:00",
+  "generated_at_utc": "2026-09-23T19:54:44.617906+00:00",
   "model": "m4_full",
   "sensitivity_metric": "completed-bed outlet CO conversion (%)",
   "temperature_range_c": [
@@ -61,18 +61,19 @@
     ]
   },
   "plot_layout": {
-    "pressure_panels_bar_abs": [
-      [
-        5.0,
-        15.0
-      ],
+    "combined_plot_pressure_bands_bar_abs": [
       [
         1.0,
         5.0
+      ],
+      [
+        5.0,
+        15.0
       ]
     ],
-    "panel_color_scales": "independent linear scales",
-    "visually_marked_outside_fit_region": "hatched inlet pressures from 1 to below 5 bar"
+    "combined_plot_color_scales": "independent linear scales for each pressure band",
+    "visually_marked_outside_fit_region": "hatched inlet pressures from 1 to below 5 bar",
+    "additional_design": "full_m4_temperature_pressure_contour_5_15bar.png and .svg"
   },
   "cases_with_peak_temperature_above_400c": 469,
   "cases_with_inlet_pressure_below_5bar": 132,
@@ -80,7 +81,7 @@
     288.3962808304161,
     603.0701078379739
   ],
-  "elapsed_seconds": 55.38017689999833,
+  "elapsed_seconds": 64.05127589999756,
   "fixed_inputs": {
     "reaction_mode": "m4_full",
     "feed": {

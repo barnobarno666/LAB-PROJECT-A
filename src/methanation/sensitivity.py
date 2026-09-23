@@ -45,6 +45,85 @@ def _axis_with_references(
     return np.sort(values)
 
 
+def _draw_contour_band(
+    ax,
+    temperature_c: np.ndarray,
+    pressure_bar: np.ndarray,
+    conversion_pct: np.ndarray,
+):
+    valid_values = conversion_pct[np.isfinite(conversion_pct)]
+    low = float(np.min(valid_values))
+    high = float(np.max(valid_values))
+    if np.isclose(low, high):
+        low -= 0.5
+        high += 0.5
+    contour = ax.contourf(
+        temperature_c,
+        pressure_bar,
+        np.ma.masked_invalid(conversion_pct),
+        levels=np.linspace(low, high, 17),
+        cmap=CMAP,
+        antialiased=True,
+    )
+    line_levels = np.linspace(low, high, 6)[1:-1]
+    ax.contour(
+        temperature_c,
+        pressure_bar,
+        np.ma.masked_invalid(conversion_pct),
+        levels=line_levels,
+        colors="#fff8ec",
+        linewidths=0.75,
+        alpha=0.85,
+    )
+    return contour, low, high
+
+
+def _style_sweep_axes(ax, temperature_c: np.ndarray, pressure_bar: np.ndarray) -> None:
+    ax.set_xlim(float(temperature_c[0]), float(temperature_c[-1]))
+    ax.set_ylim(float(pressure_bar[0]), float(pressure_bar[-1]))
+    ax.set_xlabel(r"Inlet temperature, $T_{\mathrm{in}}$ [$^\circ$C]", fontsize=11.5, labelpad=9)
+    ax.set_ylabel(r"Inlet pressure, $P_{\mathrm{in}}$ [bar abs]", fontsize=11.5, labelpad=9)
+    ax.set_xticks(np.arange(np.ceil(temperature_c[0] / 25) * 25, temperature_c[-1] + 1, 25))
+    ax.set_yticks([p for p in (1, 3, 5, 7, 10, 12, 15) if pressure_bar[0] <= p <= pressure_bar[-1]])
+    ax.tick_params(which="major", length=5, width=0.8, direction="out")
+    ax.grid(color="#6f6276", alpha=0.13, linewidth=0.55)
+
+
+def _add_nominal_marker(ax, base_config: ReactorConfig, baseline_conversion_pct: float) -> None:
+    nominal_temperature_c = base_config.feed.temperature_k - 273.15
+    ax.scatter(
+        [nominal_temperature_c],
+        [base_config.feed.pressure_bar],
+        s=62,
+        marker="o",
+        facecolor=PAPER,
+        edgecolor=INK,
+        linewidth=1.5,
+        zorder=5,
+    )
+    ax.annotate(
+        f"Nominal case  {baseline_conversion_pct:.2f}%",
+        xy=(nominal_temperature_c, base_config.feed.pressure_bar),
+        xytext=(12, 12),
+        textcoords="offset points",
+        fontsize=9,
+        color=INK,
+        bbox={"boxstyle": "round,pad=0.28", "facecolor": PAPER, "edgecolor": "#cfc5d1", "alpha": 0.96},
+        arrowprops={"arrowstyle": "-", "color": INK, "lw": 0.8},
+        zorder=6,
+    )
+
+
+def _write_fixed_note(fig, base_config: ReactorConfig, wall_temperature_c: float) -> None:
+    bed = base_config.bed
+    fixed_note = (
+        rf"Fixed: CO:H$_2$:N$_2$ = 1:4:25; $F_{{T,0}}$ = {base_config.feed.total_molar_flow_mol_s:.3g} mol s$^{{-1}}$; "
+        rf"bed = {bed.tube_diameter_m / 0.0254:.2f} in $\times$ {bed.bed_length_m / 0.0254:.2f} in; "
+        rf"wall = {wall_temperature_c:.0f} $^\circ$C."
+    )
+    fig.text(0.105, 0.065, fixed_note, ha="left", va="center", fontsize=8.4, color="#51475e")
+
+
 def _write_plot(
     temperature_c: np.ndarray,
     pressure_bar: np.ndarray,
@@ -68,78 +147,22 @@ def _write_plot(
             "savefig.facecolor": PAPER,
         }
     )
-    fig = plt.figure(figsize=(10.5, 9.8), facecolor=PAPER)
-    grid = fig.add_gridspec(
-        2,
-        2,
-        width_ratios=(1.0, 0.045),
-        height_ratios=(10.0, 4.0),
-        left=0.12,
-        right=0.90,
-        top=0.86,
-        bottom=0.23,
-        hspace=0.34,
-        wspace=0.12,
-    )
-    fit_ax = fig.add_subplot(grid[0, 0])
-    extended_ax = fig.add_subplot(grid[1, 0], sharex=fit_ax)
-    fit_cax = fig.add_subplot(grid[0, 1])
-    extended_cax = fig.add_subplot(grid[1, 1])
-
+    fig = plt.figure(figsize=(11.0, 8.8), facecolor=PAPER)
+    ax = fig.add_axes([0.12, 0.31, 0.75, 0.55])
     fit_mask = pressure_bar >= 5.0
     extended_mask = pressure_bar <= 5.0
 
-    def draw_panel(ax, cax, mask: np.ndarray) -> None:
-        panel_data = np.ma.masked_invalid(conversion_pct[mask, :])
-        valid_values = panel_data.compressed()
-        low = float(np.min(valid_values))
-        high = float(np.max(valid_values))
-        if np.isclose(low, high):
-            low -= 0.5
-            high += 0.5
-        fill_levels = np.linspace(low, high, 17)
-        contour = ax.contourf(
-            temperature_c,
-            pressure_bar[mask],
-            panel_data,
-            levels=fill_levels,
-            cmap=CMAP,
-            antialiased=True,
-        )
-        line_levels = np.linspace(low, high, 6)[1:-1]
-        ax.contour(
-            temperature_c,
-            pressure_bar[mask],
-            panel_data,
-            levels=line_levels,
-            colors="#fff8ec",
-            linewidths=0.75,
-            alpha=0.85,
-        )
-        colorbar = fig.colorbar(contour, cax=cax)
-        colorbar.set_label(r"CO conversion [%]", rotation=90, labelpad=10, fontsize=9.5)
-        colorbar.set_ticks(np.linspace(low, high, 6))
-        colorbar.ax.yaxis.set_major_formatter(FormatStrFormatter("%.1f"))
-        colorbar.outline.set_edgecolor("#b9afbf")
-        colorbar.outline.set_linewidth(0.7)
-        ax.set_xlim(float(temperature_c[0]), float(temperature_c[-1]))
-        ax.set_ylim(float(pressure_bar[mask][0]), float(pressure_bar[mask][-1]))
-        ax.set_ylabel(r"$P_{\mathrm{in}}$ [bar abs]", fontsize=10.5, labelpad=7)
-        ax.set_xticks(np.arange(np.ceil(temperature_c[0] / 25) * 25, temperature_c[-1] + 1, 25))
-        ax.tick_params(which="major", length=5, width=0.8, direction="out")
-        ax.grid(color="#6f6276", alpha=0.13, linewidth=0.55)
-
-    draw_panel(fit_ax, fit_cax, fit_mask)
-    draw_panel(extended_ax, extended_cax, extended_mask)
-
-    fit_ax.set_title("5–15 bar  ·  Celoria kinetic-fit pressure range", loc="left", fontsize=10.5, pad=7)
-    extended_ax.set_title(
-        "1–5 bar  ·  hatched area below 5 bar is outside the fit range",
-        loc="left",
-        fontsize=10.5,
-        pad=7,
+    extended_data = conversion_pct[extended_mask, :]
+    fit_data = conversion_pct[fit_mask, :]
+    extended_contour, extended_low, extended_high = _draw_contour_band(
+        ax, temperature_c, pressure_bar[extended_mask], extended_data
     )
-    extended_ax.axhspan(
+    fit_contour, fit_low, fit_high = _draw_contour_band(
+        ax, temperature_c, pressure_bar[fit_mask], fit_data
+    )
+    _style_sweep_axes(ax, temperature_c, pressure_bar)
+
+    ax.axhspan(
         float(pressure_bar[0]),
         5.0,
         facecolor="none",
@@ -149,33 +172,9 @@ def _write_plot(
         alpha=0.14,
         zorder=3,
     )
-    extended_ax.axhline(5.0, color=INK, linewidth=1.0, zorder=4)
+    ax.axhline(5.0, color=INK, linewidth=1.35, zorder=4)
+    _add_nominal_marker(ax, base_config, baseline_conversion_pct)
 
-    nominal_temperature_c = base_config.feed.temperature_k - 273.15
-    fit_ax.scatter(
-        [nominal_temperature_c],
-        [base_config.feed.pressure_bar],
-        s=62,
-        marker="o",
-        facecolor=PAPER,
-        edgecolor=INK,
-        linewidth=1.5,
-        zorder=5,
-    )
-    fit_ax.annotate(
-        f"Nominal case  {baseline_conversion_pct:.2f}%",
-        xy=(nominal_temperature_c, base_config.feed.pressure_bar),
-        xytext=(12, 12),
-        textcoords="offset points",
-        fontsize=9,
-        color=INK,
-        bbox={"boxstyle": "round,pad=0.28", "facecolor": PAPER, "edgecolor": "#cfc5d1", "alpha": 0.96},
-        arrowprops={"arrowstyle": "-", "color": INK, "lw": 0.8},
-        zorder=6,
-    )
-
-    fit_ax.tick_params(labelbottom=False)
-    extended_ax.set_xlabel(r"Inlet temperature, $T_{\mathrm{in}}$ [$^\circ$C]", fontsize=11.5, labelpad=8)
     fig.suptitle(
         "Full M4 temperature–pressure sensitivity",
         x=0.12,
@@ -188,30 +187,94 @@ def _write_plot(
     fig.text(
         0.12,
         0.915,
-        r"Outlet CO conversion, $X_{\mathrm{CO,out}}$  ·  independent linear color scales",
+        r"Outlet CO conversion, $X_{\mathrm{CO,out}}$  ·  separate linear scales above and below 5 bar",
+        ha="left",
+        va="bottom",
+        fontsize=10.2,
+        color="#685d70",
+    )
+
+    fit_cax = fig.add_axes([0.15, 0.17, 0.31, 0.022])
+    extended_cax = fig.add_axes([0.54, 0.17, 0.31, 0.022])
+    fit_colorbar = fig.colorbar(fit_contour, cax=fit_cax, orientation="horizontal")
+    extended_colorbar = fig.colorbar(extended_contour, cax=extended_cax, orientation="horizontal")
+    for colorbar, low, high in (
+        (fit_colorbar, fit_low, fit_high),
+        (extended_colorbar, extended_low, extended_high),
+    ):
+        colorbar.set_ticks(np.linspace(low, high, 5))
+        colorbar.ax.xaxis.set_major_formatter(FormatStrFormatter("%.1f"))
+        colorbar.outline.set_edgecolor("#b9afbf")
+        colorbar.outline.set_linewidth(0.7)
+    fig.text(0.15, 0.202, "5–15 bar · Celoria fit pressures", fontsize=8.7, color=INK)
+    fig.text(0.54, 0.202, "1–5 bar · below 5 bar outside fit range", fontsize=8.7, color=INK)
+
+    _write_fixed_note(fig, base_config, wall_temperature_c)
+    fig.text(
+        0.105,
+        0.033,
+        "Hatching marks 1–<5 bar (outside the paper's pressure-fit range); the two color scales are independent.",
+        ha="left",
+        va="center",
+        fontsize=8.2,
+        color="#756a7a",
+    )
+
+    fig.savefig(output_path.with_suffix(".png"), dpi=320, bbox_inches="tight")
+    fig.savefig(output_path.with_suffix(".svg"), bbox_inches="tight")
+    plt.close(fig)
+
+
+def _write_fit_domain_plot(
+    temperature_c: np.ndarray,
+    pressure_bar: np.ndarray,
+    conversion_pct: np.ndarray,
+    baseline_conversion_pct: float,
+    output_path: Path,
+    *,
+    wall_temperature_c: float,
+    base_config: ReactorConfig,
+) -> None:
+    fit_mask = pressure_bar >= 5.0
+    fit_pressure = pressure_bar[fit_mask]
+    fit_conversion = conversion_pct[fit_mask, :]
+    fig, ax = plt.subplots(figsize=(9.2, 7.0), facecolor=PAPER)
+    ax.set_facecolor(PAPER)
+    contour, low, high = _draw_contour_band(
+        ax, temperature_c, fit_pressure, fit_conversion
+    )
+    _style_sweep_axes(ax, temperature_c, fit_pressure)
+    ax.set_yticks([5, 7, 10, 12, 15])
+    ax.set_title("5–15 bar · Celoria kinetic-fit pressure range", loc="left", fontsize=11, pad=8)
+    _add_nominal_marker(ax, base_config, baseline_conversion_pct)
+
+    colorbar = fig.colorbar(contour, ax=ax, pad=0.025, fraction=0.045)
+    colorbar.set_label(r"Outlet CO conversion [%]", rotation=90, labelpad=12, fontsize=10.5)
+    colorbar.set_ticks(np.linspace(low, high, 6))
+    colorbar.ax.yaxis.set_major_formatter(FormatStrFormatter("%.1f"))
+    colorbar.outline.set_edgecolor("#b9afbf")
+    colorbar.outline.set_linewidth(0.7)
+
+    fig.suptitle(
+        "Full M4 temperature–pressure sensitivity",
+        x=0.12,
+        y=0.985,
+        ha="left",
+        fontsize=16,
+        fontweight="bold",
+        color=INK,
+    )
+    fig.text(
+        0.12,
+        0.895,
+        r"Outlet CO conversion, $X_{\mathrm{CO,out}}$",
         ha="left",
         va="bottom",
         fontsize=10.5,
         color="#685d70",
     )
-
-    bed = base_config.bed
-    fixed_note = (
-        rf"Fixed: CO:H$_2$:N$_2$ = 1:4:25; $F_{{T,0}}$ = {base_config.feed.total_molar_flow_mol_s:.3g} mol s$^{{-1}}$; "
-        rf"bed = {bed.tube_diameter_m / 0.0254:.2f} in $\times$ {bed.bed_length_m / 0.0254:.2f} in; "
-        rf"wall = {wall_temperature_c:.0f} $^\circ$C."
-    )
-    fig.text(0.105, 0.135, fixed_note, ha="left", va="center", fontsize=8.3, color="#51475e")
-    fig.text(
-        0.105,
-        0.095,
-        "Hatching marks 1–<5 bar, below the paper's 5 bar minimum kinetic-fit pressure.",
-        ha="left",
-        va="center",
-        fontsize=8.3,
-        color="#756a7a",
-    )
-
+    _write_fixed_note(fig, base_config, wall_temperature_c)
+    fig.subplots_adjust(left=0.12, right=0.88, top=0.84, bottom=0.16)
     fig.savefig(output_path.with_suffix(".png"), dpi=320, bbox_inches="tight")
     fig.savefig(output_path.with_suffix(".svg"), bbox_inches="tight")
     plt.close(fig)
@@ -339,6 +402,16 @@ def run_sweep(
         wall_temperature_c=wall_temperature_c,
         base_config=base_config,
     )
+    fit_domain_figure_path = output_dir / "full_m4_temperature_pressure_contour_5_15bar"
+    _write_fit_domain_plot(
+        temperatures_c,
+        pressures_bar,
+        conversion_pct,
+        baseline_conversion_pct,
+        fit_domain_figure_path,
+        wall_temperature_c=wall_temperature_c,
+        base_config=base_config,
+    )
 
     elapsed_seconds = time.perf_counter() - started_at
     minimum_case = min(successful, key=lambda row: float(row["outlet_co_conversion_pct"]))
@@ -386,9 +459,10 @@ def run_sweep(
             "pressure_bar_abs": [5.0, 15.0],
         },
         "plot_layout": {
-            "pressure_panels_bar_abs": [[5.0, 15.0], [1.0, 5.0]],
-            "panel_color_scales": "independent linear scales",
+            "combined_plot_pressure_bands_bar_abs": [[1.0, 5.0], [5.0, 15.0]],
+            "combined_plot_color_scales": "independent linear scales for each pressure band",
             "visually_marked_outside_fit_region": "hatched inlet pressures from 1 to below 5 bar",
+            "additional_design": "full_m4_temperature_pressure_contour_5_15bar.png and .svg",
         },
         "cases_with_peak_temperature_above_400c": int(len(hotspot_extrapolations)),
         "cases_with_inlet_pressure_below_5bar": int(len(pressure_extrapolations)),
