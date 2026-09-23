@@ -14,7 +14,7 @@
     "pressure_bar": 5.0
   },
   "bed": {
-    "tube_diameter_m": 0.127,
+    "tube_diameter_m": 0.0254,
     "bed_length_m": 0.3048,
     "catalyst_loading_kg_m3_bed": 750.0,
     "void_fraction": 0.4,

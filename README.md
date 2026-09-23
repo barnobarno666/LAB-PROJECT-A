@@ -12,7 +12,7 @@ uv run pytest
 
 The run writes profile data including the three signed intrinsic reaction rates, a run summary, the resolved configuration, and four figures: conversion versus bed length, conversion versus catalyst mass, species concentrations, and temperature/pressure.
 
-`configs/assumed_base_case.json` is a demonstration configuration copied from the supplied reactor formulation. It is not Experiment #1 data. Replace its assumed geometry, catalyst loading, transport, thermal, feed, and pressure values before reporting a comparison with experiment.
+`configs/assumed_base_case.json` is a demonstration configuration based on the supplied reactor formulation, with the tube diameter corrected by the user to 1 in (0.0254 m) and the 12 in (0.3048 m) bed length retained. It is not Experiment #1 data. Catalyst loading, transport, thermal, feed, and pressure inputs remain assumptions and must be checked before reporting a comparison with experiment.
 
 ## Model contract
 

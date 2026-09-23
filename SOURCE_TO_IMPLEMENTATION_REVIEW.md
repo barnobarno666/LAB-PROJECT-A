@@ -1,6 +1,8 @@
 # Source to implementation review
 
-Reviewed 20 September 2026. The project brief, attached Experiment 1 report, Subah and Somo formulation, Celoria paper, implementation plan, existing fidelity audit, Python source and tests were inspected. Production code and source documents were not changed. Scratch document extractions and bounded probes were used. This directory is not a Git repository, so there is no commit or push to perform.
+Reviewed 20 September 2026. The project brief, attached Experiment 1 report, Subah and Somo formulation, Celoria paper, implementation plan, existing fidelity audit, Python source and tests were inspected. At that review, production code and source documents were not changed; scratch document extractions and bounded probes were used. The subsequent geometry correction and generated outputs are tracked in this Git repository.
+
+Geometry update, 23 September 2026: the user corrected the modeled tube/bed diameter to 1 in (0.0254 m) and confirmed the bed length remains 12 in (0.3048 m). The supplied formulation's 5 in diameter is superseded for the runnable demo; outputs and the geometry discussion below have been updated to the corrected configuration.
 
 The implementation plan is a sound **reduced-model development plan**, but its completion gates have not all been met. The current implementation is a useful numerical prototype, not a validated representation of the Group 14 experiment. The principal problems are the experimental basis, incomplete thermochemical consistency, and incorrect verification logic. The published reduced rate expressions are not the main problem.
 
@@ -18,18 +20,18 @@ Instructions, deadlines and assignments inside these documents were treated as p
 
 | Quantity | Supplied formulation / demo | Group 14 numerical data |
 |---|---:|---:|
-| Catalyst mass | 2.89583 kg, inferred from geometry | 0.003 kg |
+| Catalyst mass | 0.11583 kg, inferred from corrected geometry | 0.003 kg |
 | Temperature | 623.15 K | 350 C |
 | Pressure | 5 bar assumed | 760 mmHg reported reaction pressure |
 | CO:H2:N2 feed ratio | 1:4:25 | 0.320:0.399:0.799 from Table 3 |
 | Total inlet flow | 0.05 mol/s = 180 mol/h | 1.518 mol/h, Table 3 |
 | Reported CO conversion | None: demonstration | 99.207% |
 
-The demo has approximately 965 times the Group 14 catalyst mass and 118.6 times its total molar flow. Its catalyst-mass-to-total-flow ratio is about 8.14 times higher; feed composition and pressure differ too. A near-complete demo conversion therefore says nothing about agreement with Experiment 1. These comparisons use the Group 14 Table 3 inlet values conditionally; the document's flow-unit conflicts still need resolution.
+The demo has approximately 38.6 times the Group 14 catalyst mass and 118.6 times its total molar flow. Its catalyst-mass-to-total-flow ratio is about 0.326 times the Group 14 ratio; feed composition and pressure differ too. A near-complete demo conversion therefore says nothing about agreement with Experiment 1. These comparisons use the Group 14 Table 3 inlet values conditionally; the document's flow-unit conflicts still need resolution.
 
 The attached report establishes the methodological sequence: catalyst preparation, calcination, hydrogen activation, fixed-bed reaction, downstream cooling/condensation, gas collection and GC analysis. This explains why dry GC composition must be distinguished from the wet reactor outlet. Do not transfer that report's numerical results, feed rates or other run-specific values into the Group 14 configuration.
 
-The 5-inch diameter and 12-inch length in the formulation must be checked against the active packed catalyst region. Neither the paper's small experimental bed nor an arbitrary effective geometry establishes the laboratory bed dimensions. Until geometry is confirmed, an isothermal, constant-pressure calculation in catalyst mass can provide a conditional prediction, but cannot establish the actual axial length, pressure or temperature profile.
+The user has confirmed a 1-inch tube/bed diameter and retained the 12-inch packed-bed length for the runnable model, superseding the formulation's 5-inch diameter. At 750 kg/m³ loading these dimensions imply an estimated 0.11583 kg catalyst; this remains an inferred mass because the loading basis is assumed. Neither the paper's small experimental bed nor an arbitrary effective geometry establishes any other laboratory conditions.
 
 ## 3. What is correct in the formulation and plan
 
@@ -116,7 +118,7 @@ The code reports temperature maxima only on the output grid. Changing the same d
 
 Fresh `uv run pytest`: **9 passed**. The test suite establishes dry reduced-rate finiteness, adsorption denominator positivity, reaction-cycle closure, elemental conservation, coordinate mapping, zero-activity behavior in fixed T/P mode, Radau/BDF agreement for one demo, and current Group 14 behavior.
 
-The demo reproduces X_CO = 0.9945443951. This numerical reproducibility is useful. It does not test experimental validity, initial-limit rejection, correct wet/dry elemental reconciliation, consistent energy closure, or the correctness of the reported experimental conversion.
+The original 5-inch reduced-model demo reproduced X_CO = 0.9945443951. With the corrected 1-inch diameter, the regenerated reduced-model result is X_CO = 0.9577994 (`results/assumed_base_case/`); full M4 gives X_CO = 0.958073 (`results/assumed_full_m4_case/`). Neither run tests experimental validity, initial-limit rejection, correct wet/dry elemental reconciliation, consistent energy closure, or the correctness of the reported experimental conversion.
 
 The prior `M4_IMPLEMENTATION_FIDELITY_AUDIT.md` is stale: it reports eight tests and says the Group 14 code refuses validation, while the current code explicitly preserves an ungated benchmark comparison. Its claims of complete input and failure-handling fidelity are contradicted by the probes above. Its energy section checks the algebraic RHS form, not consistency of the property functions.
 

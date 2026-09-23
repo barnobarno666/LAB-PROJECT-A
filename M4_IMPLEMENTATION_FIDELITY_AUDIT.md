@@ -2,6 +2,8 @@
 
 Date: 2026-09-20. Scope: compare `M4_BARNO_ASHIQ_MODEL_AND_IMPLEMENTATION_PLAN.md` (516 lines, specification only, no results claimed) against the runnable implementation in this directory. No code was modified for this audit. Evidence was gathered by reading source files and by read-only execution (`uv run pytest`, `uv run python -c` probes).
 
+Geometry correction note (2026-09-23): after this audit, the user corrected the demo tube/bed diameter from 0.127 m (5 in) to 0.0254 m (1 in) and confirmed that bed length remains 0.3048 m (12 in). The old area, volume, catalyst-mass, and demo-result figures below describe the pre-correction snapshot; the runnable config and generated results now use the corrected diameter.
+
 ## Overall verdict
 
 **Substantially faithful for the reduced-model numerical core; partially faithful on reporting/handoff details.**

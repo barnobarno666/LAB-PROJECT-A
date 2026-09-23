@@ -308,8 +308,8 @@ These values come from [B, §10] and are a provisional demonstration case:
 
 | Input | Supplied value | Status to preserve |
 |---|---:|---|
-| Tube/bed diameter | 0.127 m | Described as “given” in [B]; verify this is the active packed-bed diameter |
-| Bed length | 0.3048 m | Described as “given” in [B]; verify active bed length |
+| Tube/bed diameter | 0.0254 m (1 in) | User-confirmed correction on 2026-09-23; supersedes the 0.127 m value in [B] |
+| Bed length | 0.3048 m (12 in) | Supplied value retained; user confirms it is unchanged |
 | Catalyst loading per bed volume | 750 kg/m³ | Assumed; clarify catalyst versus total solids basis |
 | Bed voidage | 0.40 | Assumed |
 | Particle diameter | 0.003 m | Assumed |
@@ -324,13 +324,13 @@ These values come from [B, §10] and are a provisional demonstration case:
 
 Compute inlet flows from exact normalized fractions: $F_{CO,0}=0.05/30$, $F_{H_2,0}=4(0.05)/30$, and $F_{N_2,0}=25(0.05)/30$. Use zero CH₄, H₂O, and CO₂ for the reduced dry-feed case. Do not assemble the inlet from rounded flow values and then assume its total is exact.
 
-The proposed dimensions imply $A_c\approx0.01267\ \mathrm{m^2}$, $V_{bed}\approx0.003861\ \mathrm{m^3}$, and approximately 2.896 kg catalyst if 750 kg/m³ is truly the catalyst loading. These are calculated consequences of the proposed inputs, not measured catalyst masses.
+The corrected dimensions imply $A_c\approx0.0005067\ \mathrm{m^2}$, $V_{bed}\approx0.0001544\ \mathrm{m^3}$, and approximately 0.1158 kg catalyst if 750 kg/m³ is truly the catalyst loading. These are calculated consequences of the configured inputs, not measured catalyst mass; the original 0.127 m diameter would imply 2.896 kg at the same length and loading.
 
 For comparison, the paper's kinetic bed used 75 mg catalyst plus 375 mg SiC, approximately 23 mm bed height, and approximately 266 μm particles inside a 4 mm inner-diameter quartz tube [C, p. 5]. The supplied project geometry is a different reactor. Do not substitute paper geometry for Experiment #1 or assume paper transport checks validate the proposed 3 mm particles.
 
 Before labeling a run as the experimental base case, obtain:
 
-- Actual catalyst mass, dilution, active bed diameter and length, particle size, and catalyst identity/pretreatment.
+- Actual catalyst mass, dilution, particle size, and catalyst identity/pretreatment. The model uses the user-confirmed 1 in diameter and unchanged 12 in bed length.
 - Actual inlet composition, moisture, temperature, and absolute pressure.
 - Actual feed rate and whether a volumetric reading refers to standard, normal, or reactor conditions, including its reference temperature and pressure.
 - The wall/furnace condition and an agreed treatment of heat transfer, viscosity, and species heat capacities.
