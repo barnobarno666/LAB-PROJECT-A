@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-23T19:54:44.617906+00:00",
+  "generated_at_utc": "2026-09-23T21:43:34.264602+00:00",
   "model": "m4_full",
   "sensitivity_metric": "completed-bed outlet CO conversion (%)",
   "temperature_range_c": [
@@ -81,7 +81,7 @@
     288.3962808304161,
     603.0701078379739
   ],
-  "elapsed_seconds": 64.05127589999756,
+  "elapsed_seconds": 67.73725249999552,
   "fixed_inputs": {
     "reaction_mode": "m4_full",
     "feed": {

@@ -81,8 +81,8 @@ def _draw_contour_band(
 def _style_sweep_axes(ax, temperature_c: np.ndarray, pressure_bar: np.ndarray) -> None:
     ax.set_xlim(float(temperature_c[0]), float(temperature_c[-1]))
     ax.set_ylim(float(pressure_bar[0]), float(pressure_bar[-1]))
-    ax.set_xlabel(r"Inlet temperature, $T_{\mathrm{in}}$ [$^\circ$C]", fontsize=11.5, labelpad=9)
-    ax.set_ylabel(r"Inlet pressure, $P_{\mathrm{in}}$ [bar abs]", fontsize=11.5, labelpad=9)
+    ax.set_xlabel("Inlet temperature (°C)", fontsize=11.5, labelpad=9)
+    ax.set_ylabel("Inlet pressure (bar abs)", fontsize=11.5, labelpad=9)
     ax.set_xticks(np.arange(np.ceil(temperature_c[0] / 25) * 25, temperature_c[-1] + 1, 25))
     ax.set_yticks([p for p in (1, 3, 5, 7, 10, 12, 15) if pressure_bar[0] <= p <= pressure_bar[-1]])
     ax.tick_params(which="major", length=5, width=0.8, direction="out")
@@ -102,7 +102,7 @@ def _add_nominal_marker(ax, base_config: ReactorConfig, baseline_conversion_pct:
         zorder=5,
     )
     ax.annotate(
-        f"Nominal case  {baseline_conversion_pct:.2f}%",
+        f"Reference case  {baseline_conversion_pct:.2f}%",
         xy=(nominal_temperature_c, base_config.feed.pressure_bar),
         xytext=(12, 12),
         textcoords="offset points",
@@ -117,7 +117,7 @@ def _add_nominal_marker(ax, base_config: ReactorConfig, baseline_conversion_pct:
 def _write_fixed_note(fig, base_config: ReactorConfig, wall_temperature_c: float) -> None:
     bed = base_config.bed
     fixed_note = (
-        rf"Fixed: CO:H$_2$:N$_2$ = 1:4:25; $F_{{T,0}}$ = {base_config.feed.total_molar_flow_mol_s:.3g} mol s$^{{-1}}$; "
+        rf"Assumed fixed conditions: CO:H$_2$:N$_2$ = 1:4:25; $F_{{T,0}}$ = {base_config.feed.total_molar_flow_mol_s:.3g} mol s$^{{-1}}$; "
         rf"bed = {bed.tube_diameter_m / 0.0254:.2f} in $\times$ {bed.bed_length_m / 0.0254:.2f} in; "
         rf"wall = {wall_temperature_c:.0f} $^\circ$C."
     )
@@ -176,7 +176,7 @@ def _write_plot(
     _add_nominal_marker(ax, base_config, baseline_conversion_pct)
 
     fig.suptitle(
-        "Full M4 temperature–pressure sensitivity",
+        "CO Conversion Across Reactor Inlet Conditions",
         x=0.12,
         y=0.975,
         ha="left",
@@ -187,7 +187,7 @@ def _write_plot(
     fig.text(
         0.12,
         0.915,
-        r"Outlet CO conversion, $X_{\mathrm{CO,out}}$  ·  separate linear scales above and below 5 bar",
+        r"Full M4 fixed-bed model  ·  $T_{\mathrm{in}}$ = 250–400 °C  ·  $P_{\mathrm{in}}$ = 1–15 bar",
         ha="left",
         va="bottom",
         fontsize=10.2,
@@ -206,14 +206,14 @@ def _write_plot(
         colorbar.ax.xaxis.set_major_formatter(FormatStrFormatter("%.1f"))
         colorbar.outline.set_edgecolor("#b9afbf")
         colorbar.outline.set_linewidth(0.7)
-    fig.text(0.15, 0.202, "5–15 bar · Celoria fit pressures", fontsize=8.7, color=INK)
+    fig.text(0.15, 0.202, "5–15 bar · kinetic-fit pressures", fontsize=8.7, color=INK)
     fig.text(0.54, 0.202, "1–5 bar · below 5 bar outside fit range", fontsize=8.7, color=INK)
 
     _write_fixed_note(fig, base_config, wall_temperature_c)
     fig.text(
         0.105,
         0.033,
-        "Hatching marks 1–<5 bar (outside the paper's pressure-fit range); the two color scales are independent.",
+        "Hatched: below 5 bar, outside the published kinetic-fit range. Color scales are linear and independent.",
         ha="left",
         va="center",
         fontsize=8.2,
@@ -245,7 +245,6 @@ def _write_fit_domain_plot(
     )
     _style_sweep_axes(ax, temperature_c, fit_pressure)
     ax.set_yticks([5, 7, 10, 12, 15])
-    ax.set_title("5–15 bar · Celoria kinetic-fit pressure range", loc="left", fontsize=11, pad=8)
     _add_nominal_marker(ax, base_config, baseline_conversion_pct)
 
     colorbar = fig.colorbar(contour, ax=ax, pad=0.025, fraction=0.045)
@@ -256,7 +255,7 @@ def _write_fit_domain_plot(
     colorbar.outline.set_linewidth(0.7)
 
     fig.suptitle(
-        "Full M4 temperature–pressure sensitivity",
+        "CO Conversion Within the Kinetic-Fit Pressure Range",
         x=0.12,
         y=0.985,
         ha="left",
@@ -267,7 +266,7 @@ def _write_fit_domain_plot(
     fig.text(
         0.12,
         0.895,
-        r"Outlet CO conversion, $X_{\mathrm{CO,out}}$",
+        r"Full M4 fixed-bed model  ·  $T_{\mathrm{in}}$ = 250–400 °C  ·  $P_{\mathrm{in}}$ = 5–15 bar",
         ha="left",
         va="bottom",
         fontsize=10.5,
