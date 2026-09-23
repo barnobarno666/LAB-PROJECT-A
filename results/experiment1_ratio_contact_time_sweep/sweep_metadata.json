@@ -1,0 +1,99 @@
+{
+  "generated_at_utc": "2026-09-23T22:35:38.090190+00:00",
+  "model": "m4_full",
+  "metric": "completed-bed outlet CO conversion (%)",
+  "sweep_grid": {
+    "h2_co_ratio": [
+      1.0,
+      5.0
+    ],
+    "h2_co_ratio_points": 22,
+    "space_time_kg_s_mol_co": [
+      8.774999999999999,
+      140.39999999999998
+    ],
+    "space_time_multiples": [
+      0.25,
+      4.0
+    ],
+    "space_time_points": 21
+  },
+  "reference_case": {
+    "h2_co_ratio": 2.9968749999999997,
+    "catalyst_space_time_kg_s_mol_co": 35.099999999999994,
+    "co_feed_mol_h": 0.32,
+    "outlet_co_conversion_pct": 96.93886336805701,
+    "source_reported_conversion_pct": 40.63,
+    "outlet_ch4_yield_pct": 72.54366065020365,
+    "peak_temperature_c": 350.0,
+    "outlet_pressure_bar_abs": 1.9999999784937341
+  },
+  "fixed_inputs": {
+    "baseline_co_feed_mol_h": 0.32,
+    "baseline_h2_feed_mol_h": 0.959,
+    "baseline_n2_feed_mol_h": 0.799,
+    "baseline_h2_co_ratio": 2.9968749999999997,
+    "baseline_n2_co_ratio": 2.496875,
+    "baseline_total_feed_mol_h": 2.078,
+    "baseline_catalyst_mass_g": 3.12,
+    "baseline_space_time_kg_s_mol": 35.099999999999994,
+    "bed_volume_m3": 0.0001544444396289173,
+    "bed_voidage": 0.9838388484169639,
+    "particle_density_kg_m3_assumed": 1250.0,
+    "inlet_temperature_c": 350.0,
+    "inlet_pressure_bar_abs": 2.0,
+    "transport_mode": "ergun",
+    "thermal_mode": "isothermal",
+    "pressure_source_note": "Appendix A states 2 bar; the abstract and Results and Discussion also describe atmospheric-pressure operation. The verification uses the explicit Appendix A value and reports the atmospheric-pressure alternative."
+  },
+  "solver_method": "BDF",
+  "source_roles": {
+    "input_basis": "exp1 sub.pdf, abstract, Results and Discussion, Appendices A-C",
+    "reported_conversion_is_fit_target": false,
+    "pressure_interpretation": "Appendix A states 2 bar; the abstract and Results and Discussion also describe atmospheric-pressure operation. The verification uses the explicit Appendix A value and reports the atmospheric-pressure alternative."
+  },
+  "model_domain_and_geometry_notes": [
+    "The chosen Experiment 1 pressure is 2 bar; the project's published kinetic-fit pressure range begins at 5 bar, so all cells extrapolate in pressure.",
+    "The 1 in x 12 in reactor dimensions are inherited assumptions, not dimensions confirmed by Experiment 1.",
+    "At 3.12 g, the assumed geometry and particle density imply very high voidage; this is a sparse-bed illustration, not a conventional packed-bed validation.",
+    "The model is isothermal at the reported inlet temperature; this sweep isolates composition and throughput effects but does not predict hot spots.",
+    "Throughput variation scales CO and N2 together; H2 is recalculated from the selected H2/CO ratio."
+  ],
+  "sweep_behavior": {
+    "varied": [
+      "inlet H2/CO ratio",
+      "CO feed rate at fixed catalyst mass and bed voidage"
+    ],
+    "held_fixed": [
+      "catalyst mass",
+      "bed geometry",
+      "bed voidage",
+      "inlet temperature",
+      "inlet pressure",
+      "N2/CO ratio",
+      "isothermal operation"
+    ],
+    "space_time_definition": "catalyst mass / inlet CO molar flow",
+    "failed_or_incomplete_cells": "retained in the CSV and masked in plots"
+  },
+  "completed_cases": 462,
+  "failed_or_incomplete_cases": 0,
+  "conversion_range_pct": [
+    36.68353369288881,
+    99.71219025462379
+  ],
+  "methane_yield_range_pct": [
+    25.328696299139363,
+    95.09115094136492
+  ],
+  "elapsed_seconds": 25.55246349999652,
+  "outputs": [
+    "ratio_contact_time_sweep.csv",
+    "ratio_contact_time_co_conversion.png",
+    "ratio_contact_time_co_conversion.svg",
+    "co_conversion_vs_h2_co_ratio.png",
+    "co_conversion_vs_h2_co_ratio.svg",
+    "co_conversion_vs_space_time.png",
+    "co_conversion_vs_space_time.svg"
+  ]
+}
