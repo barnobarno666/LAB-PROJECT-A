@@ -4,6 +4,7 @@
 \usepackage[margin=19mm,headheight=20pt,headsep=8mm,footskip=12mm]{geometry}
 \usepackage{amsmath,mathtools}
 \usepackage{graphicx}
+\usepackage{array,tabularx}
 \usepackage{xcolor}
 \usepackage{microtype}
 \usepackage{titlesec}
@@ -20,7 +21,7 @@
 \definecolor{rulegray}{HTML}{D8E1E3}
 \definecolor{bodygray}{HTML}{45545C}
 
-\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=teal,pdftitle={Fixed-bed CO Methanation Model and Sensitivity Analysis},pdfauthor={}}
+\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=teal,pdftitle={Barno and Ashiq's Part: Fixed-bed CO Methanation Model and Sensitivity Analysis},pdfauthor={Barno and Ashiq}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4.5pt plus 1pt minus 1pt}
 \setlength{\emergencystretch}{2em}
@@ -33,7 +34,7 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\bfseries\color{navy} BARNOS PART}
+\fancyhead[L]{\small\bfseries\color{navy} BARNO \& ASHIQ'S PART}
 \fancyhead[R]{\small\color{bodygray} Fixed-bed methanation}
 \fancyfoot[L]{\small\color{bodygray} Coupled axial balances}
 \fancyfoot[R]{\small\color{navy}\thepage}
@@ -56,11 +57,25 @@
 \thispagestyle{fancy}
 
 \vspace*{2mm}
-{\fontsize{27}{30}\selectfont\bfseries\color{navy} BARNOS PART\par}
+{\fontsize{27}{30}\selectfont\bfseries\color{navy} BARNO \& ASHIQ'S PART\par}
 \vspace{4pt}
 {\color{copper}\rule{32mm}{2.2pt}}\par
 \vspace{5pt}
 {\small\color{bodygray} Governing balances, axial profiles, and operating-condition sensitivity for CO methanation.}\par
+
+\begin{keyequation}
+\footnotesize
+\textbf{Operating inputs, givens, and assumptions}\par\smallskip
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash\bfseries}p{0.25\linewidth}X@{}}
+Illustrative inlet (Figs. 1--2) & Dry feed CO:H$_2$:N$_2$ = 1:4:25 at $0.050\,\mathrm{mol\,s^{-1}}$: $F_{\mathrm{CO},0}=0.001667$, $F_{\mathrm{H_2},0}=0.006667$, and $F_{\mathrm{N_2},0}=0.041667\,\mathrm{mol\,s^{-1}}$; inlet CH$_4$, H$_2$O, and CO$_2$ are zero. $T_0=T_w=623.15\,\mathrm K$ ($350\,^{\circ}\mathrm C$), $P_0=5.00\,\mathrm{bar}$.\\
+Assumed bed and transport & $D_t=0.0254\,\mathrm m$, $L=0.3048\,\mathrm m$, and $\rho_B=750\,\mathrm{kg\,m^{-3}_{bed}}$ give $W_{tot}=0.1158\,\mathrm{kg}$ (calculated); $\varepsilon_b=0.40$, $D_p=3\,\mathrm{mm}$, $\mu=2.5\times10^{-5}\,\mathrm{Pa\,s}$, and $U=10\,\mathrm{W\,m^{-2}\,K^{-1}}$. Pressure drop uses Ergun; wall heat exchange is enabled and fresh-catalyst activity is $a=1$.\\
+Model and numerical assumptions & Steady 1-D plug flow with the reduced M4 CO-methanation/WGS network; direct CO$_2$ methanation is omitted. Heat capacities are constant (CO/H$_2$/CH$_4$/H$_2$O/CO$_2$/N$_2$: 30.3/29.3/52.0/36.5/46.5/30.1 $\mathrm{J\,mol^{-1}\,K^{-1}}$) and reaction heats are fixed at $-\Delta H_2=206$ and $-\Delta H_W=41\,\mathrm{kJ\,mol^{-1}}$. The stiff system uses Radau ($rtol=10^{-6}$) and 401 output points.\\
+Group-14 reported inputs & Appendix B, Table 3: CO/H$_2$/N$_2$ = 0.320/0.399/0.799 $\mathrm{mol\,h^{-1}}$; catalyst = 3.00 g, reaction temperature = $350\,^{\circ}\mathrm C$, and pressure = 760 mmHg (about 1.013 bar). These source-reported conditions are separate from the 5-bar illustrative run above.\\
+Other figure cases & Figs. 3--4 vary inlet temperature (250--400 $^{\circ}\mathrm C$) and pressure (1--15 bar, with Fig. 4 restricted to 5--15 bar), holding other base inputs fixed. Fig. 5 uses the Experiment 1 basis: 3.12 g catalyst, $350\,^{\circ}\mathrm C$, 2 bar, isothermal; inlet H$_2$/CO ratio and catalyst space time vary.
+\end{tabularx}
+\end{keyequation}
 
 \section{Model basis}
 The bed is treated as a steady, one-dimensional plug-flow reactor. The reduced network retains CO methanation and water-gas shift (WGS):
