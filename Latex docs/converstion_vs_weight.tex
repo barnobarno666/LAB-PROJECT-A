@@ -213,6 +213,50 @@ Therefore, the figures show samples of the integrated profiles, not a separate c
 \small This view isolates the pressure interval reported for the Celoria et al. kinetic fit, with a single linear color scale. Inlet temperature spans 250--400\,$^\circ$C. The kinetic fit was tested at discrete temperature and pressure conditions; values between those conditions are model interpolations. The reactor's predicted local bed temperature may exceed 400\,$^\circ$C even when its inlet temperature is within range, so the result remains an exploratory conditional prediction rather than experimental validation.
 \end{keyequation}
 
+\clearpage
+\thispagestyle{fancy}
+{\Large\bfseries\color{navy} CO conversion across inlet ratio and catalyst space time\par}
+\vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
+\vspace{8pt}
+\begin{center}
+\includegraphics[width=0.98\linewidth,height=0.68\textheight,keepaspectratio]{../results/experiment1_ratio_contact_time_sweep/ratio_contact_time_co_conversion.png}
+\end{center}
+\begin{center}\small\textbf{Figure 5.} Full M4 predicted outlet CO conversion as inlet H$_2$/CO ratio and catalyst space time vary.\end{center}
+\begin{keyequation}
+\small The circle identifies the modeled Experiment 1 reference point (H$_2$/CO $=2.9969$, $W_{cat}/F_{CO,in}=35.10\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$), where predicted conversion is 96.94\%. This differs from the source-reported 40.63\%; the reported value is not used as a fit target. The sweep uses the Appendix A pressure of 2 bar, below the 5--15 bar kinetic-fit pressure range.
+\end{keyequation}
+
+\clearpage
+\thispagestyle{fancy}
+{\Large\bfseries\color{navy} Defining the ratio and space-time sweep\par}
+\vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
+\vspace{8pt}
+The horizontal coordinate is the inlet molar ratio
+\[
+r_{H_2/CO}=\frac{F_{H_2,in}}{F_{CO,in}},
+\]
+where $r_{H_2/CO}=3$ is the stoichiometric feed ratio for CO methanation. The vertical coordinate is catalyst space time on a CO-feed basis:
+\begin{keyequation}
+\[
+\boxed{\displaystyle\tau_{cat,CO}=\frac{W_{cat}}{F_{CO,in}}}
+\qquad [\tau_{cat,CO}]=\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}.
+\]
+\end{keyequation}
+Here $W_{cat}$ is catalyst mass and $F_{CO,in}$ is inlet CO molar flow. This ratio has units of catalyst mass per CO throughput. A larger value means more catalyst is available per mole of CO fed. It is often informally called contact time, but it is not the gas residence time in seconds: gas residence time depends on bed void volume and the local volumetric flow, while $W_{cat}/F_{CO,in}$ is a catalyst-normalized throughput measure.
+
+The sweep holds $W_{cat}=3.12\,\mathrm g$ fixed, so it changes space time by changing feed throughput. Equivalently,
+\[
+F_{CO,in}=\frac{W_{cat}}{\tau_{cat,CO}},\qquad
+F_{H_2,in}=r_{H_2/CO}F_{CO,in},\qquad
+F_{N_2,in}=\left(\frac{F_{N_2}}{F_{CO}}\right)_{Exp1}F_{CO,in}.
+\]
+Thus CO and N$_2$ flows scale together and H$_2$ is reset to the selected ratio; the N$_2$/CO ratio remains at its Experiment 1 value. All other selected inputs are held fixed at 350\,$^\circ$C, 2 bar, and isothermal operation. The conversion plotted at each grid point is
+\[
+X_{CO,out}(\%)=100\left(1-\frac{F_{CO,out}}{F_{CO,in}}\right).
+\]
+
+The map shows the combined conditional response to stoichiometry and catalyst per CO throughput. Conversion rises strongly as the feed approaches the stoichiometric ratio from below, then the improvement diminishes at higher H$_2$/CO and larger space time. These are model sensitivities, not validated operating predictions: the 1 in $\times$ 12 in geometry is assumed, the 3.12 g charge implies a sparse-bed voidage of about 0.98384 under the assumed particle density, and every pressure point is below the kinetic fit's 5 bar lower limit. The source also describes atmospheric pressure in its abstract and discussion while Appendix A states 2 bar; this calculation follows the explicit Appendix A value.
+
 \end{document}
 
 

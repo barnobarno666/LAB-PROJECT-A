@@ -205,7 +205,6 @@ def _write_contour(
     reference_space_time: float,
     reference_conversion: float,
     output_path: Path,
-    conditions_note: str,
 ) -> None:
     values = conversion_pct[np.isfinite(conversion_pct)]
     low, high = float(np.min(values)), float(np.max(values))
@@ -277,8 +276,7 @@ def _write_contour(
     colorbar = fig.colorbar(contour, ax=ax, pad=0.025, fraction=0.05)
     colorbar.set_label("Outlet CO conversion [%]", fontsize=10.5)
     colorbar.outline.set_edgecolor("#b8b2a5")
-    fig.text(0.12, 0.035, conditions_note, ha="left", va="bottom", fontsize=8.4, color="#595b61")
-    fig.subplots_adjust(left=0.14, right=0.87, top=0.88, bottom=0.15)
+    fig.subplots_adjust(left=0.14, right=0.87, top=0.88, bottom=0.12)
     _save_figure(fig, output_path)
     plt.close(fig)
 
@@ -433,13 +431,6 @@ def run_sweep(
     if not np.isfinite(reference_conversion):
         raise RuntimeError("The baseline ratio/contact-time case failed; slices cannot be anchored.")
 
-    bed = base_config.bed
-    conditions_note = (
-        f"Fixed: Experiment 1 T={float(baseline['inlet_temperature_c']):.0f} °C, "
-        f"P={float(baseline['inlet_pressure_bar_abs']):.2f} bar; W={catalyst_mass_g:.2f} g; "
-        f"D={bed.tube_diameter_m * 1000:.1f} mm, L={bed.bed_length_m * 1000:.1f} mm; "
-        f"ε={float(baseline['bed_voidage']):.4f}; isothermal; {transport_mode} pressure model."
-    )
     contour_path = output_dir / "ratio_contact_time_co_conversion"
     _write_contour(
         ratios,
@@ -449,7 +440,6 @@ def run_sweep(
         reference_space_time=reference_space_time,
         reference_conversion=reference_conversion,
         output_path=contour_path,
-        conditions_note=conditions_note,
     )
 
     ratio_slice_path = output_dir / "co_conversion_vs_h2_co_ratio"
