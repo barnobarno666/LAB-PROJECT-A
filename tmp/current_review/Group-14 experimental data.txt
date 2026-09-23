@@ -1,0 +1,176 @@
+Group-14 experimental data
+
+Appendices
+Appendix A: Observed Data
+Basis: 12 g of catalyst
+Ratio of Al2O3: NiO = 5:1
+Mass of Catalyst used = 3 g
+Table 1: Observed flowrates of different chemical species.
+Stream
+Flowrate
+N2
+20 L/min
+H2
+10 L/min
+CO
+8 L/min
+Outlet
+550 cm3/min
+
+Outlet mixture flow rate, Q=7.7 cm3/min =0.462 L/hReaction pressure = 760 mmHg
+Calcination temperature = 350 ℃ 
+Reaction temperature = 350 ℃
+Room temperature = 32 ℃
+Table 2: Gas Chromatography results of Standard sample and Test sample.
+Component
+Area Under the Peak (Standardized)
+Calculated Molar Composition (%)
+Standard Molar Composition (%)
+Area Under the Peak (Sample)
+H2
+39584
+2.878
+48.27
+2360
+N2
+566603
+46.105
+31.80
+821493
+CH4
+215451
+3.394
+8.37
+87367
+CO
+133058
+10.750
+6.13
+233359
+CO2
+23041
+11.045
+1.40
+181783
+Ar
+144817
+0.297
+1.40
+7394
+Appendix B: Calculated Data
+Dry gas flow rate at NTP = 17.58×10-3 molhr
+Molar flow rate of outlet gas = 18.45×10-3 molhr
+Required mass of Ni(NO3)2∙6H2O = 7.785 g
+Required mass of Al(NO3)3∙9H2O = 73.55 g
+Table 3: Molar flow rates of inlet streams.
+Component
+Flow rate (mole/h)
+N2
+0.799
+H2
+0.399
+CO
+0.320
+
+Table 4: Gas composition of outlet stream.
+Component
+Measured Composition (%)
+Normalized Composition
+(%)
+Flow rate
+(molhr)
+H2
+2.878
+3.865
+6.795×10-4
+N2
+46.105
+61.912
+1.088×10-2
+CH4
+3.394
+4.558
+8.013×10-4
+CO
+10.750
+14.436
+2.538×10-3
+CO2
+11.045
+14.832
+2.607×10-3
+Ar
+0.297
+0.399
+7.014×10-5
+
+Conversion of CO = 99.207%
+Selectivity of CH4 with respect to CO2 = 0.307
+
+Appendix C: Sample Calculation
+Catalyst Mass Determination
+Basis: 12g of catalyst. 
+The ratio of Al2O3: NiO =  5 : 1
+Mass of NiO in catalyst = 1 × 126=2 g
+Mass of Al2O3 in catalyst =4×126=10 g
+NiO is formed by the following reaction:
+Ni(NO3)2.6H2O → Ni(NO3)2 + 6H2O
+Ni(NO3)2 + 2KOH→ Ni(OH)2+ 2KNO3
+Ni(OH)2 → NiO+H2O
+ 1 mole NiO ≡ 1 mole Ni(NO3)2.6H2O
+74.70 g NiO ≡ 290.80 g Ni(NO3)2.6H2O
+The required amount of Ni(NO3)2.6H2O = 290.80×274.71=7.785 g
+Al2O3 is formed by the following reaction
+Al(NO3)3.9H2O → Al(NO3)3 + 9H2O
+Al(NO3)3 + 3KOH→ Al(OH)3 + 3KNO3
+2Al(OH)3→Al2O3+3H2O
+ 2 mole Al(NO3)3.9H2O ≡ 1 mole Al2O3
+ 750.26g Al(NO3)3.9H2O ≡  102g Al2O3
+The required amount of Al(NO3)3.9H2O = 375.13×10×2102=73.55 g
+
+Inlet gas flow rates
+H2 =  10 Lhr×273 K×760 mm Hg×1gmole(273.15+32) K×760 mm Hg×22.4 L=0.399 gmolehr
+N2 = 20 Lhr×273K×760 mm Hg×1gmole(273.15+32)  K×760 mm Hg×22.4 L=0.799 gmolehr
+CO = 8 Lhr×273 K×760 mm Hg×1gmole(273.15+32)  K×760 mm Hg×22.4 L=0.320 gmolehr
+
+Outlet gas volumetric flow rate, Vtot  =  7.7 cm3min×60min1hr×1 m3106 cm3  =462×10-6 m3hr
+Molar flow rate =  ntot
+We know,
+     PVtot= ntotRT
+or,  ntot= PVtotRT   =462×10-6 × 101325×1305.15 ×8.314  =18.45×10-3 gmolehr
+
+At 32oC, Vapor pressure of water = 35.7 mmHg (NIST WebBook)
+Dry gas flow rate at NTP = ndry
+Since P α n (Avogadro’s law),
+                              ∴ ndry =Pdry×ntotPtot
+                              =18.45×10-3 gmolehr×760-35.7mmHg760 mm Hg  = 17.58×10-3 gmolehr
+
+Outlet gas composition
+       H2=236039584×48.27%=2.878 %
+       N2 =821493566603×31.80%=46.105 % 
+        CH4=87367215451×8.37%=3.394 %  
+        CO=233359133058×6.13%=10.750 % 
+        CO2=18178323041×1.40 %=11.045 % 
+       Ar =7394144817×1.40 %=0.297 %
+Total mole percentage in outlet gas without normalization = 74.469 %
+Normalized mole percentage of outlet gas
+         H2 =2.87874.469 ×100 %=3.865 % 
+         N2 =46.10574.469 ×100 %=61.912 % 
+         CH4 =3.39474.469 ×100 %=4.558 %
+         CO =10.75074.469 ×100 %=14.436 %
+         CO2 =11.04574.469 ×100 %=14.832 %
+          Ar =0.29774.469 ×100 %=0.399 %
+
+
+
+Outlet gas flow rate (dry basis) from GC data
+          H2 =17.58×10-3 ×3.865100 =6.795×10-4 mol/h 
+          N2 =17.58×10-3 ×61.912100 =1.088×10-2 mol/h 
+          CH4 =17.58×10-3 ×4.558100 =8.013×10-4 mol/h 
+          CO =17.58×10-3 ×14.436100 =2.538×10-3 mol/h 
+          CO2 =17.58×10-3 ×14.832100 =2.607×10-3 mol/h
+          Ar =17.58×10-3 ×0.399100 =7.014×10-5 mol/h
+
+Conversion of CO = COin-COoutCOin×100%=0.320-2.538×10-30.320×100=99.207 %
+
+Selectivity = Desired product formed (CH4)Undesired product formed (CO2)=8.013×10-42.607×10-3=0.307

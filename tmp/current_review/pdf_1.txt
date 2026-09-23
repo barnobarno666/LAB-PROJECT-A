@@ -1,0 +1,440 @@
+
+PAGE 1
+ 
+ 
+ 
+ 
+Bangladesh University of Engineering and Technology 
+ChE-402 
+Chemical Engineering Laboratory- V 
+ 
+Experiment:01 
+Formulation and Operation of a Nickel-based Methanation Catalyst 
+ 
+Prepared by: 
+2102091- Subarno Sadat Barno 
+Group: 01, B-2 
+ 
+Lab partners: 
+2102092 
+2102093 
+2102094 
+2102095 
+2002034 
+ 
+Prepared For: 
+Md. Farhatul Abrar 
+Lecturer  
+Department of Chemical Engineering, BUET 
+ 
+Date of performance: 28/06/26 and 05/07/26  
+Date of submission: 12/07/25
+
+
+PAGE 2
+ 
+ 
+  
+1. Abstract 
+Methanation is a specialized catalytic process in which carbon monoxide CO and hydrogen H2 are 
+reacted over a catalyst in order to synthesize methane. The objectives of this experiment are to 
+synthesize a nickel-based catalyst via co -precipitation and evaluate its performance parameters for CO2 
+conversion and selectivity toward CH4 relative to carbon dioxide CO2. A fixed-bed tubular reactor was 
+used as the apparatus to conduct the methanation reaction in this experiment, supplemented by gas 
+chromatography (GC) for output analysis. The catalyst synthesis process was executed keeping a metal 
+oxide ratio of 5:1.7 Al2O3: NiO by dissolving 11.832 g of nickel nitrate hexahydrate and 65.87 g of 
+aluminum nitrate nonahydrate , utilizing 130 mL of a 7N potassium hydroxide KOH solution  to 
+maintain a neutral pH and ensure uniform dispersion of metal ions. A total of 12 grams of catalyst was 
+synthesized , filtered, and calcined at 350°C  for three hours.  A total of 3 grams of the calcined active 
+catalyst was taken, shaped into pellets, and loaded into the reactor, where it was activated with H2 gas 
+before introducing the CO, H2, and N2 mixture. We collected the gaseous products in sampling bags and 
+compared the GC analysis data with standard runs to determine the concentrations of the output gases. 
+The normalized molar compositions of the effluent gas were found to be 73% N2, 17.8% CO, 4.5% CO2, 
+3.5% H2, and 0.75% CH4. The performance parameters and the selectivity of the catalyst resulted in a 
+CO conversion rate of 38.81% and a CH4 selectivity of 0.167 respectively. We collected the gaseous 
+products in sampling bags and compared the GC analysis data with standard runs to determine the 
+concentrations of the output gases. Our subsequent analysis found potential sources of error that may 
+have affected these results, such as inconsistencies in catalyst loading, variable reduction efficiency, and 
+gas flow variations.  
+
+PAGE 3
+ 
+ 
+  
+2. Methodology 
+ 
+2.1 Apparatus and Materials 
+ 
+• Weighing Machine 
+• Oven 
+• Furnace 
+• pH indicator 
+• Filter paper 
+• Reactor 
+• Tedlar Sampling Bag 
+ 
+2.2 Chemicals  
+▪ Ni(NO3)2.6H2O 
+▪ Al(NO3)3.9H2O  
+▪ Potassium hydroxide  
+▪ CO, H2 and N2 gas 
+▪ Distilled Water  
+ 
+ 
+ 
+ 
+
+PAGE 4
+ 
+ 
+  
+ 
+2.3 Experimental Setup 
+ 
+ 
+Figure 1: Schematic of nickel-based methanation reactor. 
+ 
+ 
+2.4 Experimental Procedure 
+2.4.1 Catalyst Preparation 
+The experimental procedure was initiated with the synthesis of the nickel -based catalyst 
+utilizing a co -precipitation technique. A mixed salt solution was formulated by dissolving 
+11.832 g of nickel nitrate hexahydrate and 65.87 g of aluminum nitrate nonahydrate in 
+distilled water. This specific formulation maintained a precise metal oxide ratio of 5:1.7 
+Al2O3: NiO. To induce precipitation, 130 mL of a 7N potassium hydroxide KOH solution was 
+introduced dropwise into the mixture under continuous agitation until a neutral pH of 
+approximately 7 was achieved. The resulting precipitate was allowed to settle, subsequently 
+filtered, and washed meticulously to eliminate residual impurities. The solid filter cake was 
+then dried and subjected to calcination at 350°C for three hours under atmospheric pressure. 
+Following calcination, a total of 12 g of the synthesized catalyst was recovered. From this 
+yield, a 3 g sample was extracted, crushed . We did not do any screening as sieve mesh was 
+unavailable.  
+
+
+PAGE 5
+ 
+ 
+  
+ 
+2.4.2 Catalyst Evaluation 
+In the subsequent performance evaluation phase, the 3 g of pelleted catalyst was loaded into a 
+fixed-bed tubular reactor. The catalyst bed was first thermally activated at a reaction 
+temperature of 350°C under a continuous flow of hydrogen and nitrogen gases. Following 
+activation, the methanation process was initiated by introducing the designated feed gas 
+mixture into the reactor while maintaining the 350°C operational temperature. The inlet 
+volumetric flow rates were strictly regulated at 20 L/hr for N2, 24 L/hr for H2, and 8 L/hr for 
+CO2. The resultant product stream was directed through a water-cooled condenser to reduce it 
+to an ambient temperature of 28°C before being collected in a tedlar sampling bag. Finally, 
+the effluent gas composition was quantitatively analyzed utilizing a gas chromatograph to 
+determine the respective performance parameters of the reactor setup.   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+PAGE 6
+ 
+ 
+  
+3. Results and Discussion 
+The primary disentanglement of the experimental observation from the ideal methanation 
+scenario was seen as early as the catalyst formulation stage. The fundamental objective was 
+to drive the reaction of carbon monoxide CO and hydrogen H2 toward methane CH4 using a 
+12 g synthesized Ni/Al2O3 catalyst. Following the experimental procedure, the formulation 
+was designed for an  Al2O3  to NiO ratio of 5:1.7. While the nickel nitrate hexahydrate was 
+precisely measured at the required 11.832 g, the mass of aluminum nitrate nonahydrate taken 
+was 66.87 g, which exceeded the theoretically required 65.87 g by exactly 1 gram. This initial 
+stoichiometric deviation likely disrupted the optimal dispersion of nickel upon the alumina 
+support, setting a precedent for the subsequent anomalous reaction kinetics.   
+Following the calcination at 350°C, a 3 g sample of the active catalyst was introduced into 
+the reactor alongside an inlet flow comprising 20 L/hr N2,  24 L/hr H2, and 8 L/hr CO2. In an 
+ideal system operating at 350°C, the primary kinetic pathway  𝐶𝑂 + 3𝐻2 → 𝐶𝐻4 + 𝐻2𝑂 
+dictates a high yield of methane. However, the gas chromatography analysis of our product 
+stream revealed a reading opposite of what was anticipated. The normalized molar 
+compositions of the effluent yielded 73% N2, 17.8% CO, 4.5% CO2, 3.5% H2, and a mere 
+0.75% CH4. Consequently, the system achieved a highly suppressed CO conversion rate of 
+only 38.81% and an undesirable CH4 to CO2 selectivity of 0.167.   
+In the process of building up a rationale behind this severe underperformance, we can omit 
+basic theoretical drift and pinpoint perturbations within the experimental preparation and 
+apparatus itself. The discrepancy in conversion and the prominent formation of CO2 over CH4 
+suggests that the water -gas shift reaction. 𝐶𝑂 + 𝐻2𝑂 → 𝐶𝑂2 + 𝐻2 was inadvertently favored 
+over methanation. 
+We can hypothesize a likely cause given the coprecipitation phase: exactly 130 mL of 7 N 
+KOH was utilized. If proper steps were not taken into consideration regarding the thorough 
+washing of the precipitate, residual potassium ions K+ could have remained on the surface. 
+Potassium acts as a severe poison to nickel -based catalysts, drastically altering pore size 
+distribution, blocking active sites, and inherently suppressing methanation activity. 
+Furthermore, the activation and process fluid dynamics likely contributed to this oddity. The 
+catalyst requires rigorous reduction  𝑁𝑖𝑂 + 𝐻2 → 𝑁𝑖 + 𝐻2𝑂 to function. If the palladium 
+oxygen trap or silica gel desiccator in the upstream feed were saturated, trace oxygen or 
+moisture could have penetrated the system. Oxygen rapidly oxidizes the active elemental 
+
+PAGE 7
+ 
+ 
+  
+nickel back to inert nickel oxide, while excessive moisture at 350°C accelerates thermal 
+sintering, reducing the effective surface area. Finally, the low overall H2 to CO2 ratio (24 L/hr 
+to 8 L/hr) compared to the stoichiometric requirement of 3:1 for methanation heavily 
+promotes catalyst deactivation via coking (carbon deposition). The formation of these 
+carbonaceous scales physically occludes the catalyst surface, arresting the reaction and 
+explaining the high concentration of unreacted CO (17.8%) leaving the plug flow reactor.   
+ 
+ 
+
+PAGE 8
+ 
+ 
+ 
+Appendix A 
+Observed Data 
+Table 1: Observed required experimental data 
+Basis 12 g Catalyst 
+Ratio of Al2O3: NiO 5:1.7 
+Required Al (NO3)3 65.87 g 
+Taken Al (NO3)3 66.87g 
+Required Ni (NO3)2 11.832 g 
+Taken Ni (NO3)2 11.832 g 
+Catalyst taken for the reaction 3 g 
+Required 7 N KOH 130 mL 
+Outlet gas volumetric flow rate 480 cm3/min 
+Ambient temperature 28℃ = 301 K 
+Ambient pressure 750 mm Hg 
+Calcination temperature 350 ℃  
+Reaction temperature 350 ℃ 
+ 
+Table 2 : Inlet gas volumetric flow rates to the reactor 
+Component Volumetric flow rate (L/hr) 
+N2 20 
+H2 24 
+CO 8 
+ 
+ 
+ 
+ 
+ 
+ 
+
+PAGE 9
+ 
+ 
+ 
+Table 3: Standard and the sample area for the gaseous components of interest for the Gas Chromatography. 
+Component Area Under the Peak 
+(Standardized) 
+Area Under the Peak 
+(Sample) 
+Molar Composition of 
+Standardized Signal 
+(mole%) 
+H2 35300 2335 48.27 
+N2 360318 1031087 31.80 
+CH4 43223 15393 8.37 
+CO 412693 305891 6.13 
+CO2 20510 58585 1.40 
+Appendix B 
+Calculated Data 
+Table 4: Molar flow rates of inlet gas. 
+Component Molar flow rate(mol/hr) 
+N2 0.8 
+H2 0.96 
+CO 0.32 
+ 
+Table 5: The compositions measured from Gas Chromatography, normalized compositions and the corresponding 
+molar flow rates of the outlet gas components from the plug flow reactor 
+ 
+Component 
+Measured 
+composition (%) 
+Normalized 
+compositions 
+(%) 
+Molar flow rate 
+(mol/hr) 
+H2 2.84 3.5 0.0385 
+N2 57.86 73 0.803 
+CH4 0.6 0.75 0.00825 
+CO 14.1 17.8 0.1958 
+CO2 3.56 4.5 0.0495 
+
+PAGE 10
+ 
+ 
+ 
+ 
+ 
+Appendix C 
+Sample Calculations 
+▪ Basis = 12 g of catalyst  
+The ratio of NiO: Al2O3= 1.7: 5 
+ 
+NiO in 12 g catalyst =
+1.7×12
+6.7 = 3.044 g 
+Al2O3 in 12 g catalyst =
+5×12
+6.7 = 8.955 g 
+ 
+▪ Ni (NO3)2.6H2O requirement 
+ 
+NiO is formed from the following reaction: 
+Ni (NO3)2.6H2O → Ni (NO3)2 + 6H2O 
+Ni (NO3)2 + 2KOH → Ni (OH)2+2KNO3 
+Ni (OH)2 → NiO+H2O 
+ 
+∴ 1 mole NiO ≅ 1mole Ni (NO3)2.6H2O  
+∴ 74.71g NiO ≅ 290.81g Ni (NO3)2.6H2O 
+So, 3.044 g NiO = 
+290.8×3.044
+74.71 = 11.832 g Ni (NO3)2.6H2O 
+ 
+▪ Al(NO3)3.9H2O requirement 
+ 
+Al2O3 is formed from the following reaction: 
+Al(NO3)3.9H2O → Al(NO3)3 + 9H2O 
+Al(NO3)3 + 3KOH → Al(OH)3 + 3KNO3 
+2Al(OH)3 → Al2O3 + 3H2O 
+ 
+∴ 1 mol Al2O3 ≅ 2 mol Al(NO3)3.9H2O 
+∴ 102g Al2O3 ≅ 750.26g Al(NO3)3.9H2O 
+
+PAGE 11
+ 
+ 
+ 
+So,  8.955 g Al2O3  = 
+750.26×8.955
+102 = 65.87g 
+ 
+▪ Inlet gas molar flow rates 
+ 
+Flowrate of N2 =  
+20L
+hr × 273K× 750mmHg
+301K× 760mmHg× 22.4L
+mol
+= 0.8mol
+hr  
+ 
+Flowrate of H2 = 24 L/hr× 273K× 750mmHg
+301K× 760mmHg× 22.4L/mol= 0.96 mol/hr 
+ 
+ 
+Flowrate of CO = 8L/hr× 273K× 750mmHg
+301K× 760mmHg× 22.4L/mol= 0.32mol/hr 
+ 
+ 
+▪ Outlet gas volumetric flow rate =
+480cc
+min ×
+60min
+1hr ×
+1L
+1000cc = 28.8L/hr 
+ 
+▪ Outlet gas molar flow rate (wet basis) =
+28.8L/hr×273K×750 mmHg
+301K×760mm Hg×22.4L/mol = 1.15mol/hr 
+ 
+▪ Outlet gas molar flow rate (dry basis) = 1.15mol/hr× (1 −
+28.3 mmHg
+750mmHg ) = 1.1mol/hr 
+ 
+ 
+▪ Outlet gas compositions 
+ 
+Composition of H2 = 2335
+39584 × 48.27% = 2.84% 
+ 
+Composition of N2 = 1031087
+566603 × 31.8% = 57.86% 
+ 
+
+PAGE 12
+ 
+ 
+ 
+Composition of CH4 = 15393
+215451× 8.37% = 0.6% 
+ 
+Composition of CO = 305891
+133058× 6.13% = 14.1% 
+ 
+Composition of CO2 = 58585
+23041× 1.4% = 3.56% 
+ 
+▪ Normalization 
+ 
+Total moles in outlet gas = 2.84+57.86+0.6+14.1+3.56 = 78.96% 
+Normalized mole fractions of outlet gas : 
+H2 = 
+2.84
+78.96 = 0.035 
+N2 = 
+57.86
+78.96 = 0.73 
+CH4 = 
+0.6
+78.96 = 0.0075 
+CO = 
+14.1
+78.96 = 0.178 
+CO2 = 
+3.56
+78.96 = 0.045 
+ 
+▪ Outlet gas components molar flow rates (dry basis) 
+ 
+H2 = 1.1 × 0.035 = 0.0385mol/hr 
+N2 = 1.1 × 0.73 = 0.803mol/hr 
+CH4 = 1.1 × 0.0075 = 0.00825mol/hr 
+CO = 1.1 × 0.178 = 0.1958mol/hr 
+CO2 = 1.1 × 0.045 = 0.0495mol/hr 
+ 
+ 
+ 
+▪ Performance parameter 
+ 
+Conversion of CO =
+(CO)in − (CO)out
+(CO)in
+× 100% = 0.32 − 0.1958
+0.32 × 100% = 38.81% 
+
+PAGE 13
+ 
+ 
+ 
+Selectivity of CH4 to CO = Desired product formed (CH4)out
+Undesired product formed (CO2)out
+= 0.00825
+0.0495 = 0.167 
+  
+
+PAGE 14
+ 
+ 
+ 
+MARKING SCHEME 
+ChE-402 
+A Report on 
+Formulation and Operation of a Nickel-Based Methanation Catalyst 
+Name:  Subarno Sadat Barno 
+Student No. 2102091 
+ 
+Sections Marks Allocated Marks Obtained 
+Abstract 10%  
+Materials and Methods 10%  
+Results & Discussion 25%  
+Quality of Figures 10%  
+Quality of Tables 10%  
+Observed Data + Data Sheet 7%  
+Calculated Data 10%  
+Sample calculation 8%  
+Overall Presentation 10%  
+ 

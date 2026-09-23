@@ -1,0 +1,32 @@
+{
+  "source": "Group-14 experimental data.docx, Appendix A and Appendix B",
+  "basis": {
+    "catalyst_mass_g": 3.0,
+    "reaction_temperature_c": 350.0,
+    "reaction_pressure_mmhg": 760.0,
+    "room_temperature_c": 32.0,
+    "water_vapor_pressure_mmhg_at_room_temperature": 35.7
+  },
+  "inlet_molar_flow_mol_h": {
+    "N2": 0.799,
+    "H2": 0.399,
+    "CO": 0.320
+  },
+  "outlet_dry_mole_fraction_normalized": {
+    "H2": 0.03865,
+    "N2": 0.61912,
+    "CH4": 0.04558,
+    "CO": 0.14436,
+    "CO2": 0.14832,
+    "Ar": 0.00399
+  },
+  "reported_metrics": {
+    "co_conversion_fraction": 0.99207,
+    "ch4_selectivity_with_respect_to_co2": 0.307
+  },
+  "conflicting_document_entries": {
+    "table_1_inlet_flow_units": "N2 20 L/min; H2 10 L/min; CO 8 L/min",
+    "table_1_outlet_flow": "550 cm3/min",
+    "appendix_a_outlet_flow": "7.7 cm3/min = 0.462 L/h"
+  }
+}

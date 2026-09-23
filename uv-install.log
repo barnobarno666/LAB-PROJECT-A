@@ -1,0 +1,2 @@
+WARN Failed to acquire environment lock: Timeout (300s) when waiting for lock on `.venv` at `.venv\.lock`, is another uv process running? You can set `UV_LOCK_TIMEOUT` to increase the timeout.
+Checked 1 package in 5m 00s

@@ -1,0 +1,33 @@
+The two reactions retained in this reduced model are:
+\[
+\begin{aligned}
+\text{Reaction 2:}\quad &\mathrm{CO+3H_2 \rightarrow CH_4+H_2O}\\
+\text{Reversed reaction 3 (WGS):}\quad &\mathrm{CO+H_2O \rightarrow CO_2+H_2}
+\end{aligned}
+\]Each reaction consumes one mole of CO per mole of reaction. In a small catalyst slice \(dW\), the CO flow therefore changes by
+\[
+dF_{\mathrm{CO}}
+=
+-a r_2\,dW-a r_3'\,dW.
+\]Divide by \(dW\) and take the limit as the slice gets very small:
+\[
+\frac{dF_{\mathrm{CO}}}{dW}
+=
+-a(r_2+r_3').
+\]
+
+
+Conversion follows from the definition: inlet CO minus the CO remaining, divided by inlet CO.
+\[
+X_{\mathrm{CO}}(W)
+=
+\frac{F_{\mathrm{CO,in}}-F_{\mathrm{CO}}(W)}
+{F_{\mathrm{CO,in}}}
+=
+1-\frac{F_{\mathrm{CO}}(W)}{F_{\mathrm{CO,in}}}.
+\]Since inlet flow is constant, differentiating gives the local slope of conversion with catalyst mass:
+\[
+\frac{dX_{\mathrm{CO}}}{dW}
+=
+\frac{a(r_2+r_3')}{F_{\mathrm{CO,in}}}.
+\] 

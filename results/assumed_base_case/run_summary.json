@@ -1,0 +1,22 @@
+{
+  "reaction_mode": "m4_reduced_co_wgs",
+  "status": "completed",
+  "message": "The solver successfully reached the end of the integration interval.",
+  "terminal_event": null,
+  "solver_method": "Radau",
+  "solver_function_evaluations": 842,
+  "configured_catalyst_mass_kg": 2.8958332430422002,
+  "reached_catalyst_mass_kg": 2.8958332430422002,
+  "outlet_co_conversion": 0.9945443950709301,
+  "outlet_methane_yield": 0.9620251701141387,
+  "peak_temperature_k": 820.7448877431463,
+  "peak_temperature_location_m": 0.0022860000000000007,
+  "outlet_pressure_bar": 4.999584256485365,
+  "elemental_relative_residuals": {
+    "C": 8.017024544226813e-13,
+    "H": 9.32847549206528e-14,
+    "O": 1.6035350131060609e-12,
+    "N": 0.0
+  },
+  "assumption_notice": "This configuration contains assumed inputs and is not an Experiment #1 validation run."
+}

@@ -1,0 +1,49 @@
+{
+  "experiment": "Experiment 1, Ni-based methanation catalyst",
+  "source": "exp1 sub.pdf, abstract, Results and Discussion, Appendices A-C",
+  "basis": {
+    "catalyst_mass_g": 3.12,
+    "reaction_temperature_c": 350.0,
+    "reaction_pressure_bar": 2.0,
+    "pressure_interpretation": "Appendix A states 2 bar; the abstract and Results and Discussion also describe atmospheric-pressure operation. The verification uses the explicit Appendix A value and reports the atmospheric-pressure alternative."
+  },
+  "inlet_molar_flow_mol_h": {
+    "N2": 0.799,
+    "H2": 0.959,
+    "CO": 0.320
+  },
+  "outlet_dry_molar_flow_mol_h": {
+    "H2": 0.040,
+    "Ar": 0.020,
+    "N2": 0.790,
+    "CH4": 0.008,
+    "CO": 0.190,
+    "CO2": 0.050
+  },
+  "appendix_b_table4_outlet_dry_molar_flow_mol_h": {
+    "H2": 0.040,
+    "Ar": 0.020,
+    "N2": 0.790,
+    "CH4": 0.008,
+    "CO": 0.190,
+    "CO2": 0.005
+  },
+  "outlet_dry_mole_fraction_normalized": {
+    "H2": 0.0355,
+    "Ar": 0.0166,
+    "N2": 0.7182,
+    "CH4": 0.0075,
+    "CO": 0.1755,
+    "CO2": 0.0443
+  },
+  "reported_outlet_dry_flow_mol_h": 1.11,
+  "reported_metrics": {
+    "co_conversion_fraction": 0.4063,
+    "ch4_to_co2_selectivity": 0.16
+  },
+  "source_conflicts": {
+    "pressure": "Appendix A states a reactor pressure of 2 bar, while the abstract and Results and Discussion describe atmospheric-pressure operation.",
+    "co2_outlet_flow_mol_h": "Appendix B Table 4 lists 0.005 mol/h; the Appendix C calculation uses 0.050 mol/h.",
+    "outlet_dry_flow": "Appendix B gives 1.11 mol/h, while the listed species flows sum to 1.098 mol/h using the Appendix C CO2 value, or 1.053 mol/h using the Table 4 CO2 value."
+  }
+}

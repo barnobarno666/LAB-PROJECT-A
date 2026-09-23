@@ -1,0 +1,29 @@
+[project]
+name = "m4-methanation-reactor"
+version = "0.1.0"
+description = "Reduced M4 fixed-bed CO methanation reactor solver"
+requires-python = ">=3.10"
+dependencies = [
+  "matplotlib>=3.9",
+  "numpy>=2.0",
+  "scipy>=1.14",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.3"]
+
+[project.scripts]
+m4-reactor = "methanation.cli:main"
+m4-verify-group14 = "methanation.verification:main"
+m4-verify-experiment1 = "methanation.experiment_verification:main"
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/methanation"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

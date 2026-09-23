@@ -1,0 +1,154 @@
+BARNOS PART                                                                                               Fixed-bed methanation
+
+
+
+
+BARNOS PART
+Governing balances and plotted axial profiles for a reduced CO methanation model.
+
+
+Model basis
+The bed is treated as a steady, one-dimensional plug-flow reactor. The reduced network retains CO methanation and water-gas
+shift (WGS):
+                                             CO + 3H2 −→ CH4 + H2 O (𝑟 2 ),
+                                              CO + H2 O −→ CO2 + H2            (𝑟 W ).
+Rates are evaluated from the reduced M4 kinetics using local temperature and partial pressures. Catalyst mass 𝑊 is the
+integration coordinate. For uniform loading 𝜌 𝐵 in a tube of cross-section 𝐴𝑐 = 𝜋𝐷 2𝑡 /4,
+
+                                                                 𝑊
+                                      𝑊 = 𝜌 𝐵 𝐴𝑐 𝑧,       𝑧=          ,     𝑊tot = 𝜌 𝐵 𝐴𝑐 𝐿.
+                                                               𝜌 𝐵 𝐴𝑐
+                                                                    Í
+A steady mole balance over a catalyst slice 𝑑𝑊 gives 𝑑𝐹𝑖 /𝑑𝑊 = 𝑎 𝑗 𝜈𝑖 𝑗 𝑟 𝑗 , where 𝑎 is catalyst activity. Written for the
+modeled species:
+                                    𝑑𝐹CO                      𝑑𝐹H2
+                                           = −𝑎(𝑟 2 + 𝑟 W ),         = 𝑎(−3𝑟 2 + 𝑟 W ),
+                                     𝑑𝑊                        𝑑𝑊
+                                   𝑑𝐹CH4                     𝑑𝐹H2 O
+                                           = 𝑎𝑟 2 ,                  = 𝑎(𝑟 2 − 𝑟 W ),
+                                    𝑑𝑊                        𝑑𝑊
+                                   𝑑𝐹CO2                      𝑑𝐹N2
+                                           = 𝑎𝑟 W ,                  = 0.
+                                    𝑑𝑊                         𝑑𝑊
+
+Temperature from the energy balance
+For a differential slice, reaction heat raises the gas sensible enthalpy; heat transfer to the wall removes heat when the gas is
+hotter than the wall. Thus
+                                ∑︁           𝑑𝑇                                    𝑈𝑎 𝑤
+                                    𝐹𝑖 𝐶 𝑝,𝑖     = 𝑎 [𝑟 2 (−Δ𝐻2 ) + 𝑟 W (−Δ𝐻W )] −        (𝑇 − 𝑇𝑤 ).
+                                 𝑖
+                                             𝑑𝑊                                      𝜌𝐵
+
+Dividing by the gas heat-capacity flow gives the temperature equation integrated by the solver:
+
+                                                                              𝑈𝑎 𝑤
+                                             𝑎 [𝑟 2 (−Δ𝐻2 ) + 𝑟 W (−Δ𝐻W )] −       (𝑇 − 𝑇𝑤 )
+                                     𝑑𝑇                                        𝜌𝐵
+                                        =                        Í
+                                     𝑑𝑊                            𝑖 𝐹𝑖 𝐶 𝑝,𝑖
+
+
+Here 𝑎 𝑤 = 4/𝐷 𝑡 is the cylindrical heat-transfer area per bed volume. The formulation uses exothermic heats −Δ𝐻2 = 206
+and −Δ𝐻W = 41 kJ mol−1 . The current implementation uses constant heat capacities and these constant reaction enthalpies.
+
+
+
+
+Coupled axial balances                                                                                                        1
+BARNOS PART                                                                                                                         Fixed-bed methanation
+
+
+
+Pressure from the Ergun equation
+The Ergun pressure gradient combines viscous resistance (first term) and inertial resistance (second term):
+                                          "                                            #
+                                  𝑑𝑃        150𝜇(1 − 𝜀 𝑏 ) 2 𝑢 𝑠 1.75𝜌𝑔 (1 − 𝜀 𝑏 )𝑢 2𝑠
+                                      =−                        +                        .
+                                  𝑑𝑧             𝐷 2𝑝 𝜀 3𝑏              𝐷 𝑝 𝜀 3𝑏
+
+The reacting-gas properties are recalculated locally:
+
+                                            𝐹tot 𝑅𝑇                  𝑃𝑀                  ∑︁                        𝐹𝑖
+                                    𝑢𝑠 =            ,        𝜌𝑔 =       ,           𝑀=         𝑦 𝑖 𝑀𝑖 ,     𝑦𝑖 =        .
+                                             𝑃 𝐴𝑐                    𝑅𝑇                    𝑖
+                                                                                                                   𝐹tot
+
+Since 𝑑𝑧/𝑑𝑊 = 1/(𝜌 𝐵 𝐴𝑐 ), the pressure equation in the solver’s catalyst-mass coordinate is
+                                                       "                                            #
+                                          𝑑𝑃       1     150𝜇(1 − 𝜀 𝑏 ) 2 𝑢 𝑠 1.75𝜌𝑔 (1 − 𝜀 𝑏 )𝑢 2𝑠
+                                             =−                              +
+                                          𝑑𝑊    𝜌 𝐵 𝐴𝑐       𝐷 2𝑝 𝜀 3𝑏             𝐷 𝑝 𝜀 3𝑏
+
+Pressure is integrated in Pa; the kinetic partial pressures are evaluated in bar. The pressure loss is coupled to reaction because
+the local flow, composition, temperature, and density change down the bed.
+
+Integrated solution and plotting
+The numerical problem is the coupled initial-value system
+
+              𝑑y                           h                                   iT                h                      iT
+                 = f (y),           y(𝑊) = F(𝑊) T           𝑇 (𝑊)      𝑃(𝑊)         ,     y(0) = FT0        𝑇0     𝑃0        ,   0 ≤ 𝑊 ≤ 𝑊tot .
+              𝑑𝑊
+The code integrates this system with the stiff Radau method, then maps each saved catalyst mass to bed length. The plotted
+coordinates are 𝑧 𝑗 = 𝑊 𝑗 /(𝜌 𝐵 𝐴𝑐 ), 𝑇 𝑗 = 𝑇 (𝑊 𝑗 ), and 𝑃 𝑗,bar = 𝑃(𝑊 𝑗 )/105 . CO conversion is calculated as
+
+                                                                                    𝐹CO (𝑊)
+                                                               𝑋CO (𝑊) = 1 −                .
+                                                                                     𝐹CO,0
+
+Differentiating this definition and substituting the CO balance gives
+
+                                                                 𝑑𝑋CO 𝑎(𝑟 2 + 𝑟 W )
+                                                                     =              .
+                                                                  𝑑𝑊    𝐹CO,0
+
+Therefore, the figures show samples of the integrated profiles, not a separate closed-form solution for 𝑇 (𝑧) or 𝑃(𝑧).
+
+   Plotted demonstration case. 𝐷 𝑡 = 0.127 m, 𝐿 = 0.3048 m, 𝜌 𝐵 = 750 kg m−3 , 𝜀 𝑏 = 0.40, 𝐷 𝑝 = 3 mm, 𝜇 = 2.5 × 10−5 Pa s,
+   𝑈 = 10 W m−2 K −1 ; 𝑇0 = 𝑇𝑤 = 623.15 K, 𝑃0 = 5 bar, and feed ratio CO:H2 :N2 =1:4:25 at 0.05 mol s−1 . Geometry, transport, and
+   heat-transfer values marked assumed in the source formulation remain assumptions here.
+
+Equation basis: Subah and Somo formulation, Sections 3, 6, and 7. Numerical implementation: src/methanation/reactor.py; plotting: src/methanation/reporting.py.
+
+
+
+
+Coupled axial balances                                                                                                                                       2
+BARNOS PART                                                                                                     Fixed-bed methanation
+
+
+
+CO conversion along the catalyst bed
+
+
+
+
+             Figure 1. Reduced M4 model prediction of CO conversion versus catalyst mass for the demonstration case.
+
+
+  The calculated outlet conversion is 99.45% for this assumed configuration. This curve is a model demonstration, not an experimental
+  fit or validation result.
+
+
+
+
+Coupled axial balances                                                                                                                  3
+BARNOS PART                                                                                                     Fixed-bed methanation
+
+
+
+Temperature and pressure along the bed
+
+
+
+
+                           Figure 2. Integrated temperature and Ergun pressure profiles versus bed length.
+
+
+  Temperature peaks at 820.7 K near 𝑧 = 0.0023 m, then reaches 725.6 K at the outlet. Pressure falls from 5.0000 to 4.9996 bar (about
+  41.6 Pa). The plotted pressure axis is tightly auto-scaled, so the visible line exaggerates this small relative drop.
+
+
+
+
+Coupled axial balances                                                                                                                  4
+

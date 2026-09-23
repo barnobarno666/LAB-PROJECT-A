@@ -1,0 +1,154 @@
+
+PAGE 1
+Mechanistic Modeling, Simulation, and Optimization of a Fixed-Bed Ni/Al2O3 Reactor for 
+CO Methanation 
+ 
+Central Question  
+Can a computational model be developed from literature kinetics and reactor engineering 
+principles to reproduce the performance of the Ni/Al2O3 reactor observed in Experiment #1, and 
+can that model be used to predict and optimize reactor performance beyond the conditions tested 
+experimentally?  
+Objectives  
+The project aims to:  
+• Develop a mechanistic model of the fixed-bed Ni/Al2O3 CO methanation reactor.  
+• Predict reactor performance, including CO conversion and CH4/CO2 selectivity.  
+• Predict species and temperature profiles along the catalyst bed.  
+• Compare model predictions with the experimental results obtained in Experiment #1.  
+• Investigate the effects of operating conditions such as temperature, feed composition,   flow 
+rate, pressure, and catalyst loading.  
+• Examine the influence of kinetic parameters and catalyst activity on reactor performance.  
+• Investigate non-isothermal behavior, temperature rise, and potential hot-spot formation.  
+• Use the validated model to identify operating conditions that improve reactor performance 
+while maintaining reasonable operating constraints.  
+ 
+Main Components  
+• Reaction Kinetics and Thermodynamics  
+Literature investigation of CO methanation kinetics, Ni-based catalysts, equilibrium behavior, 
+and the origin of CO2 formation.  
+• Reactor Modeling and Simulation  
+Development and numerical solution of a one-dimensional fixed-bed reactor model incorporating 
+species and energy balances.  
+• Experimental Validation  
+Comparison of computational predictions with the group's experimental GC data from 
+Experiment #1.  
+
+
+PAGE 2
+• Sensitivity and Parametric Analysis  
+Investigation of how operating conditions and model parameters influence conversion, 
+selectivity, and reactor temperature.  
+• Deactivation and Thermal Behavior  
+Exploration of catalyst deactivation and the thermal characteristics of the highly exothermic 
+methanation reaction. + (catalyst deactivation - decay model) 
+• Optimization  
+Use of the validated model to identify favorable operating conditions for achieving high CO 
+conversion and CH4/CO2 selectivity while respecting practical constraints.  
+ 
+Overall progression  
+Experiment → Modeling → Validation → Prediction → Analysis → Optimization  
+ 
+Expected Deliverables  
+Each group will submit:  
+• Well documented computational code.  
+• A Technical report describing the model, assumptions, literature basis, validation, results, 
+and limitations.  
+• A Poster providing a concise overview of the entire project, including the problem/objective, 
+methodology, model, key assumptions, validation, results, and major conclusions.  
+ 
+The final report should include appropriate visualizations such as reactor profiles, model-versus-
+experiment comparisons, sensitivity analysis, and optimization results. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+PAGE 3
+(Mehrab+Yeamin) Time to complete the whole work: within 2/3 days 
+1- Kinetics & Thermodynamics Lead 
+• Literature review of CO methanation kinetics on Ni/Al₂O₃  
+• Compile rate laws + activation energies + pre-exponential factors, with sources 
+• Investigate and propose the CO₂-formation pathway (most likely reverse water-gas 
+shift, CO + H₂O ⇌ CO₂ + H₂, competing with methanation) and its kinetics 
+• Justify why CO2 is undesired ? 
+Deliverable: kinetics/thermo section of report  
+ 
+(Subah+Somo) Time to complete the whole work: within 10 september 
+2 - Reactor Model Builder (Mass & Energy Balances, mainly temp. profile & mat. balance) 
+• Set up the 1-D plug-flow (or PBR) mass balance ODEs for each species (CO, H₂, CH₄, 
+CO₂, H₂O) along bed length 
+• Set up the energy balance (non-isothermal, accounting for heat of reaction, possibly heat 
+loss/adiabatic case) 
+• Incorporate pressure drop (Ergun equation) if relevant 
+Deliverable: the governing equations, assumptions list (ideal gas, plug flow, no radial 
+gradients, etc.), and the model formulation section of the report 
+ 
+(Barno+Ashiq) Time to complete the whole work: within 14 september 
+3 - Numerical Solution / Code Developer 
+• Implement the ODE system numerically (Python/MATLAB) 
+• Handle stiff coupling between mass and energy balances 
+• Produce species concentration and temperature profiles along the bed 
+• Need 2 type of graphs-  
+1. Conversion against length of bed 
+2. Conversion against weight of catalyst 
+• Build in flexibility to vary T, P, feed ratio, flow rate, catalyst loading as inputs 
+Deliverable: well-documented, runnable code (the "computational code" deliverable) + base-
+case profile plots 
+ 
+ 
+
+PAGE 4
+(Shihab+Rifat) Time to complete the whole work: within 18 september 
+4 - Validation & Sensitivity/Parametric Analysis 
+• Pull the group's actual Experiment #1 GC data (CO conversion, CH₄/CO₂ selectivity) 
+• Compare model predictions vs experimental results; tune/justify any fitted parameters 
+within literature ranges 
+• Run sensitivity analysis: vary temperature, feed composition, flow rate, pressure, 
+catalyst loading - quantify effect on conversion/selectivity/hot-spot behavior 
+Deliverable: validation plots (model vs experiment), sensitivity plots, discussion of 
+discrepancies 
+ 
+(Ouishi+Rimi) Time to complete the whole work: within 18 september  
+5 - Deactivation, Thermal Behavior & Optimization 
+• Literature-based treatment of Ni catalyst deactivation (sintering, coking, sulfur 
+poisoning  pick what's relevant) and how to represent it in the model  
+• Investigate hot -spot formation / thermal runaway risk given the highly exothermic 
+reaction 
+• Use the validated model to run an optimization (e.g., maximize CO conversion × CH₄ 
+selectivity subject to a max temperature/hot-spot constraint) 
+Deliverable: deactivation/thermal section + optimization results and recommended operating 
+conditions 
+ 
+I tried to include everything, along with any extra tasks, in the work distribution. If I’ve 
+missed anything, please let me know. I’ll add it. 
+The workflow will be like this: 
+Mehrab and Yeamin will complete their assigned work first. Once they are free, they will help 
+the next group complete their work. Then, once those four members are free, all four of them will 
+help the following groups with whatever assistance they need. 
+Note: Some parts of the work are much larger than others, while some are relatively small. At this 
+point, I’m not sure which parts will require the most time or which ones will be easier. Therefore, 
+if any particular part takes longer than expected or seems too  difficult, the other members will 
+contribute and help complete it. This way, we can make sure that no one gets stuck with an 
+excessive workload and that everything is completed on time. 
+
+PAGE 5
+We have three weeks to complete everything. However, it would be quite a hassle to check 
+everyone’s work and merge everything at the last moment. So, our plan is to complete the 
+entire work by 19 September (please do keep this in mind , also we’re already one week 
+behind). This will give us one full week to thoroughly check everything, correct any mistakes 
+and most importantly, let Farhatul Abrar Sir review our work, as he will be giving us a major 
+portion of the marks. 
+Another important thing is that we also have to prepare a poster presentation. Therefore, 
+we need to keep the entire final week for designing and preparing the poster properly. 
+ 

@@ -1,0 +1,231 @@
+Reactor Modeling and Simulation
+Governing Equations and Model Formulation — Fixed-Bed Ni/Al₂O₃ Reactor for CO Methanation
+Prepared by: Subah & Somo  |  Component 2: Reactor Model Builder (Mass & Energy Balances)
+1. Scope and Basis
+This section develops the one-dimensional, steady-state fixed-bed reactor model used to predict CO conversion, CH₄/CO₂ selectivity, and the axial temperature and pressure profiles of the Ni/Al₂O₃ packed-bed reactor investigated in Experiment #1.
+Two reactions are considered simultaneously, consistent with the group's decision to model CO hydrogenation together with the water–gas shift (WGS) reaction as the source of the CO₂ by-product observed experimentally, rather than the reverse water–gas shift (RWGS) or the direct CO₂-methanation pathway:
+(2)   CO + 3H2  →  CH4 + H2O        (CO methanation)
+(3)   CO + H2O  →  CO2 + H2         (water–gas shift, WGS)
+Intrinsic kinetics are taken from the three-reaction Langmuir–Hinshelwood–Hougen–Watson model “M4” of Celoria et al. (2025, Chemical Engineering Journal 512, 162113), fitted on a 24 wt% Ni/Al₂O₃ catalyst. The paper's third reaction (RWGS) is algebraically converted to the WGS direction (Section 4.2) so that its rate law and constants are consistent with reactions (2) and (3) above. The CO₂-methanation reaction (M4's reaction 1) is not included, per the project's scope.
+2. Assumptions
+Steady-state operation (no time dependence).
+One-dimensional, pseudo-homogeneous plug-flow reactor (PFR): no radial gradients in concentration or temperature.
+Negligible axial dispersion (convection dominates transport in the axial direction).
+Ideal gas behavior for all species.
+Two catalytic reactions occurring simultaneously on the same active sites: CO methanation (r₂) and water–gas shift (r₃′); CO₂ methanation is excluded from this model.
+Kinetics follow the M4 Langmuir–Hinshelwood–Hougen–Watson model of Celoria et al. (2025), with a single competitive-adsorption denominator shared by both reactions.
+Catalyst activity a = 1 (fresh catalyst, no deactivation) in this base-case model; the formulation leaves an explicit a(t) multiplier so the deactivation sub-model (Component 5) can be coupled in later.
+Internal and external mass- and heat-transfer resistances are neglected (justified by the Anderson, Mears, and Weisz–Prater criteria reported by Celoria et al. for the same catalyst class).
+Non-adiabatic energy balance: heat exchange with the surroundings (oven/furnace wall) is included through an overall heat-transfer coefficient U.
+Pressure is not held constant — axial pressure drop is computed via the Ergun equation, with gas velocity and density evaluated locally from the reacting mixture (Section 7).
+Catalyst bed is uniformly packed; bulk density, voidage, and particle diameter are treated as constant along the bed.
+Ideal, single-phase gas mixture; no solid-carbon or coke formation is modeled explicitly (addressed qualitatively in the deactivation section).
+3. Reactor Geometry
+Catalyst bed dimensions (given):
+D = 5 in = 0.127 m               L = 12 in = 0.3048 m
+AC = πD2/4 = 1.267×10-2 m2          Vbed = AC·L = 3.86×10-3 m3
+Independent variable conversion between catalyst weight W (kg) and axial position z (m), used to generate both the “conversion vs. catalyst weight” and “conversion vs. bed length” plots required by the project:
+W(z) = ρB · AC · z               dz/dW = 1/(ρB·AC)
+4. Kinetics (M4 Model)
+4.1  Rate expressions
+Partial pressures are evaluated locally from the current molar flow state:
+pi(W) = yi(W)·P(W) = [Fi(W)/Ftotal(W)]·P(W)
+CO methanation rate:
+r2 = k2·pCO·pH20.5·(1 − Q2/Keq2) / D2
+Q2 = pCH4·pH2O / (pCO·pH23)
+Water–gas shift rate (converted from the paper's RWGS expression — see Section 4.2):
+r3' = k3'·pCO·pH2O·pH2-0.5·(1 − Q3'/Keq3') / D2
+Q3' = pCO2·pH2 / (pCO·pH2O)
+Shared competitive-adsorption term (M4):
+D = 1 + KH20.5·pH20.5 + KCO·pCO + KC·pCH4·pH2-2 + KCH4·pCH4
+Temperature dependence:
+kα(T) = kα,T0·exp[−(EAα/R)(1/T − 1/T0)]
+Ki(T) = Ki,T0·exp[−(ΔHi/R)(1/T − 1/T0)]
+Keqα(T) = Keqα(298.15 K)·exp[−(ΔHα/R)(1/T − 1/298.15)]
+4.2  Conversion of the paper's RWGS expression to WGS
+The M4 paper reports its third reaction as reverse water–gas shift (RWGS: CO₂ + H₂ ⇌ CO + H₂O). Since WGS is the same equilibrium written in the opposite direction (r₃′ = −r₃), the rate law, rate constant, activation energy, and equilibrium constant are converted as follows:
+k3',T0 = k3,T0 / Keq3(T0)               EA3' = EA3 − ΔH3
+Keq3'(T) = 1 / Keq3(T)     ΔHWGS = −ΔH3     ΔGWGS = −ΔG3
+All adsorption constants (KH2, KCO, KC, KCH4) and their van't Hoff parameters are unchanged, since they describe surface adsorption equilibria and do not depend on which reaction direction is labeled “forward.” Numerical values are given in Table 1.
+5. Species Mass Balances
+Applying a steady-state mole balance across a differential catalyst slice of thickness dW (accumulation = 0), and taking the limit as the slice thickness goes to zero, gives the design equation for each species, with a(t) as the catalyst-activity multiplier reserved for coupling to the deactivation model:
+dFi/dW = a(t)·Σα(νi,α·rα)
+Written out for the two reactions considered (CO methanation, r₂; WGS, r₃′):
+dFCO/dW    =  −a·(r2 + r3')
+dFH2/dW    =  −a·(3r2 − r3')
+dFCH4/dW  =   a·r2
+dFH2O/dW  =   a·(r2 − r3')
+dFCO2/dW  =   a·r3'
+dFN2/dW    =   0                              (inert)
+6. Energy Balance (Non-Adiabatic)
+An energy balance on the same differential slice, using the heat-of-reaction method with a reference temperature equal to the local slice temperature T(W), and including heat exchange with the surroundings through an overall heat-transfer coefficient U, gives:
+dT/dW  =  { a·[r2·(−ΔH2) + r3'·(−ΔHWGS)]  −  (U·aw/ρB)·(T − Tamb) }  /  Σi(Fi·Cpi)
+With −ΔH2 = 206 kJ/mol and −ΔHWGS = 41 kJ/mol (both exothermic), and:
+Σi(Fi·Cpi) = FCO·CpCO + FH2·CpH2 + FCH4·CpCH4 + FH2O·CpH2O + FCO2·CpCO2 + FN2·CpN2
+aw = 4/D          (heat-transfer area per unit reactor volume, cylindrical bed)
+Setting U = 0 recovers the adiabatic limiting case as a consistency check.
+7. Pressure Drop — Ergun Equation (Reaction-Coupled)
+Because two mole-changing reactions occur simultaneously in the bed, the total molar flow Ftotal(W) and average molecular weight Mavg(W) change along the reactor and must be evaluated locally — not fixed at their inlet values — when computing the superficial velocity and gas density that feed the Ergun equation.
+Ftotal(W) = FCO + FH2 + FCH4 + FH2O + FCO2 + FN2
+Mavg(W) = Σi[Fi(W)·Mi] / Ftotal(W)
+us(W) = Ftotal(W)·R·T(W) / [P(W)·AC]              (ideal-gas superficial velocity)
+ρg(W) = P(W)·Mavg(W) / [R·T(W)]                     (local gas density)
+The Ergun equation, written in length form and converted to the W-basis using dz/dW = 1/(ρB·AC):
+dP/dW = −(1/(ρB·AC)) · [ 150·μ·(1−εb)2·us(W) / (Dp2·εb3)
+                              + 1.75·ρg(W)·(1−εb)·us(W)2 / (Dp·εb3) ]
+Because reaction (2) is mole-reducing (4 mol reactant → 2 mol product) while reaction (3) is mole-conserving, Ftotal(W) falls and Mavg(W) rises as conversion proceeds — this is what makes the pressure-drop term reaction-coupled rather than a fixed mechanical calculation. In the limit of no reaction (r₂ = r₃′ = 0), the equation reduces to the ordinary non-reactive Ergun equation.
+Setting P(W) = P₀ (constant) recovers the isobaric case, allowing a direct isobaric-vs-Ergun comparison to quantify how much the reaction and the pressure drop each affect conversion.
+8. Conversion, Selectivity, and Yield
+Since CO is consumed by both reactions (methanation and WGS), and CO₂ is produced only by WGS, the following definitions are used for reporting reactor performance as a function of catalyst weight W (or equivalently, bed length z):
+XCO(W) = [FCO,0 − FCO(W)] / FCO,0                       (CO conversion)
+SCH4(W) = FCH4(W) / [FCO,0 − FCO(W)]                    (selectivity to CH4 among CO converted)
+SCO2(W) = FCO2(W) / [FCO,0 − FCO(W)]                    (selectivity to CO2 via WGS)
+YCH4(W) = FCH4(W) / FCO,0                                    (overall CH4 yield)
+These are plotted against both W and z(W) = W/(ρB·AC) to produce the two required graphs: conversion vs. bed length, and conversion vs. catalyst weight.
+9. Complete Model — Summary
+The full model is a coupled system of eight first-order ODEs in the independent variable W (0 ≤ W ≤ Wtotal), to be solved numerically (e.g., MATLAB ode45 / Python solve_ivp) by Component 3:
+State vector:   y = [FCO, FH2, FCH4, FH2O, FCO2, FN2, T, P]
+dFCO/dW, dFH2/dW, dFCH4/dW, dFH2O/dW, dFCO2/dW, dFN2/dW    — Section 5
+dT/dW                                                                          — Section 6
+dP/dW                                                                          — Section 7
+All six flow-rate ODEs and the energy and pressure ODEs are mutually coupled through the local partial pressures pi(W), which depend on both the current flow-rate state and the current pressure P(W).
+10. Parameters
+10.1  Kinetic and thermodynamic parameters (M4 model, T0 = 598 K)
+Parameter
+Value
+Unit
+Source
+k2,T0
+1.50
+mol·kg-1·s-1·bar-1.5
+Celoria et al. (2025), Table 5
+EA2
+54.9
+kJ/mol
+Celoria et al. (2025)
+k3',T0
+3.59
+mol·kg-1·s-1·bar-1.5
+Converted (Section 4.2)
+EA3'
+69
+kJ/mol
+Converted (Section 4.2)
+KH2,T0
+0.500
+bar-1
+Celoria et al. (2025)
+ΔHH2
+−8.76
+kJ/mol
+Celoria et al. (2025)
+KCO,T0
+1.41
+bar-1
+Celoria et al. (2025)
+ΔHCO
+−38.5
+kJ/mol
+Celoria et al. (2025)
+KC,T0
+1.78
+—
+Celoria et al. (2025)
+ΔHC
+−20.0
+kJ/mol
+Celoria et al. (2025)
+KCH4,T0
+0.500
+bar-1
+Celoria et al. (2025)
+ΔHCH4
+18.8
+kJ/mol
+Celoria et al. (2025)
+ΔH2 (CO methanation)
+−206
+kJ/mol
+Reaction thermochemistry
+ΔHWGS
+−41
+kJ/mol
+Converted (Section 4.2)
+Keq3' (598 K)
+30.1
+—
+Converted (Section 4.2)
+10.2  Geometry, bed, and operating parameters
+Parameter
+Value
+Unit
+Status
+D (bed diameter)
+0.127
+m
+Given
+L (bed length)
+0.3048
+m
+Given
+AC
+1.267×10-2
+m2
+Calculated
+ρB (bulk density)
+750
+kg/m3
+Assumed
+εb (bed voidage)
+0.40
+—
+Assumed
+Dp (particle diameter)
+3
+mm
+Assumed
+Wtotal
+≈ 2.90
+kg
+Calculated (ρB·AC·L)
+μ (gas viscosity)
+2.5×10-5
+Pa·s
+Assumed (≈const.)
+U (heat-transfer coeff.)
+10
+W·m-2·K-1
+Assumed
+Tamb
+= T0 (feed temp.)
+K
+Assumed
+P0
+5
+bar
+Assumed (Exp. #1 condition)
+T0
+623 (350 °C)
+K
+Assumed (Exp. #1 condition)
+10.3  Feed and initial conditions
+Base-case feed composition, CO/H₂/N₂ = 1/4/25 (mol), Ftotal,0 = 0.05 mol/s:
+Species
+Fi,0 (mol/s)
+FCO
+1.667×10-3
+FH2
+6.667×10-3
+FCH4
+0
+FH2O
+1×10-8  (trace, avoids 0/0 in rate law)
+FCO2
+1×10-8  (trace, avoids 0/0 in rate law)
+FN2
+4.167×10-2
+All parameters marked “Assumed” should be replaced with values from Experiment #1 (feed flow rate, catalyst mass and dilution, bed voidage) as soon as they are available; the equations themselves do not change.
+11. References
+Celoria, F.; Salomone, F.; Tauro, A.; Gandiglio, M.; Ferrero, D.; Champon, I.; Geffraye, G.; Pirone, R.; Bensaid, S. Kinetic study and deactivation phenomena for the methanation of CO₂ and CO mixed syngas on a Ni/Al₂O₃ catalyst. Chemical Engineering Journal 512 (2025) 162113.
+Fogler, H.S. Elements of Chemical Reaction Engineering — Ergun equation and packed-bed reactor design equations.
+Felder, R.M.; Rousseau, R.W. Elementary Principles of Chemical Processes — general balance equation (Ch. 10) and heat-of-reaction method (Ch. 9), used for the differential-slice derivation of the mass and energy balances above.

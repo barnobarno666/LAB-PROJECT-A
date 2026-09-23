@@ -1,0 +1,37 @@
+{
+  "reaction_mode": "m4_reduced_co_wgs",
+  "feed": {
+    "total_molar_flow_mol_s": 0.05,
+    "mole_ratio": {"CO": 1.0, "H2": 4.0, "CH4": 0.0, "H2O": 0.0, "CO2": 0.0, "N2": 25.0},
+    "temperature_k": 623.15,
+    "pressure_bar": 5.0
+  },
+  "bed": {
+    "tube_diameter_m": 0.127,
+    "bed_length_m": 0.3048,
+    "catalyst_loading_kg_m3_bed": 750.0,
+    "void_fraction": 0.40,
+    "particle_diameter_m": 0.003
+  },
+  "thermal": {
+    "mode": "heat_exchange",
+    "wall_temperature_k": 623.15,
+    "overall_heat_transfer_w_m2_k": 10.0
+  },
+  "transport": {
+    "mode": "ergun",
+    "gas_viscosity_pa_s": 2.5e-05
+  },
+  "activity": 1.0,
+  "solver": {
+    "method": "Radau",
+    "rtol": 1e-06,
+    "atol_flow_mol_s": 1e-10,
+    "atol_temperature_k": 1e-05,
+    "atol_pressure_pa": 0.1,
+    "max_temperature_k": 1400.0,
+    "min_pressure_pa": 1000.0,
+    "min_hydrogen_partial_pressure_bar": 1e-12,
+    "output_points": 401
+  }
+}

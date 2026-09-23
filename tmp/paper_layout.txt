@@ -1,0 +1,1414 @@
+                                                                Chemical Engineering Journal 512 (2025) 162113
+
+
+                                                                    Contents lists available at ScienceDirect
+
+
+                                                            Chemical Engineering Journal
+                                                             journal homepage: www.elsevier.com/locate/cej
+
+
+
+
+Kinetic study and deactivation phenomena for the methanation of CO2 and
+CO mixed syngas on a Ni/Al2O3 catalyst☆
+Fabrizio Celoria a,1 , Fabio Salomone a,1,* , Alessio Tauro a , Marta Gandiglio b ,
+Domenico Ferrero b, Isabelle Champon c , Geneviève Geffraye c , Raffaele Pirone a ,
+Samir Bensaid a
+a
+  Catalytic Reaction Engineering for Sustainable Technologies (CREST) Group, Department of Applied Science and Technology (DISAT), Politecnico di Torino, Corso
+Duca degli Abruzzi 24, 10129 Torino, Italy
+b
+  Department of Energy (DENERG), Politecnico di Torino, Corso Duca degli Abruzzi 24, 10129 Torino, Italy
+c
+  Université Grenoble Alpes, CEA LITEN, DTCH, Laboratoire Réacteurs et Procédés (LRP), F-38000 Grenoble, France
+
+
+
+
+A R T I C L E I N F O                                     A B S T R A C T
+
+Keywords:                                                 This study presents a detailed kinetic and deactivation analysis of a 24 wt% Ni/Al2O3 catalyst for the hydro­
+Methanation                                               genation of CO2 and CO to CH4, focusing the attention on the CO2 and CO co-methanation. More than 300 re­
+Nickel-alumina catalyst                                   action conditions were tested on a fixed-bed reactor obtaining 907 observations. Among them, 852
+Intrinsic kinetics
+                                                          measurements were used to derive the kinetic parameters in an isothermal reactor model. Power-law models
+Deactivation
+Power-to-gas
+                                                          accurately describe CO2 or CO methanation, but fail to predict co-methanation due to preferential adsorption of
+                                                          CO. On the contrary, a three-reactions Langmuir-Hinshelwood-Hougen-Watson model (model M4) successfully
+                                                          described it together with the different hydrogenation pathways. Experimental and literature insights suggest
+                                                          that CO2 adsorption occurs via either dissociative or H-assisted associative mechanism, and then, the high H*
+                                                          coverage favors its conversion into CH4 via the so-called dissociative formyl (CHO*) route. On the contrary, the
+                                                          exergonic CO adsorption increases the CO* coverage promoting the dissociative carbon (C*) route. In addition,
+                                                          C* species are responsible for the higher deactivation rates in CO methanation due to the formation of nickel
+                                                          carbides and coking. Long-term stability tests revealed several deactivation phenomena. CO2 methanation
+                                                          induced mild sintering, while CO methanation led to a significant decrease in stability. Notably, co-methanation
+                                                          improved stability at low temperature by suppressing nickel carbide formation. Contaminants like O2 and C2H4
+                                                          decreased the stability due to re-oxidation and coking, respectively, while poisons like H2S deactivated the
+                                                          catalyst irreversibly. Power-law deactivation models were developed to predict the activity loss, supporting the
+                                                          potential scale-up of CO2 and CO methanation processes.
+
+
+                                                                                                energy sources were oil (30.2 % of total energy supply), coal (27.6 %)
+                                                                                                and natural gas (23.1 %) [1]. Investment in fossil fuels is set to increase
+1. Introduction
+                                                                                                due to global overcrowding, as are greenhouse gas emissions, particu­
+                                                                                                larly carbon dioxide (CO2). Energy-related CO2 emissions are steadily
+   Fighting climate change has become one of the most important
+                                                                                                increasing with a maximum reached in 2023 of 37.4 Gt, an increase of
+challenges in recent decades. Many Countries have made major com­
+                                                                                                8.6 % over the previous year [1]. Renewable energy sources, such as
+mitments to reduce greenhouse gas emissions, signing the Kyoto Pro­
+                                                                                                wind, solar and hydropower, are sustainable alternatives to fossil fuels
+tocol first and the Paris Agreement later. In addition, the 2030 Agenda,
+                                                                                                and significant investments are currently being directed towards this
+adopted by the United Nations places sustainable development as a
+                                                                                                sector. A crucial drawback of some of these technologies is the inter­
+global plan of action. A large part of the emissions come from the use of
+                                                                                                mittent production of energy. As a result, energy storage is decisive to
+non-renewable energy sources, which are also the largest source of en­
+                                                                                                ensure stable supply, which can be achieved through batteries, that is
+ergy. According to data provided by the IEA, in 2022, the World’s largest
+
+
+    ☆
+      This article is part of a special issue entitled: ‘ISCRE 28’ published in Chemical Engineering Journal.
+    * Corresponding author.
+      E-mail address: fabio.salomone@polito.it (F. Salomone).
+    1
+      These authors contributed equally to this work.
+
+https://doi.org/10.1016/j.cej.2025.162113
+
+Available online 2 April 2025
+1385-8947/© 2025 The Author(s). Published by Elsevier B.V. This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-
+nc-nd/4.0/).
+F. Celoria et al.                                                                                                          Chemical Engineering Journal 512 (2025) 162113
+
+
+
+    Nomenclature                                                                       kα          Kinetic constant of the α-th reaction
+                                                                                       kα,T0       Arrhenius’ pre-exponential factor of the α-th reaction at T0
+    Acronyms and Abbreviations                                                         Mi          Molecular mass of the i-th chemical species (kg/mol)
+    BET      Brunauer-Emmett-Teller                                                    ṅin
+                                                                                         i,k       Inlet molar flow rates of the i-th component for the k-th
+    BJH      Barrett-Joyner-Halenda                                                                experiment (mol/s)
+    BSE      Back-scattered electron                                                   ṅout       Outlet molar flow rates of the i-th component for the k-th
+                                                                                         i,k
+    DFT      Density functional theory
+                                                                                                   experiment (mol/s)
+    DRIFTS Diffuse reflectance infrared Fourier transform
+                                                                                       ni,α        Exponent of the partial pressure for the i-th component for
+             spectroscopy
+                                                                                                   the α-th reaction (dimensionless)
+    EDS      Energy dispersive spectroscopy
+                                                                                       nNi         Number of atoms on each face of the nickel crystal
+    FE-SEM Field emission scanning electron microscopy
+                                                                                                   (dimensionless)
+    FID      Flame ionization detector
+                                                                                       NA          Avogadro’s constant (6.022⋅10− 23 mol− 1 )
+    GC       Gas chromatograph
+                                                                                       Nc          Total number of chemical species (dimensionless)
+    H2-TPR Temperature-programmed reduction under H2 flow
+                                                                                       Ne          Total number of experiments (dimensionless)
+    HAADF High-angle annular dark field
+                                                                                       Ns          Total number of stability tests (dimensionless)
+    IEA      International Energy Agency
+                                                                                       Ns,Ni       Number of exposed nickel atoms on the surface
+    LHHW     Langmuir-Hinshelwood-Hougen-Watson
+                                                                                                   (dimensionless)
+    NDIR     Non-dispersive infrared
+    PFR      Plug-flow reactor                                                         Nt          Total number of measurements during a stability test
+    PL       Power-law                                                                             (dimensionless)
+    PL-CO2 Power-law for CO2 methanation                                               Nt,Ni       Total number of nickel atoms (dimensionless)
+    PL-COI Power-law with CO* inhibition                                               Nr          Total number of reactions (dimensionless)
+    PL-HI    Power-law with H* inhibition                                              pi          Partial pressure of the i-th chemical species (bar)
+    PtG      Power-to-Gas                                                              qi,β        Exponent of the gas concentration of the i-th component
+    RDS      Rate determining step                                                                 for the β-th deactivation (dimensionless)
+    RWGS     Reverse water gas shift                                                   Qi          Reaction quotient of the i-th reaction (barΔνα )
+    SE       Secondary electron                                                        R           Ideal gas constant (8.314 J/mol/K)
+    SSA      Specific surface area (m2/g)                                              ri,k        Molar reaction rate of the i-th species for the k-th stability
+    TCD      Thermal conductivity detector                                                         test (mol/kg/s)
+    TEM      Transmission electron microscopy                                          rα          Molar reaction rate of the key component for the α-th
+    XRD      X-ray diffraction                                                                     reaction (mol/kg/s)
+                                                                                       t           Sampling time (s)
+    Parameters                                                                         T           Temperature (K)
+    a         Catalyst activity (dimensionless)                                        t0          Initial time of the stability test (s)
+    aexp
+     i,j,k    Experimental activity of the i-th species at the j-th time on            T0          Reference temperature (598 K)
+                    stream for the k-th stability test (dimensionless)                 vm,Ni       Average volume occupied by a Ni atom (1.1⋅10− 29 m3/Ni
+    amod            Modeled activity of the i-th species at the j-th time on                       atom)
+     i,j,k
+                    stream for the k-th stability test (dimensionless)                 vz          Superficial gas velocity along the axial coordinate z (m/s)
+    am,Ni           Average area occupied by a Ni atom on a polycrystalline            wi          Mass fraction of the i-th chemical species (dimensionless)
+                    surface (6.21⋅10− 20 m2/Ni atom)                                   yexp
+                                                                                        i,j        experimental molar fraction of the i-th species for the j-th
+    aNi             Lattice constant of nickel assuming a face-centered cubic                      experiment (dimensionless)
+                    crystal structure (3.52⋅10− 10 m)                                  ymod
+                                                                                        i,j        modeled molar fraction of the i-th species for the j-th
+    ̂c p,g          Mass specific heat capacity of the gas (J/kg/K)                                experiment (dimensionless)
+    cp,m            Specific volumetric heat capacity of the catalytic bed (J/            ̃0
+                                                                                       Δr G        Molar Gibbs’ free energy variation of the reaction at 25 ◦ C
+                                                                                           298K
+                    m3/K)                                                                          and 1 bar (kJ/mol)
+    ̂c p,s          Specific mass heat capacity of the catalyst (J/kg/K)               ΔHi,α       Adsorption enthalpy of the i-th component for the α-th
+    DNi             Dispersion of nickel (dimensionless)                                           reaction (J/mol)
+    d               Order of deactivation (dimensionless)                                      0
+                                                                                       Δr H
+                                                                                          ̃
+                                                                                            298K   Molar enthalpy variation of the reaction at 25 ◦ C and 1 bar
+    dt              Tube diameter (m)
+                                                                                                   (kJ/mol)
+    dVA,Ni          Volume-area mean diameter of the Ni particles (m)
+    EA,α            Activation energy of the α-th reaction (J/mol)                     Δr H
+                                                                                          ̃α       Molar enthalpy of reaction of the key component of the
+    Ed,β            Activation energy for the deactivation phenomena for the                       α-th reaction (J/mol)
+                                                                                       Δνα         Variation of the total number of moles of the α-th reaction
+                    β-th deactivation rate (J/mol)
+                                                                                                   (dimensionless)
+    FD              Objective function for the deactivation regression model
+                                                                                       εb          Bed void fraction of the catalytic bed (dimensionless)
+                    (dimensionless)
+                                                                                       εp          Intraparticle void fraction (dimensionless)
+    FK              Objective function for the intrinsic kinetics regression
+                    model (dimensionless)                                              εt          Total void fraction of the reactor (dimensionless)
+                                                                                       νi,α        Stoichiometric coefficient of the i-th component for the
+    Keq,α           Equilibrium constant of the α-th reaction (barΔνα )
+                                                                                                   α-th reaction (dimensionless)
+    Ki              Van’t Hoff adsorption constant of the i-th adsorbed species
+                                                                                       ρi          Density of the i-th chemical species (kg/m3)
+                    (bar− ni,α )
+                                                                                       ρg          Density of the gas (kg/m3)
+    Ki,T0           Pre-exponential factor of the i-th adsorbed species at T0
+                    (bar− ni,α )                                                       ρNi         Density of Ni metal (8900 kg/m3)
+    kd,β,T0         Pre-exponential deactivation factor of the β-th deactivation       ρs          Apparent skeletal density of the catalyst in the diluted
+                    rate at T0                                                                     catalytic bed (kg/m3)
+
+
+                                                                                   2
+F. Celoria et al.                                                                                                    Chemical Engineering Journal 512 (2025) 162113
+
+
+one of the most expensive solutions [2], or through Power-to-Gas (PtG)             their hydrogenation to hydroxycarbene (CH2O*) and decomposition
+technology [3,4]. The main advantage of PtG technology is the con­                 into methylene groups (CH2*) and O*. Notwithstanding their compre­
+version of electric energy into a stable energy carrier (e.g., CH4) that can       hensive work, the suggested model generally does not provide a good
+be easily used and transported, potentially replacing fossil-based natural         prediction for CO or CO2 methanation on Ni-based catalysts.
+gas and thus reducing CO2 emissions from non-renewable energy sour­                    Twenty years later, researchers have made significant progress in
+ces [2,3,5]. Methane can be produced by combining H2, that can be                  understanding the reaction mechanisms of CO methanation first, and of
+produced via electrolysis or pyrolysis, with CO2, that is generally ob­            CO2 methanation later over Ni-based catalysts. In 2010, Kopyscinski
+tained through carbon capture technologies [6].                                    et al. [18] have extensively examined the CO hydrogenation mechanism
+    The methanation process consists of three reactions: the CO2 hy­               over 50 wt% Ni/Al2O3 considering both dissociative routes. Their sta­
+drogenation to CH4, known as the Sabatier’s reaction, the CO hydro­                tistical approach indicated three equally possible RDS for the reaction
+genation to CH4 and the reverse water gas shift (RWGS) reaction, as                mechanism: the C* hydrogenation to CH*, the hydrogenation of CH* to
+reported in equations (1) to (3) [7].                                              CH2*, and the H-assisted dissociation of carbon-hydroxyl (COH*) into
+                                                                                   CH* and OH*. The dissociative carbon mechanism seems to be the most
+                                                      ̃ 0 = − 114 kJ
+                                    ̃ 0 = − 165 kJ Δr G
+CO2(g) +4H2(g) ↔CH4(g) +2H2 O(g) Δr H                                              reliable, corroborating the work of Underwood and Bennett (1984) [19]
+                                      298K
+                                               mol      298K
+                                                                 mol
+                                                                                   on transient CO hydrogenation over nickel, although further in­
+                                                                   (1)
+                                                                                   vestigations are required to clearly understand the reaction pathway. On
+                                                                                   the contrary, in 2016, Koschany et al. [20] have successfully described
+                                                      ̃ 0 = − 142 kJ
+                                    ̃ 0 = − 206 kJ Δr G
+CO(g) + 3H2(g) ↔CH4(g) + H2 O(g) Δr H 298K
+                                               mol      298K
+                                                                 mol               the CO2 methanation over co-precipitated NiAl(O)x by means of the
+                                                                   (2)             dissociative adsorption of CO2 and the dissociative formyl (CHO*)
+                                                                                   mechanism, excluding the formation of intermediate C* species. This
+                                     0            kJ     ̃ 0 = 29 kJ               mechanism has been used by Marocco at al. (2018) [21] and Morosanu
+CO2(g) + H2(g) ↔ CO(g) + H2 O(g) Δr H
+                                    ̃
+                                      298K = 41       Δr G              (3)
+                                                  mol      298K
+                                                                 mol               et al. (2020) [22] to investigate the catalytic activity of NiAl(O)x
+                                                                                   hydrotalcite and 20 wt% Ni/Al2O3 for CO2 methanation, respectively. In
+Both methanation reactions (see equations (1) and (2)) are exothermic              the meantime, in 2019, Champon et al. [7] have developed a three-
+and number-of-moles consuming and, therefore, they are favored at low              expressions kinetic model for both CO and CO2 methanation and
+temperatures and high pressure. Although thermodynamically favored,                RWGS reaction over 15 wt% Ni/Al2O3. Their kinetic study has been
+the reduction of CO2 and CO to methane has significant kinetic limita­             founded on the reaction schemes already proposed in the literature
+tions because of the high stability of the molecules. Hence, the process is        [16,17,23].
+carried out on a heterogeneous catalyst to achieve high conversion and                 More recently, in 2021, Burger et al. [15] and Schmider et al. [24]
+CH4 yield [8].                                                                     have conducted two parallel studies on CO-CO2 co-methanation over a
+    Supported Ni catalysts are the most widely used industrial catalysts           co-precipitated 44 wt% NiAl(O)x and supported Ni-based catalysts,
+as they are highly efficient and significantly less expensive than noble           respectively. Burger at al. [15] have proved by means of steady-state D2
+metals. In particular, Ni/Al2O3 has been widely studied due to its good            isotope tests and statistical model discrimination that the hydrox­
+activity [9]. On the one hand, it has been found that Al2O3 could weaken           ycarbene (CH2O*) decomposition is the kinetically limiting step in
+the interaction between Ni particles and thus inhibit sintering. On the            methanation over the NiAl(O)x catalyst. In contrast, Schmider et al. [24]
+other hand, Al2O3 could promote solid C adsorption because of their                have a different approach developing a thermodynamically consistent
+affinity [10]. Hence, to improve performance, different oxides such as             microkinetic model for the CO and CO2 methanation over Ni(111) sur­
+TiO2, ZrO2, CeO2 and zeolites, are commonly employed as Ni supports,               face. They have clearly shown that the dissociative carbon mechanism
+or are partially added to Al2O3 [4,11]. The optimal support is crucial for         occurs in CO methanation, while associative carboxyl (COOH*) or
+catalytic performance as it stabilizes the active site under reaction              formate (CHO2*) occurs in CO2 methanation prior to its dissociation into
+conditions and promotes adsorption of key reactants. In addition to                CO* and OH* and the subsequent C-O bond cleavage to form C* and O*.
+nickel, other transition metals of the group VIII are also used for the            Similar conclusions have been obtained by Mohan et al. [14] by per­
+methanation reaction [12,13]. Ru has been shown to be the most active              forming a DFT-assisted microkinetic modeling of the CO2 methanation
+element, however, its high cost and lower selectivity compared to other            reaction on the Ni(111) surface as schematized in Fig. 1.
+catalysts limit its use [14]. Less reactive than Ru and Ni, are Pd, Pt, Mo             In the meantime, Cárdenas-Arenas et al. [25] have carried out
+and Rh, which have higher selectivity toward CH4. Other elements such              DRIFTS and isotopic measurements discovering that there are two
+as Fe, Co or Mo can lead to the formation of unsought by-products (e.g.,           different active sites where H2 and CO2 chemisorb and dissociate over
+methanol or hydrocarbons) [9,13].                                                  Ni/CeO2 catalysts, while over Ni/Al2O3 there are no specific active sites.
+    Despite the fruitful studies conducted on methanation catalysts,               In both cases, the associative formate route seems to be the most truthful
+there are still debates regarding the reaction pathways, the reaction              mechanism for CO2 methanation. This research work paved the way for
+mechanism and the rate-determining steps on Ni-based catalysts [15].               the kinetic studies of Quindimil et al. [26] on 9.5 wt% Ni/Al2O3 catalysts
+The pioneering research work by Weatherbee and Bartholomew [16] in                 and Onrubia-Calvo et al. [11] on 8.5 wt% Ni/CeO2. On the one hand,
+1982 was carried out on CO2 methanation over Ni/SiO2 catalyst. They                Quindimil et al. [26] have proposed an associative formate CO2
+proposed a dissociative carbon mechanism for CH4 formation. It consists            adsorption followed by its dissociation into CO* before its hydrogena­
+of a dissociative adsorption of CO2 into adsorbed carbonyl (CO*) and               tion into CHO*, using a one-active site scheme. On the other hand,
+atomic oxygen (O*) followed by the dissociation of CO* into carbon (C*)            Onrubia-Calvo et al. [11] have demonstrated that CO2 methanation
+and O*. The C* species are subsequently hydrogenated to carbyne                    occurs via complete associative formate mechanism on two active sites
+(CH*), carbene (CH2*), methyl radical (CH3*) and, lastly, to methane               without forming intermediate carbonyl or carbide species. Table 1
+(CH4*). Their kinetic study led to carbonyl dissociation being considered          summarizes the state-of-the-art on the kinetic models for Ni-based cat­
+the most consistent RDS. A few years later, in 1989, Xu and Froment                alysts. It is worth noting that the most significant aspects are the equi­
+[17] thoroughly and extensively explored methane steam reforming,                  librium distance, the prediction of the CO* inhibition in CO methanation
+RWGS reaction and methanation considering a three-reactions system                 and OH* inhibition both in CO and CO2 methanation [16,18,20,26].
+and proposing a dissociative formyl mechanism on 15 wt% Ni/MgAl2O3                     Together, these studies consistently indicate that CO2 methanation
+catalyst. The hypothesized reaction mechanism describes the RWGS                   occurs via dissociative formyl (CHO*) mechanism over Ni-based cata­
+reaction via dissociative adsorption of CO2 into CO* and O* and the                lysts, while its chemisorption mechanism remains under debate and
+hydrogenation of all carbonyl species into formyl groups (CHO*) prior to           could occur via dissociative carbonyl or associative formate
+
+                                                                               3
+F. Celoria et al.                                                                                                                        Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+Fig. 1. Reaction pathways of the CO2 hydrogenation on Ni (111) surface at 550 K and 10 bar resulting from the DFT-assisted microkinetic modeling presented by
+Mohan et al. [14]. Free energy barriers and reaction free energies (in brackets) are specified on the bidirectional arrows and refer to the direction indicated by the
+solid arrowhead. For the sake of clarity, endergonic reactions are denoted with dashed arrows.
+
+
+Table 1
+Most representative kinetic models present in the literature.
+  Type                                    Catalyst       T (◦ C)        P (bar)       Rate equations                                                                               Ref.
+
+  CO methanation and RWGS reaction        Ni/Al2O3       280–360        1–2                               k1 KC p0.5 0.5
+                                                                                                                 CO pH2
+                                                                                      rCH4 = (                               )2                                                    [18]
+                                                                                              1 + KC pCO + KOH pH2 O p−H20.5
+                                                                                                 (                               )
+  ​                                       ​              ​              ​                     k2 Kα pCO pH2 O − pCO2 pH2 K−eq1                                                     ​
+                                                                                      rCO =      (                                 )2
+                                                                                            P0.5
+                                                                                             H2 ⋅ 1 + KC pCO + KOH pH2 O pH2
+                                                                                                                             − 0.5
+                                                                                                                               (                            )
+  CO methanation and RWGS reaction        Ni/Al2O3       315–430        2–6                                                                      pCH4 pH2 O
+                                                                                                                       k1 pCO p0.5 1−                                              [26]
+                                                                                                                               H2
+                                                                                                                                               pCO p3H2 Keq
+                                                                                      rCH4 = (     √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅               √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅                            )2
+                                                                                               1 + KH2 pH2 + KCO2 pCO2 KH2 pH2 + KOH pH2 O p−H20.5 + KCO pCO
+                                                                                                                                   (                        )
+  ​                                       ​              ​              ​                                                                       pCO pH2 O                          ​
+                                                                                                                       k2 pCO p0.5
+                                                                                                                                H2 1 −
+                                                                                                                                             pCO2 pH2 Keq
+                                                                                      rCO = (     √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅                √̅̅̅̅̅̅̅̅̅̅̅̅̅̅̅                           )2
+                                                                                             1 + KH2 pH2 + KCO2 pCO2 KH2 pH2 + KOH pH2 O p−H20.5 + KCO pCO
+                                                                                                                      (                      )
+  CO2 methanation                         NiAl(O)x       180–340        1–15                                                  pCH4 p2H2 O
+                                                                                                    kp0.5        0.5                                                               [20,21]
+                                                                                                         H2 pCO2 1 −
+                                                                                                                             pCO2 p4H2 Keq
+                                                                                      rCH4 = (                                                         )2
+                                                                                               1 + KOH pH2 O p−H20.5 + KH2 p0.5   H2 + Kmix pCO2
+                                                                                                                                                   0.5
+                                                                                                                                (                       )
+  CO2 methanation                         Ni/CeO2        250–500        1.4–6                                                             pCH4 p2H2 O
+                                                                                                                     kpCO2 p0.5   1 −                                              [11]
+                                                                                                                            H2
+                                                                                                                                       pCO2 p4H2 Keq
+                                                                                      rCH4 = (                 )(                                                          )
+                                                                                               1 + KH2 p0.5
+                                                                                                          H2       ⋅ 1 +  K     p
+                                                                                                                            CO2 CO2   +    KH2 O pH2 O + KOH pH2 O p−H20.5
+
+
+
+intermediates. On the contrary, CO methanation seems to occur via                     deactivated by a growth of Ni particles accompanied by a decrease of the
+dissociative carbon pathway over supported Ni catalyst and via disso­                 CO2 adsorption capacity and structural changes, whilst supported ones
+ciative formyl route over Ni hydrotalcites or co-precipitated catalysts.              are mainly affected by sintering of metal particles and loss of specific
+These two different reaction mechanisms may help explain the higher                   surface area [30]. Besides temperature, the composition has a significant
+stability of co-precipitated NiAl(O)x in comparison to supported Ni/                  effect on the catalytic stability, which increases as the Ni content di­
+Al2O3 catalysts.                                                                      minishes. Hence, thermal sintering is mitigated by reducing the specific
+    To develop active and stable catalysts, a thorough understanding of               activity of the catalytic material and consequently the probability of
+the mechanisms that lead to deactivation is crucial. In the literature, the           having hot spots in the reactor. Abelló et al. [31] and Garbarino et al.
+deactivation of Ni-based catalysts is primarily linked to sintering,                  [32] have pointed out that excessive Ni content accelerates sintering and
+poisoning and carbon deposition [10,27].                                              can lead to increased CO production.
+    Thermal sintering is ascribed to transport phenomena of metal                         Nickel is remarkably susceptible to poisoning by streams that contain
+atoms, particles or larger aggregates. Depending on the reaction tem­                 S, P, Pb, NH3 and C2H2. Among these, sulfur compounds are the most
+perature, the sintering process follows two growth mechanisms: parti­                 problematic because they are commonly present in the feed. Specif­
+cles move colliding and coalescing at low temperature, whilst atom                    ically, H2S is generally produced during anaerobic digestion and py­
+migration prevails at high temperatures causing a reduction of the                    rolysis of biomasses. In the literature, has been reported that the
+exposed Ni surface area [27,28]. More in detail, Champon et al. [29]                  presence of very low concentrations of H2S or SO2 (around 5 ppm) are
+have studied the sintering of Ni supported on γ-Al2O3, investigating the              detrimental to the Ni-based catalyst provoking a complete deactivation
+activity of fresh and spent catalysts under hydrothermal conditions with              due to the formation of stable NiS [27,33].
+long-time tests. By increasing time, both CO2 conversion and CH4 yield                    Lastly, solid carbon deposition can be avoided by working with
+decreased over time, and the loss of activity was ascribed to the decrease            higher H/C or O/C ratios so as to fall as far as possible from the carbon
+in metal surface area [27,29]. Moreover, Ewald et al. [30] have                       deposition zone [3]. It is worth noting that carbon deposition is a more
+compared the activity loss of co-precipitated and impregnated Ni-based                significant issue in CO methanation under stoichiometric conditions,
+catalysts at different temperatures by feeding a stoichiometric H2/CO2                while it is less problematic in CO2 methanation [27].
+gas mixture. They have emphasized that co-precipitated catalysts are                      This work presents a kinetic modeling of CO2 and CO methanation,
+
+
+                                                                                  4
+F. Celoria et al.                                                                                                     Chemical Engineering Journal 512 (2025) 162113
+
+
+focusing on the co-methanation process and on the effects of contami­               were carried out subdividing them into three main groups depending on
+nants (C2H4 and O2) and poisons (H2S). As far as the objectives are                 the key reactant (CO2, CO or a mixture of both CO2 and CO). The
+concerned, a three-reaction LHHW kinetic model has been developed to                compositions of the different inlet gas mixtures and their flow rates are
+describe all the reaction pathways (CO2 methanation, CO methanation                 summarized in Supplementary Tables S1, S2 and S3. For CO2 metha­
+and CO-CO2 co-methanation) on a 24 wt% Ni/Al2O3 catalyst. The                       nation group, the volumetric flow rate was varied between 30 and 90
+experimental campaign was performed to represent all operating con­                 NL/h, while the H2/CO2 ratio was varied from 2 to 10, for CO metha­
+ditions (more than 900 observations) for obtaining the kinetic model.               nation group, instead, the volumetric flow rate was between 60 and 90
+The effect of temperature, composition of the reactant mixture and the              NL/h and H2/CO ratio was between 4 and 10. For CO2 and CO co-
+presence of contaminants such as O2 and C2H4 and poisons such as H2S                methanation tests, the compositions of CO2 (1.1 vol% − 6.7 vol%), CO
+will be shown. Deactivation constants and an operative map will be                  (1.1 vol% − 6.7 vol%), H2 (26.7 vol% − 53.3 vol%), CH4 (3.3 vol% −
+reported to identify the most favorable conditions for scaling-up the               10.0 vol%) were varied, keeping the flow rate at 90 NL/h. All these
+methanation process.                                                                conditions were performed at two pressures (5 bar and 15 bar) and 6
+                                                                                    temperatures (250 ◦ C, 280 ◦ C, 310 ◦ C, 340 ◦ C, 370 ◦ C and 400 ◦ C),
+2. Methodology                                                                      resulting in a total of 360 different reaction conditions. This wide range
+                                                                                    was used to ensure a statistical representation of all conditions
+2.1. Experimental campaign                                                          compared to the large number of unknown kinetic parameters, consid­
+                                                                                    ering the presence of experimentally unstable points, equilibrium con­
+2.1.1. Laboratory-scale test bench used for kinetic and deactivation tests          ditions and outliers. The reaction conditions were selected to avoid the
+    The experimental apparatus used for the kinetic and deactivation                carbon deposition zone, as depicted in Fig. 2.
+tests is shown in Supplementary Fig. S1. The gases, coming from cylin­
+ders (Gas / purity: H2 4.5, CO2 4.0, CO 3.7, N2 6.0, CH4 3.5), were                 2.1.4. Experimental methodology of the stability tests
+accurately blended using mass-flow controllers electrically connected to                Different long-term tests were performed to assess the stability of
+the control system. Depending on the position of three pneumatic                    catalytic performance under different reaction conditions. The operative
+valves, the reactants could be directly fed to the reactor or bypass it to          conditions of these tests are shown in Supporting Table S4. The gas
+analyze their composition. The reactor was composed of a stainless-steel            compositions and the temperature were the main investigated parame­
+tube (o.d. 12 mm, i.d. 10 mm, length 350 mm) and an inner coaxial                   ters. However, by-products (ethylene) and contaminants (oxygen) were
+quartz tube (o.d. 6 mm, i.d. 4 mm). The catalytic bed was placed within             also fed to the reactor to monitor their effects. For understanding the
+the quartz tube and between two layers of SiC pellets. The whole reactor            extent and the cause of the deactivation, two activity tests were also
+was heated by an electric oven and two thermocouples were used to                   performed before and after the stability test by feeding 60 NL/h (CO2/
+measure and control the temperature. The first one was placed within                H2/N2 equal to 1/4/25) at 5 bar varying the temperature from 250 ◦ C to
+the quartz tube at the end of the catalytic bed to measure the maximum              400 ◦ C. Lastly, in Section 3 of the Supporting Information File, the
+temperature of reaction, while the second was placed in the middle of               equations used for evaluating the catalyst performance are reported.
+the oven in contact with the outer surface of the stainless-steel tube at
+the same height of the catalytic bed because the oven has an isothermal             2.1.5. H2S poisoning
+profile length around its center.                                                      To determine the total number of catalytic active sites, an H2S
+    After the reactor, the water vapor was condensed before the gas                 adsorption test was conducted on the pre-reduced catalyst. The
+flowrate passed through the back-pressure controller. A three-way valve             adsorption test was carried out in a dedicated test bench, called
+allowed us to measure the composition of the gas mixture by means of an             Waste2Watts [34,35], equipped with a fixed bed reactor (i.d. 22 mm) at
+Agilent Technologies 7980B GC System equipped with two columns                      ambient temperature and pressure by feeding 15 NL/h of gas (200
+(HP-PLOT/Q and Molesieve 5A), a thermal conductivity detector (TCD)
+and a flame ionization detector (FID) and an in-line Emerson X-Stream
+Gas Analyzer equipped with two non-dispersive infrared (NDIR) sensors
+and a TCD to monitor continuously CO, CO2, and H2 concentrations,
+respectively. A silica trap was placed between the GC and the gas
+analyzer to completely dehydrate the gas mixture. Thanks to the GC, we
+were able to measure also byproducts of the reaction, especially hy­
+drocarbons with a chain length from C2 to C7.
+
+2.1.2. Catalyst and pre-treatment procedure
+    The experiments were performed using 75 mg of 24 wt% Ni/Al2O3
+catalyst diluted with 375 mg of SiC, keeping a ratio of 1/5 between the
+catalyst and the inert. The measured height of the catalytic bed was
+approximately 23 mm with a particle density of 1.6 g/cm3. The catalytic
+pellets as well as the SiC pellets had a narrow particle size distribution
+centered at 266 µm.
+    The catalyst required an activation procedure to reduce NiO into
+metallic nickel and stabilize it. Pure hydrogen (6 NL/h) was fed to the
+reactor at 7 bar and 315 ◦ C (heating rate: 5 ◦ C/min) for 24 h. As a last
+step, the sample was cooled down in N2 before starting the catalytic
+tests.
+
+2.1.3. Experimental methodology of the kinetic tests
+   Prior to performing kinetic experiments, the catalyst underwent a
+degreening test to stabilize its performance at 400 ◦ C (heating rate: 4 ◦ C/       Fig. 2. C-H-O ternary diagram at 400 ◦ C and 5 bar. The experimental condi­
+min) and 5 bar for 18 h using 30 NL/h of gas with the following                     tions of the three groups of data are indicated on the diagram together with
+composition H2/CO2/N2 equal to 4/1/10. Subsequently, kinetic tests                  some significant gas species or mixtures.
+
+                                                                                5
+F. Celoria et al.                                                                                                           Chemical Engineering Journal 512 (2025) 162113
+
+
+ppmvol H2S/CH4). The reactor was loaded with 0.45 g of pre-reduced Ni/             portions of the samples.
+Al2O3 catalyst diluted with quartz beads to have a bed height of 0.044 m.
+The gas composition was measured by using a MECCOS sensor H2S                      2.2. Kinetic modeling
+detection from Siegrist GmbH. After poisoning, the residual activity of
+the poisoned catalyst was verified by feeding 60 NL/h (CO2/H2/N2                       Along with the experimental campaign, the algorithm for simulating
+equal to 1/4/25) at 5 bar ranging the temperature from 250 ◦ C to                  the reactor, fitting the kinetic parameters and optimizing the kinetic
+400 ◦ C.                                                                           model was conceptualized as schematized in Fig. 3. A model of the
+                                                                                   experimental reactor was created in MATLAB environment to evaluate
+2.1.6. Characterization of the catalyst                                            the performance of the reactor using a well-defined kinetic model of the
+    N2 physisorption, XRD, SEM, TEM and H2-TPR measurements were                   reactions and assuming specific kinetic parameters. The modeled results
+employed to analyze the fresh catalyst and the effect of the activation            were used along with the experimental ones to evaluate the objective
+procedure; moreover, XRD and SEM measurements were carried out on                  function (i.e. residuals). At this stage, it was minimized by varying the
+some specific samples to corroborate the proposed causes of                        kinetic parameters. Once the optimized kinetic parameters were ob­
+deactivation.                                                                      tained for a given kinetic model, the latter was modified, and new ki­
+    More in detail, N2 physisorptions were performed at − 196 ◦ C on the           netic parameters were identified. Different kinetic models were
+fresh and reduced catalyst employing a Micromeritics Tristar II ASAP               compared to statistically identify the best one that represents the
+3020 analyzer. The samples were previously outgassed at 200 ◦ C for 2 h            experimental data.
+under N2 flow using a Micromeritics FlowPrep 060. The SSA was eval­                    As far as the modeling of the reactor, an isothermal model was
+uated according to the BET equation and the pore size distribution was             developed to fit both intrinsic and deactivation kinetic parameters. The
+analyzed using the BJH algorithm on the desorption branch of the                   experimental reactor was modeled as a pseudo-homogeneous, isobaric,
+isotherm [36].                                                                     one-dimensional plug-flow reactor (PFR) with negligible axial
+    X-ray diffractograms were collected using a Malvern Panalytical                dispersion.
+Empyrean diffractometer equipped with a high-resolution Bragg-Bren­
+tano optical module. Data were recorded scanning the 2θ angle range                2.2.1. Mass balance
+25◦ – 80◦ with a step size of 0.026◦ 2θ and a dwell time of 1.02 s per step,          The continuity mass balance equation for a generic i-th chemical
+operating at 40 kV and 40 mA and using Ni β-filtered Cu-Kα radiation               species along the axial coordinate of the reactor is described by equation
+with a wavelength (λ) of 1.5406 × 10− 10 m.                                        (4) [37]. In the equation, the total void fraction of the reactor was
+    The H2-TPR measurement was performed on the fresh catalyst using               evaluated using equation (5).
+an AMI-300Lite instrument equipped with a TCD. The sample (20 mg)                                                     Nr
+was placed between two layers of quartz wool in a quartz tube reactor                  ∂ρ v dρ                       ∑   (              )
+                                                                                   εt ⋅ i + z ⋅ i = (1 − εt )⋅ρs ⋅a⋅       Mi ⋅νi,α ⋅rα                               (4)
+(o.d. 6 mm, i.d. 4 mm) and pre-treated at 300 ◦ C (heating rate: +10 ◦ C/              ∂t εb dz                      α=1
+min) for 30 min with He (20 NmL/min) and then, it was cooled down to
+50 ◦ C. After that, the H2-TPR analysis was carried out flowing 5.0 %vol.          εt = εb + εp ⋅(1 − εb )                                                            (5)
+H2/Ar (20 NmL/min) and heating the sample from 50 ◦ C to 700 ◦ C
+(heating rate: +10 ◦ C/min, hold time: 30 min). The calibration was done           For the sake of clarity, the intrinsic kinetic of the catalyst was obtained
+with 10 gas pulses (0.524 mL/pulse of pure Ar) in a 5.0 %vol. H2/Ar flow           assuming the reactor in stationary conditions without catalyst deacti­
+(20 mL/min) using a dedicated pipeline of the equipment.                           vation (a = 1). While the regression of the deactivation parameters was
+    Lastly, a Zeiss Merlin FE-SEM equipped with a Gemini II column and             performed by considering all the time-dependent terms of the balance
+a FEI Tecnai F20ST TEM were employed to investigate in more detail the             equations.
+morphology of the catalyst. In addition, both instruments are equipped
+with an EDS detector to determine the elemental composition of specific
+
+
+
+
+                                    Fig. 3. Conceptual flowchart of the kinetic model fitting and optimization algorithms.
+
+                                                                               6
+F. Celoria et al.                                                                                                                       Chemical Engineering Journal 512 (2025) 162113
+
+
+2.2.2. Thermodynamic and transport properties                                                       nH ,2       (                  )
+    In this work, the gas mixture was treated as ideal. Gas phase ther­                        k2 ⋅pH22                     Q2
+                                                                                    r2 =                    n         1−               PL with CO∗ inhibition (PL − COI)          (7)
+mochemistry data were estimated according to the Shomate equation                          1 + KCO,2 ⋅pCO
+                                                                                                        CO,2
+                                                                                                                           Keq,2
+[38], while the reaction thermodynamic properties were evaluated ac­
+                                                                                                    nCO ,3      (                  )
+cording to the Hess’ law. As far as the properties of the gas mixture, the                     k3 ⋅pCO22                    Q3
+                                                                                    r3 =                nH ,3 ⋅       1−               PL with H∗ inhibition (PL − HI)            (8)
+Wassiljewa model was used to estimate the thermal conductivity of the                      1 + KH2 ,3 ⋅pH22                Keq,3
+gas mixture [41,42], while its dynamic viscosity was obtained using the
+Reichenberg model [39,40]. Binary diffusion coefficients were deter­                The reaction quotients of each reaction are specified in equation (9) for
+mined according to the Chapman-Enskog theory and the diffusivity of a               the CO2 methanation, in equation (10) for the CO methanation and in
+species in the gas mixture was approximated using the Wilke model                   equation (11) for the RWGS reaction.
+[37,40]. The intraparticle effective diffusivity was estimated according
+to the Bosanquet correlation considering both molecular and Knudsen                         pCH4 ⋅p2H2 O
+                                                                                    Q1 =                                                                                          (9)
+diffusion coefficients [37]. All those correlations are exhaustively                        pCO2 ⋅p4H2
+described in Section 4 of the Supporting Information File.
+                                                                                            pCH4 ⋅pH2 O
+    Both external and internal mass and heat transport criteria were                Q2 =                                                                                        (10)
+verified before finding the intrinsic kinetic parameters and ensured that                    pCO ⋅p3H2
+the experimental data were not affected by transport limitations. These
+                                                                                            pCO ⋅pH2 O
+criteria are described in Section 5 of the Supporting Information File.             Q3 =                                                                                        (11)
+                                                                                            pCO2 ⋅pH2
+Moreover, in Supplementary Table S9, the characteristics of the reactor
+and of the catalyst are summarized.                                                 In addition, the Arrhenius-type kinetic constants and the van’t Hoff-type
+                                                                                    adsorption constants were evaluated according to equations (12) and
+2.2.3. Power-law kinetic models                                                     (13), respectively.
+    Power-law (PL) kinetic expressions were the first to be considered to                          [      (       )]
+describe the methanation process. Firstly, equation (6) describes the CO2                             EA,α 1 1
+                                                                                    kα = kα,T0 ⋅exp −        −                                           (12)
+hydrogenation to methane (PL-CO2). Secondly, equation (7) describes                                     R T T0
+the CO hydrogenation to methane considering the inhibiting effect of                                    [       (      )]
+CO* species during CO methanation (PL-COI). Thirdly, equation (8)                                          ΔHi,α 1 1
+                                                                                    Ki,α = Ki,T0 ,α ⋅exp −         −                                                            (13)
+describes the RWGS reaction and it was formulated to consider the                                           R     T T0
+inhibiting effect of adsorbed H* species on the catalytic active sites (PL-
+HI).                                                                                2.2.4. LHHW kinetic models
+                       (         )                                                     Five different LHHW kinetic models were obtained by considering
+          nCO ,1 nH ,1      Q1
+r1 = k1 ⋅pCO22 ⋅pH22 ⋅ 1 −         PL for CO2 methanation (PL − CO2)                the reaction steps listed in Table 2. Models M1 and M2 were derived
+                           Keq,1                                                    according to the literature [16,20,26]; while the following assumptions
+                                                                        (6)         were made for models M3, M4 and M5: energy uniformity of active sites,
+                                                                                    monomolecular adsorbed layer, negligible interactions between
+
+
+Table 2
+Reaction steps considered for the derivation of the five LHHW models (M1–M5).
+                Reactions                  M1 (Koschany et al. [20])    M2 (Quindimil et al. [26])                M3 (Schmider et al. [24])             M4               M5
+
+  (1)           H2 (g) + * ⇄H*2            Quasi-equilibrium            Low coverage                              Reversible                            Reversible       Reversible
+  (2)           H*2 + * ⇄2H*               Quasi-equilibrium            Quasi-equilibrium                         Reversible                            Reversible       Reversible
+  (3)           CO2 (g) + * ⇄CO*2          −                            −                                         Reversible                            Reversible       Reversible
+  (4)           CO2 (g) + OH* ⇄HCO*3       −                            Quasi-equilibrium                         −                                     −                −
+  (5)           CO(g) + * ⇄CO*             −                            −                                         −                                     −                Reversible
+  (6)           CO2 (g) + 2* ⇄CO* + O*     Quasi-equilibrium            −                                         −                                     Reversible       −
+  (7)           CO*2 + H* ⇄COOH* + *       −                            −                                         Reversible                            Reversible       −
+  (8)           CO*2 + H* ⇄CHO* + O*       −                            ¡                                         ¡                                     ¡                RDS
+  (9)           CO*2 + * ⇄CO* + O*         −                            ¡                                         ¡                                     ¡                RDS
+  (10)          COOH* + * ⇄CO* + OH*       ¡                            ¡                                         RDS                                   RDS              ¡
+  (11)          HCO*3 + H* ⇄HCOO* + OH*    −                            Quasi-equilibrium                         −                                     −                −
+  (12)          HCOO* + * ⇄CO* + OH*       −                            RDS                                       −                                     −                −
+  (13)          CO* ⇄CO(g) + *             −                            Quasi-equilibrium                         Reversible                            Reversible       −
+  (14)          CO* + H* ⇄C* + OH*         ¡                            ¡                                         RDS                                   RDS              ¡
+  (15)          C* + H* ⇄CH* + *           −                            −                                         Reversible                            Reversible       −
+  (16)          CO* + H* ⇄CHO* + *         RDS                          RDS                                       ¡                                     RDS              RDS
+  (17)          CHO* + * ⇄CH* + O*         Low coverage                 Low coverage                              −                                     Reversible       −
+  (18)          CHO* + H* ⇄CH2 O* + *      −                            −                                         −                                     −                Reversible
+  (19)          CH* + H* ⇄CH*2 + *         Low coverage                 Low coverage                              Reversible                            Reversible       −
+  (20)          CH2 O* + * ⇄CH*2 + O*      −                            −                                         −                                     −                Reversible
+  (21)          CH*2 + H* ⇄CH*3 + *        Low coverage                 Low coverage                              Reversible                            Reversible       Reversible
+  (22)          CH*3 + H* ⇄CH*4 + *        Low coverage                 Low coverage                              Reversible                            Reversible       Reversible
+  (23)          CH*4 ⇄CH4 (g) + *          Low coverage                 Low coverage                              Reversible                            Reversible       Reversible
+  (24)          O* + H* ⇄OH* + *           Irreversible                 Low coverage                              −                                     Reversible       −
+  (25)          OH* + H* ⇄H2 O* + *        Quasi-equilibrium            Quasi-equilibrium                         Reversible                            Reversible       −
+  (26)          H2 O* ⇄H2 O(g) + *         Quasi-equilibrium            Low coverage                              Reversible                            Reversible       −
+  (27)          H2 (g) + O* ⇄H2 O(g) + *   −                            −                                         −                                     −                Reversible
+
+
+
+                                                                                7
+F. Celoria et al.                                                                                                                     Chemical Engineering Journal 512 (2025) 162113
+
+
+adsorbed particles, reversibility and validity of the mass action law.                coefficient that depends on many aspects: temperature, pressure, re­
+    Firstly, model M1 describes the reaction rate for the CO2 methana­                actions and physic-chemical interactions. The variation of the activity of
+tion, and it was formulated according to Koschany et al. [20]. Model M1               a catalyst could be described by using a deactivation kinetic expression
+predicts the CO2 adsorption and carbon–oxygen bond cleavage forming                   as reported in equation (25).
+CO* and its hydrogenation into formyl species (CHO). This model is only                                 [     (     )]
+                                                                                      da                 − Ed 1 1
+suitable to describe CO2 methanation without considering the formation                   = − kd,T0 ⋅exp      ⋅  −       ⋅f(C)⋅ad                           (25)
+                                                                                      dt                   R   T T0
+of gaseous CO. To overcome this limitation, models with at least two
+reactions are required to successfully describe the hydrogenation of both
+                                                                                      In this equation, f(C) is a function of the concentrations of the species
+CO2 and CO. Therefore, two models were derived by considering two
+                                                                                      that mainly affect the deactivation. In this work, the initial activity of the
+different reaction routes: the dissociative formyl mechanism (M2) [26]
+                                                                                      catalyst was assumed to be unitary, and all the reactions were consid­
+and the dissociative carbon mechanism (M3) [24]. On the one hand,
+                                                                                      ered equally affected by deactivation without changing the relative re­
+both models predict an H-assisted formation of CO* from CO2, pro­
+                                                                                      action rates. The catalyst under investigation can be affected by different
+ceeding via a formate (HCOO*) intermediate in model M2, and a
+                                                                                      deactivating phenomena: sintering, coking, oxidation and pollution.
+carboxyl (COOH*) intermediate in model M3. On the other hand, in
+                                                                                      These phenomena prevail under certain reaction conditions and should
+model M2, the hydrogenation of CO* occurs through the formation of a
+                                                                                      be described specifically for each case of study within the operating
+formyl species; while, in model M3, CO* dissociates forming C*. Lastly,
+                                                                                      conditions used for the tests.
+two different three-reactions models were derived: model M4 in­
+corporates both dissociative formyl and dissociative carbon mecha­
+                                                                                      2.2.6. Objective functions of the fitting algorithms
+nisms, while model M5 accounts for the formation of formyl (CHO*)
+                                                                                         The regression of the intrinsic kinetic parameters was performed by
+species from both CO2 and CO [14]. In addition, in both these models
+                                                                                      minimizing the objective function defined in equation (26), that is a
+CO2 adsorption occurs via an H-assisted pathway, but in model M4, the
+                                                                                      non-linear function of the residuals between experimental and modeled
+CO2 dissociative pathway was also considered. The kinetic expressions
+                                                                                      results.
+are given in Table 3, while their derivations are reported in Section S6 of
+the Supporting Information File.                                                                Nc (
+                                                                                             Ne ∑
+                                                                                             ∑                   )2
+                                                                                      FK =           yexp
+                                                                                                      i,j − yi,j
+                                                                                                             mod
+                                                                                                                                                                                (26)
+                                                                                              j=1   i=1
+2.2.5. Kinetic model of the deactivation
+   The deactivation of a catalyst could be described with an activity                      Similarly, the regression of the deactivation kinetic parameters was
+
+Table 3
+Reaction rate expressions for the LHHW-based kinetic models M1–M5.
+  Model                       Reaction                               Reaction rate expression                                                                            Equation
+                                                                                                      (              )
+  M1                          CO2 methanation                                                                 Q1                                                         (14)
+                                                                                       k1 ⋅p0.5   0.5
+                                                                                            CO2 ⋅pH2 ⋅ 1 −
+                                                                                                             Keq,1
+                                                                     r1 = (                                                        )2
+                                                                            1 + KH2 ⋅p0.5
+                                                                                      H2 + Kmix ⋅pCO2 + KOH ⋅pH2 O ⋅pH2
+                                                                                                      0.5                    − 0.5
+                                                                                                                 (             )
+  M2                          CO methanation                                                                             Q2                                              (15)
+                                                                                                 k2 ⋅pCO ⋅p0.5
+                                                                                                             H2 ⋅ 1 −
+                                                                                                                       Keq,2
+                                                                     r2 = [               (                    )                               ]2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 ⋅ 1 + KCO2 ⋅pCO2 + KOH ⋅pH2 O ⋅pH2 + KCO ⋅pCO
+                                                                                      0.5                                           − 0.5
+                                                                                                                 (             )
+                              RWGS                                                                                        Q3                                             (16)
+                                                                                                k3 ⋅pCO2 ⋅p0.5
+                                                                                                             H2 ⋅ 1 −
+                                                                                                                        Keq,3
+                                                                     r3 = [               (                    )                               ]2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 ⋅ 1 + KCO2 ⋅pCO2 + KOH ⋅pH2 O ⋅pH2 + KCO ⋅pCO
+                                                                                      0.5                                           − 0.5
+                                                                                                             (            )
+  M3                          CO methanation                                                                        Q2                                                   (17)
+                                                                                            k2 ⋅pCO ⋅p0.5
+                                                                                                        H2 ⋅ 1 −
+                                                                                                                   Keq,2
+                                                                     r2 = (                                                               )2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KC ⋅pCH4 ⋅pH2 + KCH4 ⋅pCH4
+                                                                                      0.5                                − 2
+                                                                                                             (            )
+                              RWGS                                                                                   Q3                                                  (18)
+                                                                                            k3 ⋅pCO2 ⋅p0.5
+                                                                                                        H2 ⋅ 1 −
+                                                                                                                    Keq,3
+                                                                     r3 = (                                                               )2
+                                                                            1 + K0.5  0.5
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KC ⋅pCH4 ⋅pH2 + KCH4 ⋅pCH4
+                                                                                                                         − 2
+                                                                                                                 (             )
+  M4                          CO2 methanation                                                                            Q1                                              (19)
+                                                                                        k1 ⋅pCO2 ⋅p1.5     − 1
+                                                                                                     H2 ⋅pH2 O ⋅ 1 −
+                                                                                                                       Keq,1
+                                                                     r1 = (                                                               )2
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KC ⋅pCH4 ⋅pH2 + KCH4 ⋅pCH4
+                                                                            1 + K0.5  0.5                                − 2
+                                                                                                             (            )
+                              CO methanation                                                                        Q2                                                   (20)
+                                                                                            k2 ⋅pCO ⋅p0.5
+                                                                                                        H2 ⋅ 1 −
+                                                                                                                   Keq,2
+                                                                     r2 = (                                                               )2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KC ⋅pCH4 ⋅pH2 + KCH4 ⋅pCH4
+                                                                                      0.5                                − 2
+                                                                                                             (            )
+                              RWGS                                                                                   Q3                                                  (21)
+                                                                                                        H2 ⋅ 1 −
+                                                                                            k3 ⋅pCO2 ⋅p0.5
+                                                                                                                    Keq,3
+                                                                     r3 = (                                                               )2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KC ⋅pCH4 ⋅pH2 + KCH4 ⋅pCH4
+                                                                                      0.5                                − 2
+                                                                                                               (            )
+  M5                          CO2 methanation                                                                         Q1                                                 (22)
+                                                                                             k1 ⋅pCO2 ⋅p0.5
+                                                                                                          H2 ⋅ 1 −
+                                                                                                                     Keq,1
+                                                                     r1 = (                                                                 )2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KH2 O ⋅pH2 O ⋅pH2 + KCH4 ⋅pCH4
+                                                                                      0.5                                    − 1
+                                                                                                              (            )
+                              CO methanation                                                                          Q2                                                 (23)
+                                                                                             k2 ⋅pCO ⋅p0.5H2 ⋅ 1 −
+                                                                                                                    Keq,2
+                                                                     r2 = (                                                                 )2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KH2 O ⋅pH2 O ⋅pH2 + KCH4 ⋅pCH4
+                                                                                      0.5                                    − 1
+                                                                                                            (            )
+                              RWGS                                                                                  Q3                                                   (24)
+                                                                                                k3 ⋅pCO2 ⋅ 1 −
+                                                                                                                   Keq,3
+                                                                     r3 = (                                                                 )2
+                                                                            1 + K0.5
+                                                                                 H2 ⋅pH2 + KCO ⋅pCO + KH2 O ⋅pH2 O ⋅pH2 + KCH4 ⋅pCH4
+                                                                                      0.5                                    − 1
+
+
+
+
+                                                                                 8
+F. Celoria et al.                                                                                                     Chemical Engineering Journal 512 (2025) 162113
+
+
+performed by defining the objective function as reported in equation               these three peaks are significantly less intense than those of the fresh
+(27) and minimizing it. The catalytic activity (ai,k ) was estimated ac­           sample. The semi-quantitative analysis performed on XRD diffracto­
+cording to equation (28).                                                          grams revealed that the mass fraction of NiO in the fresh sample is 32 wt
+       Ns ∑
+          Nt ∑
+             Nc (                     Ns ∑
+                                         Nt (
+                                                                                   %, whilst in the reduced sample about half of the NiO was reduced after
+       ∑                         )2   ∑                            )2
+FD =             aexp                        aexp                                  the activation procedure (14 wt% Ni, 13 wt% NiO).
+                  i,j,k − ai,j,k              CH4 ,j,k − aCH4 ,j,k      (27)
+                           mod                            mod
+                                    ≅
+       k=1     j=1   i=1                            k=1   j=1                          Fig. 4 displays the results of TEM microscopy conducted on the
+                                                                                   reduced catalyst. It is worth noting that the identified interplanar dis­
+              ri,k (t)   ṅout          in
+                            i,k (t) − ṅi,k (t)
+                                                                                   tances are consistent with those of metallic Ni and γ-Al2O3. In addition,
+ai,k (t) =             = out                                            (28)       as reported in Fig. 4 and in Fig. S7, STEM-EDS maps highlight the dis­
+             ri,k (t0 ) ṅi,k (t0 ) − ṅin
+                                        i,k (t0 )
+                                                                                   tribution of Ni particles in the samples that are present in the form of
+    The minimization was carried out using MATLAB with the Statistics              both dispersed nanoparticles and aggregates of larger particles.
+and Machine Learning ToolboxTM. The kinetic parameters were firstly
+estimated using a genetic algorithm and subsequently non-linear fitting            3.2. Intrinsic kinetic study
+routines were employed to minimize the solution in a narrow range.
+Among all measurements, outliers may distort the result of the regres­                Firstly, this section outlines the observations from the catalytic tests
+sion; thus, those with a Cook’s distance greater than 4/Ne were excluded           and then summarizes the kinetic parameters of the PL and LHHW kinetic
+[41].                                                                              models presented in the Methodology.
+
+3. Results and discussion                                                          3.2.1. Experimental observations
+                                                                                        The experimental results have been subdivided based on the influ­
+   The central section of this work seeks to provide the experimental              ence of the following parameters: residence time, partial pressures of H2,
+results of the catalytic tests performed on the 24 wt% Ni/Al2O3 catalyst,          CO2, CO and CH4. The different behaviors are shown in Fig. 5 where CH4
+the parameters of the intrinsic kinetic models and those of the deacti­            yield as a function of temperature is shown for tests conducted at 5 bar,
+vation rate expressions. In addition, it presents the characterizations of         while in Section 8 of the Supporting Information File, a more detailed
+some specific samples to corroborate the experimental and modeled                  comparison is shown considering also the tests at 15 bar. Since CO2 and
+results.                                                                           CO methanation reactions reduce the total number of moles, by Le
+                                                                                   Chatelier principle, an increase in the pressure of the system shifts the
+3.1. Characterization of the catalyst                                              equilibrium favoring CH4 production. Besides it, those reactions are
+                                                                                   extremely exothermic, provoking a non-negligible increase of the tem­
+    This section reports the results of characterization techniques per­           perature in the reactor at high conversions. Hence, conversions close to
+formed on the catalyst focusing on the fresh and reduced sample. The               thermodynamic equilibrium were reached in tests at high pressure and
+analysis of the samples at the end of the stability test with CO2/H2               low flow rates. These experimental points were excluded from the ki­
+reactant mixture (see Table S4, test S3), with CO/H2 reactant mixture              netic regression because they were not represented by the model
+(see Table S4, test S5), and at the end of the H2S poisoning test are re­          assumptions.
+ported in paragraph 3.3.                                                                As previously described, the test conditions were divided into three
+    The main outcomes of the N2 physisorption analyses conducted on                groups: CO2 methanation, CO methanation and CO-CO2 co-
+the fresh and reduced Ni/Al2O3 catalyst are reported in Fig. S2. The fresh         methanation. For all conditions of group I (see Table S1), the CH4
+catalyst exhibited a SSABET of 87.2 m2⋅g− 1, a total pore volume of 0.241          selectivity was always higher than 95 % up to temperatures close to
+cm3⋅g− 1. After the reduction procedure, the SSABET and the total pore             400 ◦ C, while the CO yield remained below 5 %. Concerning the tests of
+volume decreased to 85.4 m2⋅g− 1 and 0.202 cm3⋅g− 1, respectively. In              group II (see Table S2), the CO2 yield did not exceed 1 %, obtaining a
+addition, as can be seen in Fig. S2 a), the amount of nitrogen adsorbed by         CH4 selectivity close to 100 %. This means that the WGS reaction is not
+the two samples is very similar. These results demonstrate that the                favored. A similar result was obtained by Mohan et al. [14], which have
+activation treatment did not cause severe particle sintering. Fig. S2 b)           conducted a DFT analysis on a Ni (111) surface, investigating the CO2
+shows the pore size distribution of both samples that exhibit a maximum            methanation reaction mechanism. They have determined that CO ad­
+around 12 nm.                                                                      sorbs on the surface forming the CO* carbonyl group and that the energy
+    The H2-TPR analysis (Fig. S3) demonstrates that the reduction of the           required to form the CO2* complex is greater than the energy required
+catalyst starts at 300 ◦ C and that the maximum signal is centered at              for the hydrogenation of CO*.
+540 ◦ C. Based on the consumed amount of H2, it is possible to quantify                 Considering the variation of the residence time for the group I tests, if
+the amount of NiO in the catalyst, which is 26 wt% NiO, a value                    it increases both the CO2 conversion and the CH4 yield rise, approaching
+consistent with the nominal mass fraction (24 wt% of Ni). The activation           to the equilibrium with the lowest flow rate (30 NL/h) around 400 ◦ C at
+protocol involves reducing the material to 315 ◦ C to avoid sintering of           5 bar and above 350 ◦ C at 15 bar (see Fig. S8). In addition, reducing the
+the active phase particles. The reduction of the sample at mild condi­             residence time, the CO selectivity increases, meaning that CO is most
+tions is facilitated by the high H2 partial pressure (7 bar) and the long          likely an intermediate species in the reaction mechanism. On the con­
+treatment time (24 h).                                                             trary, the variation of the residence time did not affect the CH4 yield in
+    The morphology of the fresh catalyst was investigated through SEM              CO methanation experiments (group II) as can be seen in Fig. S9. This
+microscopy (Fig. S4). The average size of NiO particles is 200 nm, with            phenomenon was ascribed to the high affinity between the catalyst
+some of them reaching 15 nm. Fig. S5 shows the SEM analysis carried                surface and CO, which is promptly adsorbed on it.
+out on the reduced sample. It is worth observing that the remaining O is                The increase of the CO2 partial pressure in group I experiments (see
+present in the support and almost absent in the Ni, meaning that the               Fig. S10) caused a decrease of the CH4 yield in under-stoichiometric
+activation procedure reduced the NiO. The morphology and the particle              conditions (H2/CO2 < 4) and an increase in over-stoichiometric condi­
+size did not change significantly, confirming that the activation pro­             tions (H2/CO2 > 4). Despite the difference observed in CH4 yield, the
+cedure reduced NiO without causing severe sintering of the active phase.           CH4 formation rate remained almost unchanged as the partial pressure
+The structure of the catalyst was further investigated by XRD analysis.            of CO2 changed. This result agrees with the literature, which also reports
+Compared to the EDS results of the SEM analysis, it can be observed in             a weak dependence on the CO2 partial pressure [7].
+Fig. S6 that NiO is still present in the reduced sample, as evidenced by                Analogously, in group II, the reduction of the CO partial pressure
+the presence of the peaks located at 37.2◦ , 43.3◦ and 62.9◦ . However,            causes an increased CH4 yield (see Fig. S11). Similar CH4 production
+
+                                                                               9
+F. Celoria et al.                                                                                                      Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+Fig. 4. (a, b) HR-TEM images of the reduced catalyst highlighting the fringes identified in the sample (magnification: (a) 500 kX and (b) 390 kX). (c) HAADF-STEM
+and (d-g) EDS maps of a particle of the reduced catalyst (magnification: 33 kX).
+
+
+rates were experimentally observed with a very high over-stoichiometric              when CO started also to be formed by RWGS reaction at higher tem­
+H2/CO ratio (i.e., 6.7 and 10), while it decreased with a H2/CO ratio                peratures. Both the CH4 formation rate (CO methanation reaction) and
+equal to 4. This may indicate an inhibiting effect of CO which competes              the CO formation rate (RWGS reaction) increased above 360 ◦ C.
+with the H2 adsorption and dissociation. Since CO adsorption is favored,
+a high CO concentration implies that most of the catalytic active sites are          3.2.2. Mass and heat transport criteria
+occupied by the CO* species and therefore H2 struggles to adsorb.                        The mass and heat transport criteria were verified, and among all the
+    Different effects of H2 partial pressure were observed depending on              907 experimental observations, 22 of them did not meet the internal
+the experiment (see Fig. S12). In group I, an increase of the H2 partial             heat transport criterion (Anderson criterion), while the other three
+pressure caused an increase of both the CH4 yield and the CH4 formation              criteria (Mears criteria and Weisz-Prater criterion) were always verified.
+rate. In contrast, the effect of H2 partial pressure is less evident in group        These 22 experimental trials, characterized by high reaction tempera­
+II, where there were no significant changes in the CH4 formation rate                tures and conversions, were discarded from the simulation results.
+(see Fig. S13).
+    The effects of the CH4 partial pressure were also investigated in                3.2.3. Power-law kinetic results
+group I and group II. The tests revealed that CH4 behaves like an inert:                Moving on now to the results obtained from the regression model
+an initial CH4 concentration in the reactant mixture did not affect CO2              using Power-law kinetics, parity plots for groups I and II are shown in
+and CO conversion. However, there may be deposition of solid carbon on               Fig. 7. On the one hand, PL-CO2 and PL-HI kinetic models describe only
+the catalytic sites above 400 ◦ C due to methane cracking reaction [9].              the tests of group I, and specifically the CO2 methanation and the RWGS
+    Lastly, the co-methanation of CO2 and CO was also investigated on                reaction. On the other hand, PL-CO describes the CO methanation
+the catalyst. What stands out in Fig. 6 is that a competitive adsorption             neglecting the WGS reaction. The kinetic parameters of the power-law
+phenomenon was witnessed. The catalyst has been proved to have a                     models are given in Table 4, together with a confidence interval of 95 %.
+greater affinity for CO, that preferentially adsorbs on the catalytic sites.            Regarding the CO2 methanation (group I), activation energies be­
+By decreasing the CO concentration, the CO2 adsorption and conversion                tween 70 and 90 kJ/mol are reported in the literature by employing Ni/
+did not improve, meaning that the competitive adsorption occurs also at              Al2O3 catalysts [20–22,42]. A slightly lower value, as in our case, may
+low CO molar fraction (around 1.1 mol.%). As expected, CO conversion                 suggest higher catalyst activity. In the PL kinetic expression, nCO2 is two
+rose since it was not at equilibrium (Fig. 6.b). However, at low CO molar            orders of magnitude lower than nH2 , highlighting the weak dependence
+fraction (1.1 mol.%) the CO conversion progressively slowed down                     on a change in CO2 partial pressure. A kind of inhibitory effect by
+
+                                                                                10
+F. Celoria et al.                                                                                                        Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+Fig. 5. CH4 yield at 5 bar as temperature changes, considering the effect of: (a) residence time with mixture CO2/H2/N2 = 1/4/10; (b) residence time with mixture
+CO/H2/N2 = 1/4/10; (c) CO2 partial pressure with CO2/H2/N2 gas mixture, flow rate 60 NL/h, H2 molar fraction of 53.3 %; (d) CO partial pressure with CO/H2/N2
+gas mixture, flow rate 90 NL/h, H2 molar fraction of 40.0 %; (e) H2 partial pressure with CO2/H2/N2 gas mixture, flow rate 60 NL/h, CO2 molar fraction of 6.7 %; (f)
+H2 partial pressure with CO/H2/N2 gas mixture, flow rate 90 NL/h, CO molar fraction of 6.7 %.
+
+
+hydrogen in RWGS reaction was also determined by Morosanu et al.                     3.2.4. LHHW kinetic results
+[22] who found an inverse proportionality relationship between the CO                    As far as the proposed LHHW kinetic models (M1 to M5) are con­
+formation and the H2 partial pressure. It is worth noting that CO yield is           cerned, those that allow the experimental observations to be described
+about one order of magnitude lower than CH4 yield because the                        are the models M2, M3, M4 and M5. Model M1 has been omitted from
+desorption of CO is an unfavored process.                                            the following discussion, as it is already widely described in literature
+   On the contrary, for the CO methanation reaction (group II), high                 [20] and can only describe CO2 methanation without considering the
+CH4 yields were not achieved to make thermal control easier and not end              RWGS reaction. The reaction steps proposed by model M1 were taken
+up at equilibrium. Although Power-law kinetics provide a good                        for the derivation of model M4. Among all the 907 observations, 22 of
+description of individual groups of reaction conditions, they could not              them were excluded through the Anderson criterion, while 41 points
+be combined and are unable to describe CO2 and CO co-methanation                     were considered as outliers due to their high value of the Cook’s distance
+(group III) because of the competitive adsorption and the CO inhibi­                 [41]. Considering that 8 points did not verify both constraints, a total of
+tory effect.                                                                         55 trials were discarded and 852 experimental observations were
+
+
+                                                                                11
+F. Celoria et al.                                                                                                          Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+Fig. 6. CO2 (a) and CO (b) conversion varying the CO partial pressure and the temperature by feeding 90 NL/h at 5 bar, 40.0 vol% H2 and 3.3 vol% CO2 in N2.
+
+
+
+
+Fig. 7. Parity plots comparing experimental and modeled CH4 yield (a) and CO yield (b) for group I (CO2 methanation), and parity plot comparing the experimental
+and modeled CH4 yield (c) for group II (CO methanation).
+
+
+
+Table 4
+Fitted kinetic parameters of the power law kinetic models assuming the reactor isothermal.
+                        CO2 methanation (PL-CO2)                 RWGS (PL-HI)                        CO methanation (PL-COI)                    Unit
+
+  kα,T0                 (1.32 ± 0.01)⋅10− 1                      (1.61 ± 0.18)⋅10− 2                 (3.33 ± 0.30)⋅10− 1                        molkg− 1 s− 1 bar− (nCOx +nH2 )
+  EA,α                  55.4 ± 0.3                               105 ± 4                             105 ± 7                                    kJmol− 1
+  nCO2 ,α               (5.20 ± 2.06)⋅10− 3                      (3.75 ± 0.50)⋅10− 1                 −                                          −
+  nH2 ,α                (2.19 ± 0.05)⋅10− 1                      3 ± 0.19                            (2.03 ± 0.61)⋅10− 1                        −
+  nCO,α                 −                                        −                                   (4.18 ± 1.46)⋅10− 2                        −
+  KH2 ,T0               −                                        (4.09 ± 2.07)⋅10− 3                 −                                          bar− 3
+  ΔHH2                  −                                        50.4 ± 7.6                          −                                          kJmol− 1
+  KCO,T0                −                                        −                                   2.42 ± 0.17                                bar− 0.042
+  ΔHCO                  −                                        −                                   50.9 ± 8.9                                 kJmol− 1
+
+
+
+employed for the regression of the kinetic parameters of the four models.              worst results during the regression, meaning that the actual reaction
+     The parity plots of the CH4 yield obtained considering all experi­                mechanism is different from the one hypothesized. The average value of
+mental observations are reported in Fig. 8. Among the four models,                     the residuals of the CH4 yield is equal to 0.0236 for both M2 and M3
+model M4 allows a better description of the competitive adsorption                     models, but the median value of model M3 (0.0155) is greater than the
+phenomenon observed during the co-methanation of CO2 and CO (group                     one of model M2 (0.0147). This may suggest that the mechanism of
+III) and of the influence of the operating pressure in the CO methanation              model M2 represents the different groups of tests better than model M3.
+tests (group II). This model fairly underestimates the experimental                       Lastly, the average value of the residuals of the CH4 yield of model
+points near equilibrium; however, it provides a significantly better                   M4 resulted 0.0193 and the median value of their distribution was
+estimation of the results in the kinetic regime compared to models M2,                 0.0114. Hence, model M4 was considered the best kinetic model for
+M3 and M5. In more detail, the total sum of the quadratic residuals of the             representing the CO2 and CO methanation on the Ni/Al2O3 catalyst
+CH4 yield was 1.094, 1.001, 0.972 and 0.806 for models M5, M2, M3                      under all reaction conditions. A more detailed comparison between
+and M4, respectively. In addition, the standard deviation of the distri­               models M3 and M4 is reported in Fig. S14 accentuating the attention on
+butions of those residuals decreases from 0.0301 for model M5 to 0.0238                the three groups of operating conditions. Regarding CO2 hydrogenation,
+for model M4 as can be clearly observed in Fig. 8. Model M5 gave the                   model M4 fairly underestimates the CH4 yield; however, it predicts
+
+                                                                                 12
+F. Celoria et al.                                                                                                   Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+  Fig. 8. Parity plots comparing experimental and modeled CH4 yield obtained with models M2 (a), M3 (b), M4 (c) and M5 (d) considering the whole dataset.
+
+
+significantly better the CO hydrogenation as well as the CO2 and CO co-               On the one hand, considering only CO2 hydrogenation experiments
+methanation processes. In fact, model M3 fails to accurately predict CH4          (group I), an inhibiting effect of H* species was present, suggesting that
+yield, underestimating results at low pressure and overestimating those           the H-assisted associative CO2 adsorption mechanism should be
+at high pressure. The accuracy of the different models in predicting the          preferred with respect to the dissociative CO2 adsorption mechanism,
+obtained results could help us draw some hypotheses on the prevailing             which requires two free active sites. Hence, under these reaction con­
+mechanisms concerning the complex interplay between species in the                ditions, the concentration of H* species is greater than the concentration
+investigated conditions of CO2 methanation, CO methanation, CO2 and               of CO* species favoring all hydrogenation reactions. Moreover, no hy­
+CO co-methanation.                                                                drocarbons were detected by the GC in any tests of group I and, as it will
+    Based on the obtained results, CO2 could adsorb either associatively          be presented in the following paragraphs, the catalyst did not seem to be
+by forming COOH* or dissociatively by forming CO* and O*. Moreover,               affected by coking during CO2 methanation. Therefore, it is likely that,
+CO* was chosen as the reaction intermediate for both CO2 and CO                   with the composition adopted for the experiments, CO* is hydrogenated
+methanation as it is the most thermodynamically favored species on the            forming a formyl (HCO*) species before dissociating into CH* and O*,
+surface of Ni sites [14]. It was assumed that CO2 converts first to CO via        instead of decomposing and forming C* species.
+RWGS reaction and then CH4 formation occurs through hydrogenation                     On the other hand, if the partial pressure of CO is high, as for the CO
+of CO* species. Different mechanisms for CO2 adsorption and CO* hy­               hydrogenation tests (group II) or for the CO2 and CO co-methanation
+drogenation to CH* have been considered depending on several aspects:             tests (group III), CO* is expected to be the most abundant species on
+concentration of CO2 and H2, reaction conditions, availability of active          the catalyst surface due to the exergonic CO adsorption process. This
+sites and surface species. According to the literature, Quindimil et al.          phenomenon explains both the inhibiting effect of CO and the compet­
+[26] have proposed the H-assisted CO formation mechanism. CO2 is                  itive adsorption process observed varying the reaction conditions. The
+molecularly chemisorbed on superficial –OH groups of Al2O3 support                high CO* coverage probably competes also with the H2 adsorption
+forming bicarbonates (HCO3*). After that, bicarbonates react with                 process, limiting H* coverage. Hence, the abundance of superficial CO*
+dissociated H2 leading to the formation of formate species (HCOO*)                species favors the dissociative carbon pathway leading to the formation
+which are decomposed into OH* and CO*. Then carbonyl groups can                   of C* species. Consequently, as explained in the next paragraphs, C* led
+desorb from the catalytic surface releasing CO, or they can be hydro­             to the formation of nickel carbides and coking.
+genated leading to the formation of CH4.                                              In conclusion model M4 can describe all the mentioned phenomena,
+
+
+                                                                             13
+F. Celoria et al.                                                                                                                  Chemical Engineering Journal 512 (2025) 162113
+
+
+and the kinetic parameters are given in Table 5 together with the kinetic                 activity was measured. As shown in Fig. 10, an exposure to 200 ppm
+parameters obtained for models M2 and M3. The confidence interval is                      H2S/CH4 for 160 min is sufficient to almost completely poison the
+                                                            ⎛ 0 ⎞
+                                                              Δ̃
+                                                               Si,T ⎟                     catalyst, which exhibited a residual CO2 conversion lower than 5 % at
+95 % and the thermodynamic constrains (0 ≤ Ki,T0 ≤ exp⎜     ⎝ R 0 ⎠) on                   400 ◦ C. The deactivation occurred because H2S binds on the active sites
+                                                                                          of the catalyst according to the reaction reported in equation (29).
+the pre-exponential factor of the van’t Hoff expression have been always
+verified for all adsorbed species.                                                        H2 S + Ni⇌Ni − S + H2                                                             (29)
+    A sensitivity analysis on the kinetic parameters of model M4 was
+                                                                                              As summarized in Table 6, during the H2S adsorption test, 164 mmol
+performed to illustrate the influence of the kinetic parameters on the
+                                                                                          kg− 1 of H2S were adsorbed, so considering the residual activity of the
+objective function. As shown in Fig. S15, it is significantly affected by
+                                                                                          catalyst, the total concentration of active sites is 175 mmol kg− 1.
+the kinetic parameters of the CO2 methanation and moderately affected
+                                                                                              Moreover, according to equation (30), the Ni dispersion in the fresh
+by those describing RWGS reaction and CO methanation. Regarding the
+                                                                                          pre-reduced catalyst resulted equal to 4.3 %; while according to equa­
+adsorption group, the objective function is mainly affected by the pre-
+                                                                                          tion (31), the volume-area mean diameter of the Ni particles in the fresh
+exponential factor related to the H2 adsorption term. These results are
+                                                                                          pre-reduced catalyst is about 25 nm.
+consistent with those in the literature [22]. Lastly, Fig. 9 shows the
+parity plots for model M4 of the molar fractions of CO2, CO, CH4 and H2                           Ns,Ni          MNi
+                                                                                          DNi =         = Ns,Ni ⋅                                                           (30)
+exiting the reactor. What stands out from the figure is that there is a                           Nt,Ni           wNi
+strict correlation between the experimental and the modeled molar
+fractions. The highest inaccuracy is linked to the measurement of H2                                  6⋅vm,Ni    6 MNi nNi
+                                                                                          dVA,Ni =             =   ⋅       ⋅                                                (31)
+concentration because helium is used as carrier gas in the GC and the                                DNi ⋅am,Ni DNi ρNi ⋅NA a2Ni
+sensibility of the TCD is slightly lower. However, the gas analyzer was
+used to double-check its concentration in the gas stream.                                 Analyzing the elemental composition of the H2S poisoned catalyst, the
+                                                                                          EDS measurement (Fig. S16) revealed that sulfur is uniformly present on
+                                                                                          the surface of the catalyst (0.3 wt%). Due to the small amount of
+3.3. Stability and deactivation results
+                                                                                          adsorbed sulfur, the XRD measurement (see Fig. S6) did not reveal the
+                                                                                          presence of NiS.
+    So far, this article focused on the modelling of the intrinsic kinetics of
+CO and CO2 hydrogenation to methane over the 24 wt% Ni/Al2O3
+                                                                                          3.3.2. CO2 hydrogenation
+catalyst. The following section will discuss the results of the deactivation
+                                                                                              Starting from the first group of stability tests (i.e., ST1, ST2 and ST3),
+tests performed on this catalyst to evaluate its resistance to temperature,
+                                                                                          the deactivation rate of the catalyst at different reaction temperatures (i.
+gas composition and contaminants that could be present in the feed.
+                                                                                          e., 425 ◦ C, 350 ◦ C and 470 ◦ C, respectively) was analyzed. The gas
+Moreover, Power-Law kinetics models of the deactivation will be pre­
+                                                                                          mixture was kept stoichiometric or slightly over-stoichiometric to avoid
+sented and discussed. Biogas-derived CO2 or pyro-gas from pyrolysis or
+                                                                                          carbon deposition that, according to the literature, does not occur in CO2
+gasification may contain traces of light hydrocarbons (e.g., ethylene), O2
+                                                                                          methanation [22,30]. Fig. 11 illustrates the time-on-stream profile of the
+and H2S; thus, their effects were investigated. As previously stated, the
+                                                                                          CO2 conversion of the three tests; as expected, it is higher at elevated
+operative conditions of the stability tests are summarized in Table S4.
+                                                                                          temperatures, and it decreases over time with a deactivation rate
+                                                                                          accelerating at higher temperatures. During the tests as the CO2 con­
+3.3.1. H2S poisoning effect
+                                                                                          version diminished, the CO selectivity increased as well as the temper­
+    As far as the sulfur poisoning effect is concerned, an adsorption test
+                                                                                          ature rose because RWGS reaction is favored at high temperatures.
+with 200 ppm H2S/CH4 on the pre-reduced catalyst was performed.
+                                                                                              Activity tests performed before and after the stability tests revealed a
+After that, the comparison between the activity of the fresh and H2S-
+                                                                                          change in the activity that is mainly related to a reduction of active sites
+poisoned catalysts allowed the total number of active sites, the Ni par­
+                                                                                          and not to the change of the reaction mechanism. Therefore, the deac
+ticle size and the Ni dispersion to be estimated. Then the residual
+
+Table 5
+Fitted parameters for the LHHW kinetic models (M2, M3, M4, M5) considering the whole dataset.
+  Parameter                    Unit                     Model M2                      Model M3                          Model M4                          Model M5
+
+  k1,T0                        molkg− 1 s− 1 bar− 1.5   −                             −                                 (1.68 ± 0.36)⋅10− 2               (3.87 ± 0.27)⋅10− 1
+  k2,T0                        molkg− 1 s− 1 bar− 1.5   42.6 ± 0.3                    51.4 ± 1.1                        1.50 ± 0.01                       1.50 ± 0.01
+  k3,T0                        molkg− 1 s− 1 bar− 1.5   (9.43 ± 0.57)⋅10− 1           1.45 ± 0.05                       (1.19 ± 0.08)⋅10− 1               (3.08 ± 0.44)⋅10− 1(a)
+  EA,1                         kJ⋅mol− 1                −                             −                                 118 ± 4                           91.0 ± 5.0
+  EA,2                         kJ⋅mol− 1                22.2 ± 0.4                    44.3 ± 1.9                        54.9 ± 1.4                        65.4 ± 5.4
+  EA,3                         kJ⋅mol− 1                87.4 ± 2.0                    88.5 ± 1.2                        110 ± 3                           93.8 ± 7.7
+  KH2 ,T0                      bar− 1                   (1.82 ± 0.11)⋅10− 1           (3.17 ± 0.22)⋅10− 1               (5.00 ± 0.01)⋅10− 1               (1.71 ± 0.15)⋅10− 1
+  ΔHH2                         kJ⋅mol− 1                − 3.25 ± 0.29                  − 7.93 ± 2.42                     − 8.76 ± 0.20                     − 6.88 ± 0.16
+  KCOOH,T0                     bar− 1.5                 (9.76 ± 1.50)⋅10− 2           −                                 −                                 −
+  ΔHCOOH                       kJ⋅mol− 1                − 3.95 ± 0.34                 −                                 −                                 −
+  KOH,T0                       bar− 0.5                 (4.07 ± 0.39)⋅10− 2           −                                 −                                 −
+  ΔHOH                         kJ⋅mol− 1                − 51.4 ± 0.4                  −                                 −                                 −
+  KCO,T0                       bar− 1                   41.3 ± 0.2                    40.0 ± 0.01                       1.41 ± 0.04                       2.45 ± 0.19
+  ΔHCO                         kJ⋅mol− 1                 − 25.7 ± 0.5                 − 5.76 ± 1.54                     − 38.5 ± 0.9                       − 16.2 ± 0.84
+  KC,T0                        bar1                     −                             (1.99 ± 0.01)⋅10− 1               1.78 ± 0.09                       −
+  ΔHC                          kJ⋅mol− 1                −                             − 28.5 ± 4.0                       − 20.0 ± 0.7                     −
+  KCH4 ,T0                     bar− 1                   −                             (3.09 ± 0.09)⋅10− 1               (5.00 ± 0.01)⋅10− 1               (6.77 ± 1.32)⋅10− 2
+  ΔHCH4                        kJ⋅mol− 1                −                             12.6 ± 0.2                        18.8 ± 0.4                        40.9 ± 2.4
+  KH2 O,T0                     −                        −                             −                                 −                                 16.8 ± 3.2
+  ΔHH2 O                       kJ⋅mol− 1                −                             −                                 −                                 − 30.5 ± 0.7
+  (a) The unit is mol⋅kg− 1 ⋅s− 1 ⋅bar− 1
+
+
+                                                                                 14
+F. Celoria et al.                                                                                                         Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+Fig. 9. Parity plots for model M4 comparing the experimental and the modeled molar fractions at the reactor outlet for the following gas species: (a) CH4, (b) CO2 (c)
+CO and (d) H2.
+
+
+
+
+Fig. 10. (a) H2S adsorption profile on 450 mg Ni/Al2O3 catalyst (Conditions: 15 NL/h, 1 bar, 20 ◦ C, 200 ppm H2S/CH4) and (b) CO2 conversion at different reaction
+temperatures of the fresh pre-reduced and H2S-poisoned catalysts (Conditions: 75 mg of catalyst, 350 mg SiC, 60 NL/h, 5 bar, H2/CO2/N2 = 4/1/25).
+
+
+tivation was ascribed to thermal sintering that causes a reduction of the             nm and 36.2 nm for the deactivated catalyst at 350 ◦ C, 425 ◦ C and
+exposed Ni surface area and structural changes, as can be clearly seen                470 ◦ C, respectively.
+from the SEM images in Fig. S17. In fact, by estimating the average mean
+                                                                                                             kT ,fresh
+diameter of Ni particles according to equations (31) and (32), it                     dVA,spent = dVA,fresh ⋅ 0                                                   (32)
+                                                                                                             kT0 ,spent
+increased from 25 nm for the fresh pre-reduced catalyst to 27.3 nm, 33.4
+
+
+                                                                                 15
+F. Celoria et al.                                                                                                              Chemical Engineering Journal 512 (2025) 162113
+
+
+Table 6                                                                                      mitigated by the addition of CO2 (qCO2 ,1 < 0). X-ray data (see Fig. S6)
+Comparison between the characteristics of the reduced and the H2S-poisoned                   indeed indicate incomplete reduction of NiO, suggesting that H₂ also
+catalysts, by assuming a simple 1st order reaction rate for the CO2 methanation              drives a gradual structural rearrangement occurring during the test.
+reaction.                                                                                    However, under-stoichiometric gas mixtures were not investigated due
+  Material                            kT0                EA           Active sites           to coking, that was not modelled under these reaction conditions.
+                                            − 1   − 1          − 1
+  ​                                   mol s kg           kJ mol       mmol kg− 1
+  Fresh pre-reduced catalyst            5.85⋅10− 2             40.7   175                    3.3.3. CO hydrogenation
+    H2S-poisoned catalyst               3.90⋅10− 3             40.7   11                         Moving on now to consider the effects of a CO/H2 gas mixture, three
+                                                                                             different conditions were explored. As can be seen in Fig. 12a, consid­
+                                                                                             ering an over-stoichiometric gas mixture (H2/CO equal to 4), severe
+                                                                                             deactivation occurs at low temperature, that was ascribed to the for­
+                                                                                             mation of nickel carbides on the surface of the catalyst. Nickel carbides
+                                                                                             are active for the Fischer-Tropsch process and produce a lot of hydro­
+                                                                                             carbons lowering the methane selectivity [27]. According to the previ­
+                                                                                             ous results, as CO adsorption is an extremely favored process, the high
+                                                                                             CO* coverage improves the CO* dissociation forming C* species. Thus,
+                                                                                             C* species could diffuse in the nickel structure allowing nickel carbide to
+                                                                                             be formed instead of being hydrogenated into CH* species. By rising the
+                                                                                             temperature, the CO adsorption process is unfavored and the CO*
+                                                                                             coverage diminishes; as a result, methane is the most important product
+                                                                                             of the reaction and ethane is the only by-product, as can be seen in
+                                                                                             Fig. S18. On the contrary, in Fig. 12b, the stability of the catalyst was
+                                                                                             tested at stoichiometric H2/CO ratio equal to 3. This one was the worst
+                                                                                             operative condition due to a dramatic decline of the catalytic activity,
+                                                                                             meaning that the coking predominates and severely affects the catalyst
+                                                                                             reducing the concentration of H* species. Concerning the deactivation
+                                                                                             rate expression (see equation (34)), the apparent energy of activation for
+                                                                                             coking is negative, thus a higher temperature mitigates carbon deposi­
+                                                                                             tion while it accelerates thermal sintering. Moreover, the exponents of
+                                                                                             H2 and CO concentrations are both positive revealing a strong instability
+                                                                                             of the catalyst under such reducing atmospheres.
+                                                                                                                 [       (      )]
+                                                                                             da                   − Ed,2 1 1          qH ,2 qCO,2 d
+Fig. 11. Time-on-stream profile of the CO2 conversion at different reaction                     = − kd,2,T0 ⋅exp        ⋅   −      ⋅CH22 ⋅CCO    ⋅a                (34)
+                                                                                             dt                     R      T T0
+temperatures by feeding 60 NL/h at 5 bar with composition H2/CO2/N2 = 4/
+1/25.
+                                                                                             The sample aged at 330 ◦ C was characterized to investigate in more
+                                                                                             detail the causes of deactivation. Sintering phenomena occurred under
+   The deactivation rate under these three reaction conditions was                           reaction conditions as can be seen from SEM images reported in Fig. S19.
+described by means of equation (33) considering both the effect of H2                        In addition, EDS showed that carbon is uniformly present on the surface
+and CO2 concentration, that could be related to the H* or OH* and CO*                        of the sample. However, the diffractogram of the sample (Fig. S6) did
+adsorbed species, respectively.                                                              not reveal the presence of nickel carbides. There are three possible ex­
+da
+                   [        (
+                     − Ed,1 1 1
+                                   )]
+                                       qH ,1 qCO ,1
+                                                                                             planations to this fact: (i) the amount of nickel carbides is below the XRD
+   = − kd,1,T0 ⋅exp        ⋅   −     ⋅CH22 ⋅CCO22 ⋅ad             (33)                       detection limit (< 5 wt%), (ii) nickel carbides formed an amorphous
+dt                     R      T T0
+                                                                                             phase or (iii) they decomposed during the activity test performed to
+    As can be seen in Table 7, the pre-exponential factor (kd,1,T0 ) and the                 verify the residual activity of the sample after the stability test. The
+activation energy for sintering (Ed,1 ) are both lower than those reported                   latter seems to be the most plausible reason as nickel carbide (Ni3C)
+in the literature [22,27,30], meaning that the catalyst exhibited a good                     decomposes rapidly in H2-rich and CO-poor environments above 350 ◦ C
+resistance to thermal sintering. In addition, the deactivation order (d) is                  [43,44].
+significantly lower than those available in the literature [22,30], sug­
+gesting that the pre-treatment of the Ni/Al2O3 catalyst under H2 stabi­                      3.3.4. CO and CO2 co-methanation
+lized its structure without losing performance. Lastly, sintering is                            Besides the previous cases of study, the stability of the catalyst under
+promoted by a higher concentration of H2 (qH2 ,1 > 0), while it is                           CO-CO2 co-methanation conditions was investigated by varying the
+
+
+Table 7
+Fitted kinetic parameters of the deactivation rate assuming the reactor isothermal.
+  Parameter                    Unit                                     Value                                 Parameter                Unit                  Value
+
+  kd,1,T0                         (   )q +q                                                 − 7               qH2 ,1                                         0.49 ± 0.12
+                               1 m3 H2 ,1 CO2 ,1                        (1.16 ± 0.15)⋅10                                               −
+                                 ⋅
+                               s mol
+  kd,2,T0                         (   )q +q                                                                   qCO2 ,1                                         − 0.39 ± 0.32
+                               1 m3 H2 ,2 CO,2                          (9.87 ± 0.26)⋅10− 7                                            −
+                                 ⋅
+                               s mol
+  kd,3,T0                         (   )q +q                                                                   qH2 ,2                                         2.47 ± 0.14
+                               1 m3 H2 ,1 CO2 ,1 H2 ,2 CO,2
+                                                 +q   +q
+                                                                        (3.50 ± 0.75)⋅10− 10                                           −
+                                 ⋅
+                               s mol
+  Ed,1                         kJ⋅mol− 1                                35.4 ± 4.5                            qCO,2                    −                     2.88 ± 0.43
+  Ed,2                         kJ⋅mol− 1                                − 21.3 ± 1.6                          qC2 H4                   −                     9.34 ± 0.05
+  Ed,3                         kJ⋅mol− 1                                131 ± 12                              qO2                      −                     3.59 ± 0.11
+  d                            −                                        5.14 ± 0.05                           ​
+
+
+                                                                                       16
+F. Celoria et al.                                                                                                         Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+Fig. 12. Time-on-stream profiles of the CO conversion at different reaction temperatures by feeding 60 NL/h at 5 bar, varying the temperature (a) or the gas
+composition (b). For the sake of clarity, in figure (a) the composition is H2/CO/N2 = 4/1/25 and the temperature is 330 ◦ C (green) or 425 ◦ C (blue); while in figure
+(b) the temperature is 425 ◦ C and the two gas compositions are H2/CO/N2 = 4/1/25 (blue) and H2/CO/N2 = 3/1/25 (red). (For interpretation of the references to
+colour in this figure legend, the reader is referred to the web version of this article.)
+
+
+reaction temperature. As displayed in Fig. 13, both CO and CO2 con­                   possible contaminants present in pyro-gas deriving from pyrolysis or
+versions increased when rising the temperature and the CO conversion                  gasification that could deactivate the methanation catalyst. As can be
+remained always above the CO2 conversion, indicating a preferential                   clearly seen in Fig. 14, both ethylene and O2 worsened the stability of
+adsorption of CO on the catalytic sites compared to CO2. Therefore, the               the catalyst. On the one hand, ethylene was used as probe molecule to
+catalytic deactivation phenomena are comparable with the CO hydro­                    study the effects of light reactive hydrocarbons. It is worth noting that
+genation tests. However, the presence of CO2 seems to partially mitigate              the deactivation rate (see Eq. (36)) slightly increased in the presence of
+deactivation, in fact, at low temperature (350 ◦ C), only a small con­                800 ppm of C2H4. Under reaction condition ethylene was completely
+centration of ethane (40 ppm) was detected as a byproduct and no                      converted to ethane (39 %) and methane (61 %). The additional deac­
+heavier hydrocarbons were noticed. The deactivation rate (see Eq. (35))               tivation phenomenon was ascribed to the ethylene decomposition into
+remained quite high and became more significant by increasing the                     methane and solid carbon that caused coking [19]. On the other hand,
+temperature and the H2 and CO concentrations.                                         O2 presence (1400 ppm) led to an additional deactivation phenomenon
+                   [        (      )]                                                 that was ascribed to highly exothermic hydrogenation of O2 to water,
+da                   − Ed,3 1 1        qH ,1 +qH2 ,2   qCO ,1 qCO,2 d
+   = − kd,3,T0 ⋅exp        ⋅   −     ⋅CH22           ⋅CCO22 ⋅CCO   ⋅a (35)            which favored the sintering process (see Eq. (37)). Hence, the concen­
+dt                     R      T T0
+                                                                                      tration of both contaminants should be minimized to preserve the ac­
+                                                                                      tivity of the catalyst.
+3.3.5. O2 and ethylene effects                                                                            [       (      )]
+   Light hydrocarbons, such as ethylene (C2H4), and O2 could be                       da                   − Ed,1 1 1         qH ,1 qCO ,1 (             )q
+                                                                                         = − kd,1,T0 ⋅exp        ⋅   −      ⋅CH22 ⋅CCO22 ⋅ 1 + CC2 H4 ,in C2 H4 ⋅ad
+                                                                                      dt                     R      T T0
+                                                                                                                                                                  (36)
+                                                                                                          [       (      )]
+                                                                                      da                   − Ed,1 1 1         qH ,1 qCO ,1 (          )q
+                                                                                         = − kd,1,T0 ⋅exp        ⋅   −      ⋅CH22 ⋅CCO22 ⋅ 1 + CO2 ,in O2 ⋅ad
+                                                                                      dt                     R      T T0
+                                                                                                                                                                  (37)
+
+                                                                                      3.3.6. Deactivation rate parameters
+                                                                                          In Table 7 are summarized all the parameters fitted for the deacti­
+                                                                                      vation rates with a confidence interval of 95 %. In addition, Fig. S20
+                                                                                      displays the comparison between the experimental and modeled activity
+                                                                                      for all the ten deactivation tests presented in the previous paragraphs. It
+                                                                                      is worth highlighting that the observed evolutions of the activity in
+                                                                                      Fig. S20 are affected not only by the mentioned temperature-related
+                                                                                      deactivation mechanisms, but they also depend on the different reac­
+                                                                                      tant concentrations during the tests, which affected by the temperature
+                                                                                      as well.
+
+                                                                                      3.3.7. Operative map
+                                                                                          From a pragmatic point of view, the results of the deactivation tests
+                                                                                      and of the simulations could be summarized in an operative map high­
+                                                                                      lighting the deactivation constants for a simple 1st order deactivation
+                                                                                      rate, that can be used to set boundaries on the operative conditions to
+                                                                                      minimize catalyst deactivation. As can be seen in Fig. 15, it is worth
+Fig. 13. Time-on-stream profiles of both CO and CO2 conversion during co-             noting that in CO2 methanation the catalyst degradation is minor below
+methanation at two reaction temperatures (350 ◦ C and 425 ◦ C) by feeding 60          350 ◦ C, while above this temperature the deactivation is increasingly
+NL/h at 5 bar with a gas composition equal to H2/CO/CO2/N2 = 8/1/1/50.
+
+                                                                                 17
+F. Celoria et al.                                                                                                      Chemical Engineering Journal 512 (2025) 162113
+
+
+
+
+Fig. 14. Time-on-stream profiles of the activity of the Ni/Al2O3 catalyst at two different reaction temperatures by feeding 60 NL/h at 5 bar considering (a) C2H4
+contamination (H2/CO2/N2/C2H4 = 4/1/24.96/0.04) and (b) O2 contamination (H2/CO2/N2/O2 = 4/1/24.86/0.14). For the sake of clarity, the gas composition of
+the reference test was (H2/CO2/N2 = 4/1/25).
+
+
+
+
+                                                  Fig. 15. Operative map summarizing the deactivation rates.
+
+
+relevant. This suggests limiting the hot spots in full-scale reactors. On           4. Conclusions
+the contrary, in CO hydrogenation, not necessarily the lowest temper­
+atures are better, since some by-products (hydrocarbons from C2 to C5)                  A comprehensive study on the kinetic modeling and deactivation
+form at 350 ◦ C while are negligible at 425 ◦ C. Moreover, over-                    rates has been carried out on a 24 wt% Ni/Al2O3, suitable for converting
+stoichiometric H2/CO ratios improve considerably the stability of the               both CO2 and CO into CH4. Firstly, the intrinsic kinetics and the corre­
+catalyst with respect to stoichiometric ones, for which coke formation              sponding kinetic parameters were obtained, considering an isothermal
+occurs in addition to thermal degradation, leading to a relatively fast             reactor, for Power-Law and LHHW-type kinetic expressions. On the one
+deactivation. This suggests performing CO methanation at medium                     hand, Power-Law kinetic models provide a good description of the
+temperatures (around 425 ◦ C) and over-stoichiometric H2/CO ratios to               experimental datasets in which H2/CO2 and H2/CO gas mixtures are
+preserve the catalyst from fast sintering and coking. In the third                  individually fed to the reactor, but fail to describe the co-methanation of
+configuration, the co-feeding of CO2 in CO methanation avoids the                   CO2 and CO as the preferential CO adsorption is not considered. On the
+formation of heavier hydrocarbons at low temperatures, but the catalyst             other hand, a careful study was conducted with LHHW-type kinetics,
+deactivates faster as the temperature increases. Also in this case, an              identifying the main reaction mechanisms.
+over-stoichiometric H2/(CO + CO2) ratio is recommended to minimize                      Experimental evidence combined with literature information guided
+coking.                                                                             insights into the possibility that CO2 methanation could occur on the Ni-
+    As far as contaminants are concerned, the effects of O2 and light               based catalyst via either dissociative or H-assisted associative CO2
+olefins (C2H4) have been investigated. The presence of O2 is detrimental            adsorption forming CO* or COOH* species, respectively. The H2 inhi­
+for the catalyst since its hydrogenation is highly exothermic and pre­              bition is related to a high H* coverage that favors the H-assisted hy­
+sumably worsens the thermal degradation; thus, its concentration                    drogenation of CO* into formyl (CHO*) and then its dissociation and
+should be minimized. Whereas, ethylene leads to a minor additional                  hydrogenation into CHx*. However, when CO is present in the gas
+deactivation, so as low as possible amounts are recommended, but no                 mixture, its exergonic adsorption predominates and competes with the
+strict separation is needed. Lastly, the presence of S-based compounds              CO2 adsorption. Thus, the excessive CO* coverage allows C* species to
+(e.g., H2S or SO2) deactivates irreversibly the Ni-based catalyst; thus,            be produced; they can be hydrogenated into methane, form solid carbon
+purification of the inlet streams is mandatory to abate the sulfur content          on the surface, causing coking, or diffuse into the nickel structure
+and preserve the catalytic activity.                                                forming nickel carbides. Among the different LHHW-type kinetic
+                                                                                    models, model M4 was able to describe all those aspects of the CO2 and
+
+
+                                                                               18
+F. Celoria et al.                                                                                                          Chemical Engineering Journal 512 (2025) 162113
+
+
+CO methanation process by using a system of three reactions, mini­                Appendix A. Supplementary data
+mizing the objective function and respecting the thermodynamic
+constraints.                                                                         Supplementary data to this article can be found online at https://doi.
+    Concerning the stability of the catalyst, long-term tests were per­           org/10.1016/j.cej.2025.162113.
+formed under different reaction conditions and in presence of contam­
+inants (C2H4 and O2) or poisons (H2S). Thermal sintering dominates                Data availability
+during CO2 methanation, but the catalyst exhibited a strong resistance;
+conversely, its stability dramatically decreased under CO methanation                 Data will be made available on request.
+conditions due to the formation of nickel carbides at low temperatures
+(T < 370 ◦ C), that reduce the CH4 selectivity and produce several light          References
+hydrocarbons (from C2 to C5), and coking combined with thermal sin­
+tering at higher temperatures (T > 370 ◦ C). However, during the CO2               [1] International Energy Agency, (2024). https://www.iea.org/world/energy-mix
+                                                                                       (accessed October 8, 2024).
+and CO co-methanation, the stability of the catalyst at low temperatures           [2] F. Salomone, E. Giglio, D. Ferrero, M. Santarelli, R. Pirone, S. Bensaid, Techno-
+increased because no nickel carbides were produced, probably due to                    economic modelling of a Power-to-Gas system based on SOEC electrolysis and CO2
+the slightly higher O* (or OH*) coverage. The presence of O2 contami­                  methanation in a RES-based electric grid, Chem. Eng. J. 377 (2019) 120233,
+                                                                                       https://doi.org/10.1016/j.cej.2018.10.170.
+nations significantly affected the stability of the catalyst, while light          [3] E.A. Morosanu, A. Saldivia, M. Antonini, S. Bensaid, Process modeling of an
+olefins (such as C2H4) cause additional coking on its surface due to self-             innovative power to LNG demonstration plant, Energy Fuel 32 (2018) 8868–8879,
+hydrogenation. Lastly, sulfur-based compounds (such as H2S) are                        https://doi.org/10.1021/acs.energyfuels.8b01078.
+                                                                                   [4] E. Giglio, F.A. Deorsola, M. Gruber, S.R. Harth, E.A. Morosanu, D. Trimis,
+extremely dangerous for the catalyst because they deactivate it irre­                  S. Bensaid, R. Pirone, Power-to-gas through high temperature electrolysis and
+versibly under all circumstances. Power-Law deactivation rates were                    carbon dioxide methanation: reactor design and process modeling, Ind. Eng. Chem.
+obtained to predict the catalyst stability under all those reaction con­               Res. 57 (2018) 4007–4018, https://doi.org/10.1021/acs.iecr.8b00477.
+                                                                                   [5] A. Mazza, F. Salomone, F. Arrigo, S. Bensaid, E. Bompard, G. Chicco, Impact of
+ditions and allow the possibility of scaling up the CO2 and CO metha­
+                                                                                       Power-to-Gas on distribution systems with large renewable energy penetration,
+nation reactor.                                                                        Energy Convers. Manage.: X 7 (2020) 100053, https://doi.org/10.1016/j.
+                                                                                       ecmx.2020.100053.
+CRediT authorship contribution statement                                           [6] F. Salomone, P. Marocco, D. Ferrario, A. Lanzini, D. Fino, S. Bensaid, M. Santarelli,
+                                                                                       Process simulation and energy analysis of synthetic natural gas production from
+                                                                                       water electrolysis and CO2 capture in a waste incinerator, Appl. Energy 343 (2023)
+    Fabrizio Celoria: Writing – review & editing, Writing – original                   121200, https://doi.org/10.1016/j.apenergy.2023.121200.
+draft, Visualization, Validation, Software, Investigation, Formal anal­            [7] I. Champon, A. Bengaouer, A. Chaise, S. Thomas, A.C. Roger, Carbon dioxide
+                                                                                       methanation kinetic model on a commercial Ni/Al2O3 catalyst, Journal of CO2
+ysis, Data curation. Fabio Salomone: Writing – review & editing,                       Utilization 34 (2019) 256–265, https://doi.org/10.1016/j.jcou.2019.05.030.
+Writing – original draft, Visualization, Validation, Software, Methodol­           [8] W. Wang, J. Gong, Methanation of carbon dioxide: an overview, Front. Chem. Eng.
+ogy, Investigation, Formal analysis, Data curation, Conceptualization.                 China 5 (2011) 2–10, https://doi.org/10.1007/s11705-010-0528-3.
+                                                                                   [9] K. Stangeland, D. Kalai, H. Li, Z. Yu, CO2 methanation: the effect of catalysts and
+Alessio Tauro: Writing – review & editing, Writing – original draft,                   reaction conditions, Energy Procedia 105 (2017) 2022–2027, https://doi.org/
+Visualization, Validation, Software, Investigation, Data curation. Marta               10.1016/j.egypro.2017.03.577.
+Gandiglio: Writing – review & editing, Validation, Supervision, Re­               [10] S. Ma, Y. Tan, Y. Han, Methanation of syngas over coral reef-like Ni/Al2O3
+                                                                                       catalysts, J. Nat. Gas Chem. 20 (2011) 435–440, https://doi.org/10.1016/S1003-
+sources, Methodology. Domenico Ferrero: Writing – review & editing,                    9953(10)60192-2.
+Validation, Supervision, Resources, Methodology. Isabelle Champon:                [11] J.A. Onrubia-Calvo, A. Quindimil, A. Davó-Quiñonero, A. Bermejo-López,
+Writing – review & editing, Validation, Software, Resources, Method­                   E. Bailón-García, B. Pereda-Ayo, D. Lozano-Castelló, J.A. González-Marcos,
+                                                                                       A. Bueno-López, J.R. González-Velasco, Kinetics, model discrimination, and
+ology. Geneviève Geffraye: Writing – review & editing, Validation,
+                                                                                       parameters estimation of CO2 methanation on highly active Ni/CeO2 catalyst, Ind.
+Supervision, Software, Resources, Methodology, Funding acquisition.                    Eng. Chem. Res. 61 (2022) 10419–10435, https://doi.org/10.1021/acs.
+Raffaele Pirone: Writing – review & editing, Supervision, Resources,                   iecr.2c00164.
+Methodology, Conceptualization. Samir Bensaid: Writing – review &                 [12] T.A. Le, M.S. Kim, S.H. Lee, T.W. Kim, E.D. Park, CO and CO2 methanation over
+                                                                                       supported Ni catalysts, Catal. Today 293–294 (2017) 89–96, https://doi.org/
+editing, Writing – original draft, Supervision, Resources, Project                     10.1016/j.cattod.2016.12.036.
+administration, Methodology, Funding acquisition, Conceptualization.              [13] S. Rönsch, J. Schneider, S. Matthischke, M. Schlüter, M. Götz, J. Lefebvre,
+                                                                                       P. Prabhakaran, S. Bajohr, Review on methanation - From fundamentals to current
+                                                                                       projects, Fuel 166 (2016) 276–296, https://doi.org/10.1016/j.fuel.2015.10.111.
+Declaration of competing interest                                                 [14] O. Mohan, S. Shambhawi, R. Xu, A.A. Lapkin, S.H. Mushrif, Investigating CO2
+                                                                                       methanation on Ni and Ru: DFT assisted microkinetic analysis, ChemCatChem 13
+    The authors declare that they have no known competing financial                    (2021) 2420–2433, https://doi.org/10.1002/cctc.202100073.
+                                                                                  [15] T. Burger, P. Donaubauer, O. Hinrichsen, On the kinetics of the co-methanation of
+interests or personal relationships that could have appeared to influence              CO and CO2 on a co-precipitated Ni-Al catalyst, Appl. Catal. B 282 (2021) 119408,
+the work reported in this paper.                                                       https://doi.org/10.1016/j.apcatb.2020.119408.
+                                                                                  [16] G.D. Weatherbee, C.H. Barthlomew, Hydrogenation of CO2 on group VIII metals II.
+                                                                                       Kinetics and mechanism of CO2 hydrogenation on nickel, J. Catal. 77 (1982)
+Acknowledgements                                                                       460–472, https://doi.org/10.1016/0021-9517(82)90186-5.
+                                                                                  [17] J. Xu, G.F. Froment, Methane steam reforming, methanation and water-gas shift: I.
+    The project leading to this research has received funding from the                 Intrinsic kinetics, AIChE J. 35 (1989) 88–96, https://doi.org/10.1002/
+                                                                                       aic.690350109.
+Horizon Europe research and innovation program under Grant Agree­
+                                                                                  [18] J. Kopyscinski, T.J. Schildhauer, F. Vogel, S.M.A. Biollaz, A. Wokaun, Applying
+ment No 101084288 (METHAREN Project). F.S. acknowledges the                            spatially resolved concentration and temperature measurements in a catalytic plate
+Italian Ministry of University and Research (MUR), program FSE                         reactor for the kinetic study of CO methanation, J. Catal. 271 (2010) 262–279,
+REACT-EU PON Ricerca e Innovazione 2014-2020 (D.M. 1062/2021). A.                      https://doi.org/10.1016/j.jcat.2010.02.008.
+                                                                                  [19] R.P. Underwood, C.O. Bennett, The CO/H2 reaction over nickel-alumina studied by
+T. acknowledges the PNRR program (DM 352/22) funded by the “Next                       the transient method, J. Catal. 86 (1984) 245–253, https://doi.org/10.1016/0021-
+Generation EU” program of the EU. The manuscript reflects the authors’                 9517(84)90370-1.
+views and opinions, neither the European Union nor the European                   [20] F. Koschany, D. Schlereth, O. Hinrichsen, On the kinetics of the methanation of
+                                                                                       carbon dioxide on coprecipitated NiAl(O)x, Appl. Catal. B 181 (2016) 504–516,
+Commission can be considered responsible for them. In addition, the                    https://doi.org/10.1016/j.apcatb.2015.07.026.
+authors acknowledge Enrico Sartoretti and Marco Allione for having                [21] P. Marocco, E.A. Morosanu, E. Giglio, D. Ferrero, C. Mebrahtu, A. Lanzini, S. Abate,
+performed SEM and TEM measurements, respectively.                                      S. Bensaid, S. Perathoner, M. Santarelli, R. Pirone, G. Centi, CO2 methanation over
+                                                                                       Ni/Al hydrotalcite-derived catalyst: experimental characterization and kinetic
+                                                                                       study, Fuel 225 (2018) 230–242, https://doi.org/10.1016/j.fuel.2018.03.137.
+
+
+
+
+                                                                             19
+F. Celoria et al.                                                                                                                         Chemical Engineering Journal 512 (2025) 162113
+
+[22] E.A. Morosanu, F. Salomone, R. Pirone, S. Bensaid, Insights on a methanation                [32] G. Garbarino, P. Riani, L. Magistri, G. Busca, A study of the methanation of carbon
+     catalyst aging process: aging characterization and kinetic study, Catalysts 10                   dioxide on Ni/Al2O3 catalysts at atmospheric pressure, Int. J. Hydrogen Energy 39
+     (2020) 283, https://doi.org/10.3390/catal10030283.                                               (2014) 11557–11565, https://doi.org/10.1016/j.ijhydene.2014.05.111.
+[23] C. Wheeler, A. Jhalani, E.J. Klein, S. Tummala, L.D. Schmidt, The water–gas-shift           [33] M. Wolf, C. Schüler, O. Hinrichsen, Sulfur poisoning of co-precipitated Ni–Al
+     reaction at short contact times, J. Catal. 223 (2004) 191–199, https://doi.org/                  catalysts for the methanation of CO2, J. CO2 Util. 32 (2019) 80–91, https://doi.
+     10.1016/j.jcat.2004.01.002.                                                                      org/10.1016/j.jcou.2019.03.003.
+[24] D. Schmider, L. Maier, O. Deutschmann, Reaction kinetics of CO and CO2                      [34] E. Rozzi, F.D. Minuto, A. Lanzini, P. Leone, Green synthetic fuels: renewable routes
+     methanation over nickel, Ind. Eng. Chem. Res. 60 (2021) 5792–5805, https://doi.                  for the conversion of non-fossil feedstocks into gaseous fuels and their end uses,
+     org/10.1021/acs.iecr.1c00389.                                                                    Energies (Basel) 13 (2020), https://doi.org/10.3390/en13020420.
+[25] A. Cárdenas-Arenas, A. Quindimil, A. Davó-Quiñonero, E. Bailón-García,                  [35] F. Santoni, P. Gislon, E. Rozzi, M. Gandiglio, S. McPhail, A. Lanzini, M. Pagani,
+     D. Lozano-Castelló, U. De-La-Torre, B. Pereda-Ayo, J.A. González-Marcos, J.                    S. Fiorilli, Hydrogen sulphide and carbonyl sulphide removal from biogas for
+     R. González-Velasco, A. Bueno-López, Isotopic and in situ DRIFTS study of the CO2              exploitation in high-temperature fuel cells, Waste Biomass Valorization 15 (2024)
+     methanation mechanism using Ni/CeO2 and Ni/Al2O3 catalysts, Appl. Catal. B 265                   577–597, https://doi.org/10.1007/s12649-023-02212-6.
+     (2020) 118538, https://doi.org/10.1016/j.apcatb.2019.118538.                                [36] F. Salomone, E. Sartoretti, S. Ballauri, M. Castellino, C. Novara, F. Giorgis,
+[26] A. Quindimil, J.A. Onrubia-Calvo, A. Davó-Quiñonero, A. Bermejo-López,                        R. Pirone, S. Bensaid, CO2 hydrogenation to methanol over Zr- and Ce-doped
+     E. Bailón-García, B. Pereda-Ayo, D. Lozano-Castelló, J.A. González-Marcos,                    indium oxide, Catal. Today 423 (2023) 114023, https://doi.org/10.1016/j.
+     A. Bueno-López, J.R. González-Velasco, Intrinsic kinetics of CO2 methanation on                cattod.2023.01.030.
+     low-loaded Ni/Al2O3 catalyst: mechanism, model discrimination and parameter                 [37] B.R. Bird, W.E. Stewart, E.N. Lightfoot, Transport Phenomena, 2nd ed, John Wiley
+     estimation, J. CO2 Util. 57 (2022) 101888, https://doi.org/10.1016/j.                            & Sons, New York, 2002. Doi:10.1007/s007690000247.
+     jcou.2022.101888.                                                                           [38] NIST Chemistry WebBook, (n.d.). https://webbook.nist.gov/chemistry/ (accessed
+[27] P. Strucks, L. Failing, S. Kaluza, A short review on Ni-catalyzed methanation of                 October 24, 2024).
+     CO2: reaction mechanism, catalyst deactivation, dynamic operation, Chem. Ing.               [39] D. Schlereth, O. Hinrichsen, A fixed-bed reactor modeling study on the
+     Tech. 93 (2021) 1526–1536, https://doi.org/10.1002/cite.202100049.                               methanation of CO2, Chem. Eng. Res. Des. 92 (2014) 702–712, https://doi.org/
+[28] J.R. Rostrup-Nielsen, K. Pedersen, J. Sehested, High temperature methanation                     10.1016/j.cherd.2013.11.014.
+     Sintering and structure sensitivity, Appl. Catal. A Gen. 330 (2007) 134–138,                [40] B.E. Poling, J.M. Prausnitz, J.P. O’Connell, The Properties of gases and liquids, 5th
+     https://doi.org/10.1016/j.apcata.2007.07.015.                                                    ed., McGraw-Hill Inc, 2000.
+[29] I. Champon, A. Bengaouer, A. Chaise, S. Thomas, A.-C. Roger, Modelling the                  [41] D.C. Montgomery, Design and Analysis of Experiments, 8th ed., John Wiley & Sons
+     sintering of nickel particles supported on γ-alumina under hydrothermal                          Inc, 2013.
+     conditions, Catalysts 10 (2020) 1477, https://doi.org/10.3390/catal10121477.                [42] T. Van Herwijnen, H. Van Doesburg, W.A. De Jong, Kinetics of the methanation of
+[30] S. Ewald, M. Kolbeck, T. Kratky, M. Wolf, O. Hinrichsen, On the deactivation of Ni-              CO and CO2 on a nickel catalyst, J. Catal. 28 (1973) 391–402, https://doi.org/
+     Al catalysts in CO2 methanation, Appl. Catal. A Gen. 570 (2019) 376–386, https://                10.1016/0021-9517(73)90132-2.
+     doi.org/10.1016/J.APCATA.2018.10.033.                                                       [43] J. Sehested, S. Dahl, J. Jacobsen, J.R. Rostrup-Nielsen, Methanation of CO over
+[31] S. Abelló, C. Berrueco, D. Montané, High-loaded nickel–alumina catalyst for direct             nickel: mechanism and kinetics at high H2/CO ratios, J Phys Chem B 109 (2005)
+     CO2 hydrogenation into synthetic natural gas (SNG), Fuel 113 (2013) 598–609,                     2432–2438, https://doi.org/10.1021/jp040239s.
+     https://doi.org/10.1016/j.fuel.2013.06.012.                                                 [44] Y. Leng, H. Shao, Y. Wang, M. Suzuki, X. Li, A new method to synthesize nickel
+                                                                                                      carbide (Ni3C) nanoparticles in solution, J. Nanosci. Nanotechnol. 6 (2006)
+                                                                                                      221–226, https://doi.org/10.1166/jnn.2006.17934.
+
+
+
+
+                                                                                            20
+
