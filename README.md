@@ -14,6 +14,16 @@ The run writes profile data including the three signed intrinsic reaction rates,
 
 `configs/assumed_base_case.json` is a demonstration configuration based on the supplied reactor formulation, with the tube diameter corrected by the user to 1 in (0.0254 m) and the 12 in (0.3048 m) bed length retained. It is not Experiment #1 data. Catalyst loading, transport, thermal, feed, and pressure inputs remain assumptions and must be checked before reporting a comparison with experiment.
 
+## Full-M4 temperature-pressure sweep
+
+Run the two-parameter sensitivity map with:
+
+```powershell
+uv run python -m methanation.sensitivity --output results/temperature_pressure_full_m4_sweep
+```
+
+The sweep varies inlet temperature from 300–375 °C and inlet pressure from 1–15 bar absolute, holding other inputs at `configs/assumed_base_case.json`. The wall stays at the nominal 350 °C while inlet temperature varies. The default run uses 21 points per axis and adds the exact nominal condition when needed, giving a 22 × 22 (484-run) grid. It writes the full grid, run metadata, and a contour figure in PNG and SVG. Pressures below 5 bar and bed temperatures above the published 250–400 °C kinetic-fit range are extrapolations; the thermochemistry remains approximate.
+
 ## Model contract
 
 - State: molar flows for CO, H2, CH4, H2O, CO2, and N2; temperature; pressure.

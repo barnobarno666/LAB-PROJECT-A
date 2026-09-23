@@ -1,0 +1,104 @@
+{
+  "generated_at_utc": "2026-09-23T18:45:57.015948+00:00",
+  "model": "m4_full",
+  "sensitivity_metric": "completed-bed outlet CO conversion (%)",
+  "temperature_range_c": [
+    300.0,
+    375.0
+  ],
+  "pressure_range_bar_abs": [
+    1.0,
+    15.0
+  ],
+  "temperature_points": 22,
+  "pressure_points": 22,
+  "nominal_case": {
+    "inlet_temperature_c": 350.0,
+    "inlet_pressure_bar_abs": 5.0,
+    "outlet_co_conversion_pct": 95.80729244294243
+  },
+  "completed_cases": 484,
+  "failed_or_incomplete_cases": 0,
+  "elapsed_seconds": 60.693444700002146,
+  "fixed_inputs": {
+    "reaction_mode": "m4_full",
+    "feed": {
+      "total_molar_flow_mol_s": 0.05,
+      "mole_ratio": {
+        "CO": 1.0,
+        "H2": 4.0,
+        "CH4": 0.0,
+        "H2O": 0.0,
+        "CO2": 0.0,
+        "N2": 25.0
+      },
+      "temperature_k": 623.15,
+      "pressure_bar": 5.0
+    },
+    "bed": {
+      "tube_diameter_m": 0.0254,
+      "bed_length_m": 0.3048,
+      "catalyst_loading_kg_m3_bed": 750.0,
+      "void_fraction": 0.4,
+      "particle_diameter_m": 0.003
+    },
+    "thermal": {
+      "mode": "heat_exchange",
+      "wall_temperature_k": 623.15,
+      "overall_heat_transfer_w_m2_k": 10.0
+    },
+    "transport": {
+      "mode": "ergun",
+      "gas_viscosity_pa_s": 2.5e-05
+    },
+    "activity": 1.0,
+    "solver": {
+      "method": "Radau",
+      "rtol": 1e-06,
+      "atol_flow_mol_s": 1e-10,
+      "atol_temperature_k": 1e-05,
+      "atol_pressure_pa": 0.1,
+      "max_temperature_k": 1400.0,
+      "min_pressure_pa": 1000.0,
+      "min_hydrogen_partial_pressure_bar": 1e-12,
+      "output_points": 401
+    }
+  },
+  "sweep_behavior": {
+    "varied": [
+      "feed.temperature_k",
+      "feed.pressure_bar"
+    ],
+    "wall_temperature_held_at_c": 350.0,
+    "all_other_inputs_held_at_base_config": true,
+    "failed_or_incomplete_cells": "excluded from the contour and retained as status rows in the CSV"
+  },
+  "interpretation_note": "The 1 to <5 bar portion is outside the published 5 and 15 bar kinetic fit pressures. 479 of 484 cases have peak bed temperatures above the published 250 to 400 C kinetic fit range. All outputs are conditional predictions under assumed base-case inputs, and the thermochemistry remains approximate.",
+  "conversion_range_pct": [
+    30.44260750443271,
+    99.47583727269901
+  ],
+  "minimum_conversion_case": {
+    "inlet_temperature_c": 300.0,
+    "inlet_pressure_bar_abs": 1.0,
+    "outlet_co_conversion_pct": 30.44260750443271,
+    "peak_temperature_c": 366.8186262109566
+  },
+  "maximum_conversion_case": {
+    "inlet_temperature_c": 300.0,
+    "inlet_pressure_bar_abs": 15.0,
+    "outlet_co_conversion_pct": 99.47583727269901,
+    "peak_temperature_c": 521.9627870533261
+  },
+  "published_kinetic_fit_domain": {
+    "temperature_c": [
+      250.0,
+      400.0
+    ],
+    "pressure_bar_abs": [
+      5.0,
+      15.0
+    ]
+  },
+  "cases_with_peak_temperature_above_400c": 479
+}

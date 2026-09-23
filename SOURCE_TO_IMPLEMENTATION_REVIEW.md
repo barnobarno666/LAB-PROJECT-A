@@ -112,7 +112,7 @@ The code reports temperature maxima only on the output grid. Changing the same d
 - `cli.py:20` writes ordinary plots before checking success. The JSON labels partial runs, but standalone plots do not. Partial profiles need visible status and reached/configured endpoints.
 - `verification.py:192` calculates prediction errors even for incomplete results, and its CLI does not exit unsuccessfully when the solver reports failure.
 - CO-free feeds pass the positive-H2 input rule, while CO conversion and methane yield divide by inlet CO. Explicitly reject unsupported performance bases or export undefined values intentionally.
-- `M4Parameters` exists, but `reactor_rhs` always uses default parameters. Kinetic-parameter sensitivity requires a real config-to-solver parameter path. This is a downstream interface gap, not a reason to launch a parameter study now.
+- `M4Parameters` exists, but `reactor_rhs` always uses default parameters. Kinetic-parameter sensitivity requires a real config-to-solver parameter path. Operating-condition sweeps such as the inlet-temperature/pressure contour are available without changing kinetic constants; their assumed inputs and extrapolation limits must stay visible.
 
 ## 6. Evidence and limits of the current tests
 
