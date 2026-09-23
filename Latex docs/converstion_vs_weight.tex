@@ -1,6 +1,6 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[T1]{fontenc}
-\usepackage{newtxtext,newtxmath}
+\usepackage{lmodern}
 \usepackage[margin=19mm,headheight=20pt,headsep=8mm,footskip=12mm]{geometry}
 \usepackage{amsmath,mathtools}
 \usepackage{graphicx}
@@ -20,7 +20,7 @@
 \definecolor{rulegray}{HTML}{D8E1E3}
 \definecolor{bodygray}{HTML}{45545C}
 
-\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=teal,pdftitle={BARNOS PART},pdfauthor={}}
+\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=teal,pdftitle={Fixed-bed CO Methanation Model and Sensitivity Analysis},pdfauthor={}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4.5pt plus 1pt minus 1pt}
 \setlength{\emergencystretch}{2em}
@@ -60,7 +60,7 @@
 \vspace{4pt}
 {\color{copper}\rule{32mm}{2.2pt}}\par
 \vspace{5pt}
-{\small\color{bodygray} Governing balances and plotted axial profiles for a reduced CO methanation model.}\par
+{\small\color{bodygray} Governing balances, axial profiles, and operating-condition sensitivity for CO methanation.}\par
 
 \section{Model basis}
 The bed is treated as a steady, one-dimensional plug-flow reactor. The reduced network retains CO methanation and water-gas shift (WGS):
@@ -155,7 +155,7 @@ Therefore, the figures show samples of the integrated profiles, not a separate c
 
 \begin{runbox}
 {\small\color{white}\textbf{Plotted demonstration case.}\quad
-\(D_t=0.127\,\mathrm m\), \(L=0.3048\,\mathrm m\), \(\rho_B=750\,\mathrm{kg\,m^{-3}}\), \(\varepsilon_b=0.40\), \(D_p=3\,\mathrm{mm}\), \(\mu=2.5\times10^{-5}\,\mathrm{Pa\,s}\), \(U=10\,\mathrm{W\,m^{-2}\,K^{-1}}\); \(T_0=T_w=623.15\,\mathrm K\), \(P_0=5\,\mathrm{bar}\), and feed ratio CO:H\(_2\):N\(_2\)=1:4:25 at \(0.05\,\mathrm{mol\,s^{-1}}\). Several geometry, feed, transport, and heat-transfer inputs remain assumed; this run is illustrative, not experimental validation.}
+\(D_t=0.0254\,\mathrm m\) (1.00 in), \(L=0.3048\,\mathrm m\) (12.00 in), \(\rho_B=750\,\mathrm{kg\,m^{-3}}\), \(\varepsilon_b=0.40\), \(D_p=3\,\mathrm{mm}\), \(\mu=2.5\times10^{-5}\,\mathrm{Pa\,s}\), \(U=10\,\mathrm{W\,m^{-2}\,K^{-1}}\); \(T_0=T_w=623.15\,\mathrm K\), \(P_0=5\,\mathrm{bar}\), and feed ratio CO:H\(_2\):N\(_2\)=1:4:25 at \(0.05\,\mathrm{mol\,s^{-1}}\). Several geometry, feed, transport, and heat-transfer inputs remain assumed; this run is illustrative, not experimental validation.}
 \end{runbox}
 
 \vspace{1pt}
@@ -171,7 +171,7 @@ Therefore, the figures show samples of the integrated profiles, not a separate c
 \end{center}
 \begin{center}\small\textbf{Figure 1.} Reduced M4 model prediction of CO conversion versus catalyst mass for the demonstration case.\end{center}
 \begin{keyequation}
-\small The calculated outlet conversion is \(99.45\%\) for this assumed configuration. This curve is a model demonstration, not an experimental fit or validation result.
+\small The calculated outlet conversion is \(95.78\%\) for this assumed configuration. This curve is a model demonstration, not an experimental fit or validation result.
 \end{keyequation}
 
 \clearpage
@@ -184,7 +184,33 @@ Therefore, the figures show samples of the integrated profiles, not a separate c
 \end{center}
 \begin{center}\small\textbf{Figure 2.} Integrated temperature and Ergun pressure profiles versus bed length.\end{center}
 \begin{keyequation}
-\small Temperature peaks at \(820.7\,\mathrm K\) near \(z=0.0023\,\mathrm m\), then reaches \(725.6\,\mathrm K\) at the outlet. Pressure falls from \(5.0000\) to \(4.9996\,\mathrm{bar}\) (about \(41.6\,\mathrm{Pa}\)). The plotted pressure axis is tightly auto-scaled, so the visible line exaggerates this small relative drop.
+\small The sampled temperature peaks at \(817.8\,\mathrm K\) near \(z=0.0533\,\mathrm m\) and is \(799.6\,\mathrm K\) at the outlet. Pressure falls from \(5.0000\) to \(4.9405\,\mathrm{bar}\) (about \(5.95\,\mathrm{kPa}\)). The plotted pressure axis is tightly auto-scaled, so the visible line exaggerates this relative drop.
+\end{keyequation}
+
+\clearpage
+\thispagestyle{fancy}
+{\Large\bfseries\color{navy} CO conversion across reactor inlet conditions\par}
+\vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
+\vspace{8pt}
+\begin{center}
+\includegraphics[width=0.98\linewidth,height=0.70\textheight,keepaspectratio]{../results/temperature_pressure_full_m4_sweep/full_m4_temperature_pressure_contour.png}
+\end{center}
+\begin{center}\small\textbf{Figure 3.} Full M4 sensitivity of bed-outlet CO conversion to inlet temperature and pressure.\end{center}
+\begin{keyequation}
+\small The hatched 1--$<5\,\mathrm{bar}$ region is below the pressure range tested for the Celoria et al. kinetic fit and is an extrapolation; 5--15 bar is within the reported pressure range. The two bands use separate linear color scales, so read each colorbar independently. The sweep covers 250--400\,$^\circ$C and varies only inlet temperature and pressure, with the other assumed base-case inputs fixed. Although inlet temperatures lie within the paper's fitted temperature range, 469 of 484 cases have sampled bed temperatures above 400\,$^\circ$C and therefore extrapolate the kinetics locally. This is a conditional model sensitivity, not experimental validation. Kinetic source: \href{https://doi.org/10.1016/j.cej.2025.162113}{Celoria et al.}
+\end{keyequation}
+
+\clearpage
+\thispagestyle{fancy}
+{\Large\bfseries\color{navy} CO conversion within the kinetic-fit pressure range\par}
+\vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
+\vspace{8pt}
+\begin{center}
+\includegraphics[width=0.98\linewidth,height=0.72\textheight,keepaspectratio]{../results/temperature_pressure_full_m4_sweep/full_m4_temperature_pressure_contour_5_15bar.png}
+\end{center}
+\begin{center}\small\textbf{Figure 4.} Full M4 sensitivity restricted to inlet pressures of 5--15 bar.\end{center}
+\begin{keyequation}
+\small This view isolates the pressure interval reported for the Celoria et al. kinetic fit, with a single linear color scale. Inlet temperature spans 250--400\,$^\circ$C. The kinetic fit was tested at discrete temperature and pressure conditions; values between those conditions are model interpolations. The reactor's predicted local bed temperature may exceed 400\,$^\circ$C even when its inlet temperature is within range, so the result remains an exploratory conditional prediction rather than experimental validation.
 \end{keyequation}
 
 \end{document}
