@@ -15,6 +15,7 @@ import matplotlib
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 import numpy as np
 
 from .config import ReactorConfig
@@ -26,7 +27,11 @@ PAPER = "#fffdf9"
 BLUE = "#1c7890"
 RED = "#cf3b38"
 GOLD = "#df9b28"
-CONTOUR_CMAP = "viridis"
+CONTOUR_CMAP = LinearSegmentedColormap.from_list(
+    "violet_sunset",
+    ["#24104f", "#63358d", "#bd4f91", "#ec865f", "#f5c96a", "#fff2c6"],
+    N=256,
+)
 
 
 def _axis_with_references(
