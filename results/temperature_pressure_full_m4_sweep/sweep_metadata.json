@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-09-23T18:45:57.015948+00:00",
+  "generated_at_utc": "2026-09-23T19:37:32.450269+00:00",
   "model": "m4_full",
   "sensitivity_metric": "completed-bed outlet CO conversion (%)",
   "temperature_range_c": [
-    300.0,
-    375.0
+    250.0,
+    400.0
   ],
   "pressure_range_bar_abs": [
     1.0,
@@ -12,6 +12,21 @@
   ],
   "temperature_points": 22,
   "pressure_points": 22,
+  "paper_kinetic_test_nodes": {
+    "temperature_c": [
+      250.0,
+      280.0,
+      310.0,
+      340.0,
+      370.0,
+      400.0
+    ],
+    "pressure_bar_abs": [
+      5.0,
+      15.0
+    ],
+    "between_node_values": "model interpolation within the published fit envelope; pressure below 5 bar is extrapolation"
+  },
   "nominal_case": {
     "inlet_temperature_c": 350.0,
     "inlet_pressure_bar_abs": 5.0,
@@ -19,7 +34,53 @@
   },
   "completed_cases": 484,
   "failed_or_incomplete_cases": 0,
-  "elapsed_seconds": 60.693444700002146,
+  "conversion_range_pct": [
+    11.345535985781101,
+    99.85646589897397
+  ],
+  "minimum_conversion_case": {
+    "inlet_temperature_c": 250.0,
+    "inlet_pressure_bar_abs": 1.0,
+    "outlet_co_conversion_pct": 11.345535985781101,
+    "peak_temperature_c": 288.3962808304161
+  },
+  "maximum_conversion_case": {
+    "inlet_temperature_c": 250.0,
+    "inlet_pressure_bar_abs": 15.0,
+    "outlet_co_conversion_pct": 99.85646589897397,
+    "peak_temperature_c": 475.82994849776253
+  },
+  "published_kinetic_fit_domain": {
+    "temperature_c": [
+      250.0,
+      400.0
+    ],
+    "pressure_bar_abs": [
+      5.0,
+      15.0
+    ]
+  },
+  "plot_layout": {
+    "pressure_panels_bar_abs": [
+      [
+        5.0,
+        15.0
+      ],
+      [
+        1.0,
+        5.0
+      ]
+    ],
+    "panel_color_scales": "independent linear scales",
+    "visually_marked_outside_fit_region": "hatched inlet pressures from 1 to below 5 bar"
+  },
+  "cases_with_peak_temperature_above_400c": 469,
+  "cases_with_inlet_pressure_below_5bar": 132,
+  "sampled_peak_temperature_range_c": [
+    288.3962808304161,
+    603.0701078379739
+  ],
+  "elapsed_seconds": 55.38017689999833,
   "fixed_inputs": {
     "reaction_mode": "m4_full",
     "feed": {
@@ -73,32 +134,5 @@
     "all_other_inputs_held_at_base_config": true,
     "failed_or_incomplete_cells": "excluded from the contour and retained as status rows in the CSV"
   },
-  "interpretation_note": "The 1 to <5 bar portion is outside the published 5 and 15 bar kinetic fit pressures. 479 of 484 cases have peak bed temperatures above the published 250 to 400 C kinetic fit range. All outputs are conditional predictions under assumed base-case inputs, and the thermochemistry remains approximate.",
-  "conversion_range_pct": [
-    30.44260750443271,
-    99.47583727269901
-  ],
-  "minimum_conversion_case": {
-    "inlet_temperature_c": 300.0,
-    "inlet_pressure_bar_abs": 1.0,
-    "outlet_co_conversion_pct": 30.44260750443271,
-    "peak_temperature_c": 366.8186262109566
-  },
-  "maximum_conversion_case": {
-    "inlet_temperature_c": 300.0,
-    "inlet_pressure_bar_abs": 15.0,
-    "outlet_co_conversion_pct": 99.47583727269901,
-    "peak_temperature_c": 521.9627870533261
-  },
-  "published_kinetic_fit_domain": {
-    "temperature_c": [
-      250.0,
-      400.0
-    ],
-    "pressure_bar_abs": [
-      5.0,
-      15.0
-    ]
-  },
-  "cases_with_peak_temperature_above_400c": 479
+  "interpretation_note": "Inlet temperatures lie within the published 250 to 400 C fit range. Inlet pressures from 5 to 15 bar lie within the fit range; pressures below 5 bar are extrapolations included to cover the 1 bar experimental condition. The paper sampled six temperatures and two pressures; values between those nodes within the fit envelope are model interpolations. 469 of 484 cases have sampled peak bed temperatures above 400 C (sampled peak range 288.4 to 603.1 C) and therefore extrapolate the kinetics locally. The contour is exploratory because all outputs are conditional predictions under assumed base-case inputs, and the thermochemistry remains approximate."
 }

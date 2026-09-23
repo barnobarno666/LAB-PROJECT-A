@@ -32,10 +32,16 @@ INK = "#241b35"
 PAPER = "#fffdf9"
 
 
-def _axis_with_reference(minimum: float, maximum: float, points: int, reference: float) -> np.ndarray:
+def _axis_with_references(
+    minimum: float,
+    maximum: float,
+    points: int,
+    references: tuple[float, ...],
+) -> np.ndarray:
     values = np.linspace(minimum, maximum, points)
-    if minimum <= reference <= maximum and not np.any(np.isclose(values, reference)):
-        values = np.append(values, reference)
+    for reference in references:
+        if minimum <= reference <= maximum and not np.any(np.isclose(values, reference)):
+            values = np.append(values, reference)
     return np.sort(values)
 
 
@@ -62,37 +68,92 @@ def _write_plot(
             "savefig.facecolor": PAPER,
         }
     )
-    fig, ax = plt.subplots(figsize=(9.2, 7.0), facecolor=PAPER)
-    ax.set_facecolor(PAPER)
-
-    valid_values = conversion_pct[np.isfinite(conversion_pct)]
-    low = float(np.min(valid_values))
-    high = float(np.max(valid_values))
-    if np.isclose(low, high):
-        low -= 0.5
-        high += 0.5
-    fill_levels = np.linspace(low, high, 17)
-    contour = ax.contourf(
-        temperature_c,
-        pressure_bar,
-        np.ma.masked_invalid(conversion_pct),
-        levels=fill_levels,
-        cmap=CMAP,
-        antialiased=True,
+    fig = plt.figure(figsize=(10.5, 9.8), facecolor=PAPER)
+    grid = fig.add_gridspec(
+        2,
+        2,
+        width_ratios=(1.0, 0.045),
+        height_ratios=(10.0, 4.0),
+        left=0.12,
+        right=0.90,
+        top=0.86,
+        bottom=0.23,
+        hspace=0.34,
+        wspace=0.12,
     )
-    line_levels = np.linspace(low, high, 6)[1:-1]
-    lines = ax.contour(
-        temperature_c,
-        pressure_bar,
-        np.ma.masked_invalid(conversion_pct),
-        levels=line_levels,
-        colors="#fff8ec",
-        linewidths=0.75,
-        alpha=0.85,
-    )
+    fit_ax = fig.add_subplot(grid[0, 0])
+    extended_ax = fig.add_subplot(grid[1, 0], sharex=fit_ax)
+    fit_cax = fig.add_subplot(grid[0, 1])
+    extended_cax = fig.add_subplot(grid[1, 1])
 
-    ax.scatter(
-        [base_config.feed.temperature_k - 273.15],
+    fit_mask = pressure_bar >= 5.0
+    extended_mask = pressure_bar <= 5.0
+
+    def draw_panel(ax, cax, mask: np.ndarray) -> None:
+        panel_data = np.ma.masked_invalid(conversion_pct[mask, :])
+        valid_values = panel_data.compressed()
+        low = float(np.min(valid_values))
+        high = float(np.max(valid_values))
+        if np.isclose(low, high):
+            low -= 0.5
+            high += 0.5
+        fill_levels = np.linspace(low, high, 17)
+        contour = ax.contourf(
+            temperature_c,
+            pressure_bar[mask],
+            panel_data,
+            levels=fill_levels,
+            cmap=CMAP,
+            antialiased=True,
+        )
+        line_levels = np.linspace(low, high, 6)[1:-1]
+        ax.contour(
+            temperature_c,
+            pressure_bar[mask],
+            panel_data,
+            levels=line_levels,
+            colors="#fff8ec",
+            linewidths=0.75,
+            alpha=0.85,
+        )
+        colorbar = fig.colorbar(contour, cax=cax)
+        colorbar.set_label(r"CO conversion [%]", rotation=90, labelpad=10, fontsize=9.5)
+        colorbar.set_ticks(np.linspace(low, high, 6))
+        colorbar.ax.yaxis.set_major_formatter(FormatStrFormatter("%.1f"))
+        colorbar.outline.set_edgecolor("#b9afbf")
+        colorbar.outline.set_linewidth(0.7)
+        ax.set_xlim(float(temperature_c[0]), float(temperature_c[-1]))
+        ax.set_ylim(float(pressure_bar[mask][0]), float(pressure_bar[mask][-1]))
+        ax.set_ylabel(r"$P_{\mathrm{in}}$ [bar abs]", fontsize=10.5, labelpad=7)
+        ax.set_xticks(np.arange(np.ceil(temperature_c[0] / 25) * 25, temperature_c[-1] + 1, 25))
+        ax.tick_params(which="major", length=5, width=0.8, direction="out")
+        ax.grid(color="#6f6276", alpha=0.13, linewidth=0.55)
+
+    draw_panel(fit_ax, fit_cax, fit_mask)
+    draw_panel(extended_ax, extended_cax, extended_mask)
+
+    fit_ax.set_title("5–15 bar  ·  Celoria kinetic-fit pressure range", loc="left", fontsize=10.5, pad=7)
+    extended_ax.set_title(
+        "1–5 bar  ·  hatched area below 5 bar is outside the fit range",
+        loc="left",
+        fontsize=10.5,
+        pad=7,
+    )
+    extended_ax.axhspan(
+        float(pressure_bar[0]),
+        5.0,
+        facecolor="none",
+        edgecolor="#665775",
+        hatch="/",
+        linewidth=0.35,
+        alpha=0.14,
+        zorder=3,
+    )
+    extended_ax.axhline(5.0, color=INK, linewidth=1.0, zorder=4)
+
+    nominal_temperature_c = base_config.feed.temperature_k - 273.15
+    fit_ax.scatter(
+        [nominal_temperature_c],
         [base_config.feed.pressure_bar],
         s=62,
         marker="o",
@@ -101,9 +162,9 @@ def _write_plot(
         linewidth=1.5,
         zorder=5,
     )
-    ax.annotate(
+    fit_ax.annotate(
         f"Nominal case  {baseline_conversion_pct:.2f}%",
-        xy=(base_config.feed.temperature_k - 273.15, base_config.feed.pressure_bar),
+        xy=(nominal_temperature_c, base_config.feed.pressure_bar),
         xytext=(12, 12),
         textcoords="offset points",
         fontsize=9,
@@ -113,19 +174,12 @@ def _write_plot(
         zorder=6,
     )
 
-    ax.set_xlim(float(temperature_c[0]), float(temperature_c[-1]))
-    ax.set_ylim(float(pressure_bar[0]), float(pressure_bar[-1]))
-    ax.set_xlabel(r"Inlet temperature, $T_{\mathrm{in}}$ [$^\circ$C]", fontsize=11.5, labelpad=9)
-    ax.set_ylabel(r"Inlet pressure, $P_{\mathrm{in}}$ [bar abs]", fontsize=11.5, labelpad=9)
-    ax.set_xticks(np.arange(np.ceil(temperature_c[0] / 25) * 25, temperature_c[-1] + 1, 25))
-    ax.set_yticks([p for p in (1, 3, 5, 7, 10, 12, 15) if pressure_bar[0] <= p <= pressure_bar[-1]])
-    ax.tick_params(which="major", length=5, width=0.8, direction="out")
-    ax.grid(color="#6f6276", alpha=0.13, linewidth=0.55)
-
+    fit_ax.tick_params(labelbottom=False)
+    extended_ax.set_xlabel(r"Inlet temperature, $T_{\mathrm{in}}$ [$^\circ$C]", fontsize=11.5, labelpad=8)
     fig.suptitle(
-        "Full M4 operating-window sensitivity",
+        "Full M4 temperature–pressure sensitivity",
         x=0.12,
-        y=0.985,
+        y=0.975,
         ha="left",
         fontsize=16,
         fontweight="bold",
@@ -133,20 +187,13 @@ def _write_plot(
     )
     fig.text(
         0.12,
-        0.895,
-        r"Outlet CO conversion, $X_{\mathrm{CO,out}}$",
+        0.915,
+        r"Outlet CO conversion, $X_{\mathrm{CO,out}}$  ·  independent linear color scales",
         ha="left",
         va="bottom",
         fontsize=10.5,
         color="#685d70",
     )
-
-    colorbar = fig.colorbar(contour, ax=ax, pad=0.025, fraction=0.045)
-    colorbar.set_label(r"Outlet CO conversion [%]", rotation=90, labelpad=12, fontsize=10.5)
-    colorbar.set_ticks(np.linspace(low, high, 6))
-    colorbar.ax.yaxis.set_major_formatter(FormatStrFormatter("%.0f"))
-    colorbar.outline.set_edgecolor("#b9afbf")
-    colorbar.outline.set_linewidth(0.7)
 
     bed = base_config.bed
     fixed_note = (
@@ -154,10 +201,16 @@ def _write_plot(
         rf"bed = {bed.tube_diameter_m / 0.0254:.2f} in $\times$ {bed.bed_length_m / 0.0254:.2f} in; "
         rf"wall = {wall_temperature_c:.0f} $^\circ$C."
     )
-    caveat = "Extrapolation: P < 5 bar or bed temperatures outside 250–400 °C; thermochemistry remains approximate."
-    fig.text(0.105, 0.075, fixed_note, ha="left", va="center", fontsize=8.6, color="#51475e")
-    fig.text(0.105, 0.042, caveat, ha="left", va="center", fontsize=8.4, color="#756a7a")
-    fig.subplots_adjust(left=0.12, right=0.88, top=0.84, bottom=0.19)
+    fig.text(0.105, 0.135, fixed_note, ha="left", va="center", fontsize=8.3, color="#51475e")
+    fig.text(
+        0.105,
+        0.095,
+        "Hatching marks 1–<5 bar, below the paper's 5 bar minimum kinetic-fit pressure.",
+        ha="left",
+        va="center",
+        fontsize=8.3,
+        color="#756a7a",
+    )
 
     fig.savefig(output_path.with_suffix(".png"), dpi=320, bbox_inches="tight")
     fig.savefig(output_path.with_suffix(".svg"), bbox_inches="tight")
@@ -169,8 +222,8 @@ def run_sweep(
     output_dir: Path,
     *,
     points: int = 21,
-    temperature_min_c: float = 300.0,
-    temperature_max_c: float = 375.0,
+    temperature_min_c: float = 250.0,
+    temperature_max_c: float = 400.0,
     pressure_min_bar: float = 1.0,
     pressure_max_bar: float = 15.0,
 ) -> dict[str, object]:
@@ -185,11 +238,17 @@ def run_sweep(
         raise ValueError("pressure_min_bar must be positive.")
 
     nominal_temperature_c = base_config.feed.temperature_k - 273.15
-    temperatures_c = _axis_with_reference(
-        temperature_min_c, temperature_max_c, points, nominal_temperature_c
+    temperatures_c = _axis_with_references(
+        temperature_min_c,
+        temperature_max_c,
+        points,
+        (250.0, 280.0, 310.0, 340.0, 370.0, 400.0, nominal_temperature_c),
     )
-    pressures_bar = _axis_with_reference(
-        pressure_min_bar, pressure_max_bar, points, base_config.feed.pressure_bar
+    pressures_bar = _axis_with_references(
+        pressure_min_bar,
+        pressure_max_bar,
+        points,
+        (5.0, 15.0, base_config.feed.pressure_bar),
     )
     conversion_pct = np.full((len(pressures_bar), len(temperatures_c)), np.nan)
     rows: list[dict[str, object]] = []
@@ -253,6 +312,15 @@ def run_sweep(
     failed = total_cases - len(successful)
     if not successful:
         raise RuntimeError("Every full-M4 sweep case failed; no contour can be drawn.")
+    hotspot_extrapolations = [
+        row for row in successful if float(row["peak_temperature_c"]) > 400.0
+    ]
+    pressure_extrapolations = [
+        row for row in successful if float(row["inlet_pressure_bar_abs"]) < 5.0
+    ]
+    sampled_peak_temperatures_c = [
+        float(row["peak_temperature_c"]) for row in successful
+    ]
 
     baseline_row = next(
         row
@@ -275,9 +343,6 @@ def run_sweep(
     elapsed_seconds = time.perf_counter() - started_at
     minimum_case = min(successful, key=lambda row: float(row["outlet_co_conversion_pct"]))
     maximum_case = max(successful, key=lambda row: float(row["outlet_co_conversion_pct"]))
-    hotspot_extrapolations = [
-        row for row in successful if float(row["peak_temperature_c"]) > 400.0
-    ]
 
     def summary_case(row: dict[str, object]) -> dict[str, float]:
         return {
@@ -295,6 +360,14 @@ def run_sweep(
         "pressure_range_bar_abs": [float(pressures_bar[0]), float(pressures_bar[-1])],
         "temperature_points": int(len(temperatures_c)),
         "pressure_points": int(len(pressures_bar)),
+        "paper_kinetic_test_nodes": {
+            "temperature_c": [250.0, 280.0, 310.0, 340.0, 370.0, 400.0],
+            "pressure_bar_abs": [5.0, 15.0],
+            "between_node_values": (
+                "model interpolation within the published fit envelope; "
+                "pressure below 5 bar is extrapolation"
+            ),
+        },
         "nominal_case": {
             "inlet_temperature_c": float(nominal_temperature_c),
             "inlet_pressure_bar_abs": float(base_config.feed.pressure_bar),
@@ -312,7 +385,17 @@ def run_sweep(
             "temperature_c": [250.0, 400.0],
             "pressure_bar_abs": [5.0, 15.0],
         },
+        "plot_layout": {
+            "pressure_panels_bar_abs": [[5.0, 15.0], [1.0, 5.0]],
+            "panel_color_scales": "independent linear scales",
+            "visually_marked_outside_fit_region": "hatched inlet pressures from 1 to below 5 bar",
+        },
         "cases_with_peak_temperature_above_400c": int(len(hotspot_extrapolations)),
+        "cases_with_inlet_pressure_below_5bar": int(len(pressure_extrapolations)),
+        "sampled_peak_temperature_range_c": [
+            min(sampled_peak_temperatures_c),
+            max(sampled_peak_temperatures_c),
+        ],
         "elapsed_seconds": float(elapsed_seconds),
         "fixed_inputs": base_config.to_dict(),
         "sweep_behavior": {
@@ -322,9 +405,14 @@ def run_sweep(
             "failed_or_incomplete_cells": "excluded from the contour and retained as status rows in the CSV",
         },
         "interpretation_note": (
-            "The 1 to <5 bar portion is outside the published 5 and 15 bar kinetic fit pressures. "
-            f"{len(hotspot_extrapolations)} of {len(successful)} cases have peak bed temperatures above "
-            "the published 250 to 400 C kinetic fit range. All outputs are conditional predictions "
+            "Inlet temperatures lie within the published 250 to 400 C fit range. Inlet pressures from 5 to 15 bar "
+            "lie within the fit range; pressures below 5 bar are extrapolations included to cover the 1 bar "
+            "experimental condition. The paper sampled six temperatures and two pressures; values between those nodes "
+            "within the fit envelope are model interpolations. "
+            f"{len(hotspot_extrapolations)} of {len(successful)} cases have sampled peak bed temperatures above "
+            f"400 C (sampled peak range {min(sampled_peak_temperatures_c):.1f} to "
+            f"{max(sampled_peak_temperatures_c):.1f} C) and therefore extrapolate the kinetics locally. "
+            "The contour is exploratory because all outputs are conditional predictions "
             "under assumed base-case inputs, and the thermochemistry remains approximate."
         ),
     }
@@ -348,8 +436,8 @@ def main() -> None:
         "--output", type=Path, default=Path("results/temperature_pressure_full_m4_sweep")
     )
     parser.add_argument("--points", type=int, default=21, help="base points on each axis")
-    parser.add_argument("--temperature-min-c", type=float, default=300.0)
-    parser.add_argument("--temperature-max-c", type=float, default=375.0)
+    parser.add_argument("--temperature-min-c", type=float, default=250.0)
+    parser.add_argument("--temperature-max-c", type=float, default=400.0)
     parser.add_argument("--pressure-min-bar", type=float, default=1.0)
     parser.add_argument("--pressure-max-bar", type=float, default=15.0)
     args = parser.parse_args()

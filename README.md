@@ -22,7 +22,7 @@ Run the two-parameter sensitivity map with:
 uv run python -m methanation.sensitivity --output results/temperature_pressure_full_m4_sweep
 ```
 
-The sweep varies inlet temperature from 300–375 °C and inlet pressure from 1–15 bar absolute, holding other inputs at `configs/assumed_base_case.json`. The wall stays at the nominal 350 °C while inlet temperature varies. The default run uses 21 points per axis and adds the exact nominal condition when needed, giving a 22 × 22 (484-run) grid. It writes the full grid, run metadata, and a contour figure in PNG and SVG. Pressures below 5 bar and bed temperatures above the published 250–400 °C kinetic-fit range are extrapolations; the thermochemistry remains approximate.
+The sweep varies inlet temperature from 250–400 °C and inlet pressure from 1–15 bar absolute, holding other inputs at `configs/assumed_base_case.json`. The pressure range includes the 1 bar experimental condition, while Celoria et al.'s kinetic fit covers 5 and 15 bar. The paper tested six temperatures (250, 280, 310, 340, 370, and 400 °C) at those pressures; values between tested nodes are model interpolations, and pressures below 5 bar are extrapolations. The wall stays at the nominal 350 °C while inlet temperature varies. The default run uses 21 points per axis and includes the exact kinetic test nodes and nominal case. Outputs include the full grid, run metadata, and a two-panel contour figure in PNG and SVG: 5–15 bar above and 1–5 bar below, with independent linear color scales and hatching below 5 bar to show the pressure extrapolation zone. Modeled bed hotspots above 400 °C also extrapolate the kinetics locally; metadata reports how often either limit is exceeded. The thermochemistry remains approximate.
 
 ## Model contract
 
