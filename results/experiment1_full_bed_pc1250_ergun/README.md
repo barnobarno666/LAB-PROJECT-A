@@ -1,22 +1,12 @@
-# Experiment 1 full-length bed what-if
+# Experiment 1 full-length bed what-if (corrected geometry)
 
-This plot keeps the Experiment 1 catalyst charge (3.12 g), feed, 350 °C temperature, and Appendix A pressure (2 bar), while assigning that catalyst mass to the stated 0.030 m diameter × 0.300 m bed.
+Uses configured geometry from `configs/assumed_base_case.json`: **1 in (0.0254 m) diameter × 12 in (0.3048 m) length**. It spreads the source charge (3.12 g) over the full volume and assumes apparent particle density 1250 kg/m3.
 
-## Assumptions
+- Implied bulk loading: 20.201 kg/m3.
+- Implied bed voidage: 98.384%.
+- Ergun particle diameter: 3 mm, assumed from the base case.
+- Full M4, isothermal, 350 °C, 2 bar.
+- Constant-pressure prediction: 96.939069%; Ergun what-if: 96.939068%; reported conversion: 40.63%.
+- Ergun pressure drop: 2.151e-03 Pa.
 
-- Assumed apparent particle density: 1,250 kg/m³.
-- Implied bed bulk catalyst loading: 14.713 kg/m³.
-- Implied interparticle bed voidage: 0.9882296 (98.823%).
-- Ergun particle diameter: 3 mm, retained from the generic verification setup because the experiment source does not report it.
-- Isothermal Full M4 kinetics, unchanged and unfitted. The dashed curve repeats the original constant-pressure verification under the same chemistry and feed.
-
-For an exact 3.00 g charge, the same geometry and particle density imply 98.868% voidage. The requested 98.98% does not follow from either 3.00 g or the source's 3.12 g charge with these dimensions.
-
-## Result
-
-- Constant-pressure prediction: 96.939069% conversion.
-- Full-length Ergun what-if: 96.939069% conversion.
-- Pressure falls from 2.000000000 to 1.999999992 bar (drop 7.865e-4 Pa).
-- Reported conversion point: 40.63% at 3.12 g.
-
-The curves overlap because the computed Ergun pressure drop is negligible in this geometry. Treat this as an illustrative extrapolation, not a validated packed-bed calculation: the implied voidage is nearly 99%, so the catalyst charge is too sparse to resemble a conventional packed bed and Ergun's packed-bed correlation is outside its usual physical setting.
+The experiment source does not confirm these dimensions or report particle size. The near-98% voidage describes a sparse catalyst distribution, not a conventional packed bed; the Ergun result is illustrative.

@@ -1,19 +1,9 @@
-# Fixed-bed catalyst-mass and voidage sweep
+# Fixed-bed catalyst-mass and voidage sweep (corrected geometry)
 
-This plot holds bed diameter at 0.030 m and bed length at 0.300 m, assumes apparent particle density 1250 kg/m³, and varies the total catalyst charge assigned uniformly to that full volume. The main sweep ends at 159.04 g, where the derived voidage reaches the previous reference value of 0.40.
+Uses `configs/assumed_base_case.json`: **1 in (0.0254 m) diameter × 12 in (0.3048 m) length**. Apparent particle density is assumed as 1250 kg/m3. The plot varies total catalyst charge assigned uniformly to this fixed volume and ends at 115.83 g, where derived voidage reaches 0.40.
 
-## What each plotted point means
+For each total charge W, `phi = 1 - W/(rho_p*V_bed)`. Voidage is uniform for each separate loading case, not an axial profile. The blue curve uses Experiment 1 conditions with the original constant-pressure Full M4 assumption. Teal markers are independent Ergun simulations at selected loads, using the mass-derived voidage and assumed 3 mm particle diameter from the base case. The red square is the source-reported conversion for context; the experiment source does not confirm these dimensions.
 
-For every total catalyst charge W, the bed bulk loading is W/V and the derived voidage is
+At 3.12 g, derived voidage is 98.384% and constant-pressure conversion is 96.939%. At 115.83 g, voidage is 40% and conversion is 99.610%. Ergun pressure drop is 2.151e-03 Pa at the source mass and 16.402 Pa at the max load.
 
-`phi = 1 - W / (rho_p * V_bed)`.
-
-The blue conversion curve follows the original verification's isothermal, constant-pressure Full M4 model. Under that assumption, the conversion at each total catalyst weight comes from integrating the mass balance to W. The secondary axis shows the voidage implied by the same total charge and fixed bed volume. Each x-axis value is a separate hypothetical full-bed loading case; voidage is uniform for each case, rather than changing axially down one bed.
-
-The teal markers show selected independent Ergun runs using the voidage and bulk loading implied by each mass. The particle diameter is retained as 3 mm because the source experiment does not report it. The red square shows the source-reported Experiment 1 conversion for reference; it does not confirm the assumed 3 cm × 30 cm geometry.
-
-At the source charge of 3.12 g, the derived voidage is 98.823%, and the constant-pressure model predicts 96.939% conversion. At 159.04 g, the bed voidage is 40% and the model predicts 99.656% conversion.
-
-## Physical interpretation
-
-This is a useful loading-sensitivity picture, but the low-mass cases imply nearly 100% voidage: catalyst pellets would be sparse across the full tube rather than forming a conventional packed bed. Ergun results at those loadings are illustrative extrapolations. For a normal packed bed, hold packing voidage approximately fixed and let active bed length change with catalyst mass.
+Near 100% voidage, catalyst is sparse through the full tube rather than conventionally packed. Ergun results in this range are illustrative extrapolations. For a conventional packed bed, keep voidage roughly fixed and change active bed length with catalyst mass.

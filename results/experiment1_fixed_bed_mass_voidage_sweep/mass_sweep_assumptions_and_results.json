@@ -1,39 +1,36 @@
 {
-  "status": "illustrative fixed-geometry mass sweep; not a measured reactor packing characterization",
-  "basis": "Experiment 1 feed and temperature with Appendix A pressure interpretation of 2 bar",
+  "status": "illustrative fixed-geometry mass sweep using current configured model geometry",
+  "geometry_source": "configs/assumed_base_case.json",
+  "basis": "Experiment 1 feed and temperature; Appendix A pressure interpreted as 2 bar",
   "reaction_mode": "m4_full",
   "thermal_mode": "isothermal",
-  "constant_pressure_curve": "same pressure assumption as original verification; conversion at each W is the integrated endpoint for that total catalyst charge",
   "geometry": {
-    "tube_diameter_m": 0.03,
-    "bed_length_m": 0.3,
-    "bed_volume_m3": 0.00021205750411731103
+    "tube_diameter_m": 0.0254,
+    "bed_length_m": 0.3048,
+    "bed_volume_m3": 0.0001544444396289173
   },
   "apparent_particle_density_kg_m3_assumed": 1250.0,
   "particle_diameter_m_assumed_for_ergun": 0.003,
-  "mass_sweep_g": {
-    "minimum_plotted": 0.0,
-    "maximum": 159.04312808798326,
-    "maximum_defined_at_voidage": 0.4
-  },
-  "voidage_formula": "phi = 1 - W/(rho_p * V_bed)",
-  "experiment_source_catalyst_mass_g": 3.12,
-  "voidage_at_experiment_mass": 0.9882296077642261,
-  "constant_pressure_conversion_at_experiment_mass_pct": 96.93906879130317,
-  "reported_experiment_conversion_pct": 40.63,
-  "full_load_mass_at_phi_0_40_g": 159.04312808798326,
-  "constant_pressure_conversion_at_full_load_pct": 99.65632785865078,
-  "ergun_conversion_at_experiment_mass_pct": 96.93906876864288,
-  "ergun_pressure_drop_at_experiment_mass_pa": 0.0007865430670790374,
-  "ergun_conversion_at_full_load_pct": 99.65631540331228,
-  "ergun_pressure_drop_at_full_load_pa": 11.38836242153775,
-  "model_limitations": [
-    "The Experiment 1 source does not confirm this 0.03 m by 0.30 m geometry.",
-    "Each plotted mass represents a separate hypothetical bed with catalyst distributed uniformly over the full fixed volume; the derived voidage is uniform for that case, not changing axially along one bed.",
-    "The source does not give particle diameter; 3 mm is retained from the generic verification setup for Ergun sample cases.",
-    "At low catalyst masses the derived voidage is nearly 100%, so those configurations are sparse catalyst distributions rather than conventional packed beds; Ergun points in that range are illustrative extrapolations.",
-    "The reported Experiment 1 conversion marker is shown for reference and does not validate the assumed full-length geometry."
-  ],
+  "voidage_formula": "phi = 1 - W/(rho_p*V_bed)",
+  "source_experiment_mass_g": 3.12,
+  "voidage_at_source_mass": 0.9838388484169639,
+  "voidage_at_source_mass_percent": 98.38388484169639,
+  "reference_voidage_for_max_sweep": 0.4,
+  "maximum_mass_g_at_voidage_0_40": 115.83332972168799,
+  "constant_pressure_conversion_at_source_mass_pct": 96.93906879130317,
+  "constant_pressure_conversion_at_max_mass_pct": 99.60956126698147,
+  "reported_conversion_pct": 40.63,
+  "ergun_conversion_at_source_mass_pct": 96.93906838949266,
+  "ergun_pressure_drop_at_source_mass_pa": 0.0021506262419279665,
+  "ergun_conversion_at_max_mass_pct": 99.6095409878814,
+  "ergun_pressure_drop_at_max_mass_pa": 16.40186059824191,
   "solver_success_constant_pressure": true,
-  "solver_success_all_ergun_cases": true
+  "solver_success_all_ergun_cases": true,
+  "limitations": [
+    "Experiment 1 does not confirm configured 1 in x 12 in geometry.",
+    "Each mass is a separate hypothetical full-volume loading with uniform voidage.",
+    "Particle diameter is carried from base config; Experiment 1 does not report it.",
+    "Low-mass cases imply voidage near 100%, so Ergun results are sparse-bed extrapolations.",
+    "Reported conversion marker does not validate the assumed full-length geometry."
+  ]
 }
