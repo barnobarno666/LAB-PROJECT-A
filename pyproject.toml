@@ -1,7 +1,7 @@
 [project]
 name = "m4-methanation-reactor"
 version = "0.1.0"
-description = "Reduced M4 fixed-bed CO methanation reactor solver"
+description = "Full and reduced M4 fixed-bed methanation reactor solver"
 requires-python = ">=3.10"
 dependencies = [
   "matplotlib>=3.9",

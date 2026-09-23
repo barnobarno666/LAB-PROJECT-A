@@ -1,4 +1,4 @@
-"""Coupled mass, energy, and pressure balances for reduced M4 operation."""
+"""Coupled mass, energy, and pressure balances for full or reduced M4."""
 
 from __future__ import annotations
 
@@ -8,8 +8,9 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 from .config import ReactorConfig
-from .constants import ELEMENT_MATRIX, ELEMENTS, INDEX, MOLECULAR_WEIGHT_KG_MOL, PA_PER_BAR, R_J_MOL_K, SPECIES
-from .kinetics import rates_reduced_m4
+from .constants import ELEMENT_MATRIX, ELEMENTS, INDEX, MOLECULAR_WEIGHT_KG_MOL, PA_PER_BAR, R_J_MOL_K, SPECIES, STOICH_FULL
+from .kinetics import adsorption_denominator, kinetic_constants, rates_full_m4, rates_reduced_m4
+from .thermo import equilibrium_constants
 from .thermo import cp_species_j_mol_k, reaction_enthalpies_j_mol
 
 
@@ -57,6 +58,20 @@ class SimulationResult:
         inlet_co = self.molar_flows_mol_s[0, INDEX["CO"]]
         return (self.molar_flows_mol_s[:, INDEX["CH4"]] - self.molar_flows_mol_s[0, INDEX["CH4"]]) / inlet_co
 
+    @property
+    def intrinsic_reaction_rates_mol_kg_s(self) -> np.ndarray:
+        """Return signed [CO2 methanation, CO methanation, WGS] rates."""
+        profiles = np.zeros((len(self.catalyst_mass_kg), 3))
+        for i, (pressures, temperature_k) in enumerate(
+            zip(self.partial_pressures_bar, self.temperature_k)
+        ):
+            safe_pressures = np.maximum(pressures, 0.0)
+            if self.config.reaction_mode == "m4_full":
+                profiles[i] = rates_full_m4(safe_pressures, temperature_k)
+            else:
+                profiles[i, 1:] = rates_reduced_m4(safe_pressures, temperature_k)
+        return profiles
+
     def elemental_residuals(self) -> dict[str, float]:
         elemental_flows = self.molar_flows_mol_s @ ELEMENT_MATRIX.T
         inlet = elemental_flows[0]
@@ -91,23 +106,29 @@ def reactor_rhs(catalyst_mass_kg: float, y: np.ndarray, config: ReactorConfig) -
     flows = y[: len(SPECIES)]
     temperature_k = y[-2]
     pressure_pa = y[-1]
-    r_co_methanation, r_wgs = rates_reduced_m4(partial_pressure_bar, temperature_k)
     a = config.activity
+    if a == 0.0:
+        r_co2_methanation = r_co_methanation = r_wgs = 0.0
+    elif config.reaction_mode == "m4_full":
+        r_co2_methanation, r_co_methanation, r_wgs = rates_full_m4(
+            partial_pressure_bar, temperature_k
+        )
+    else:
+        r_co2_methanation = 0.0
+        r_co_methanation, r_wgs = rates_reduced_m4(partial_pressure_bar, temperature_k)
+    # STOICH_FULL uses the paper's RWGS direction; WGS is its negative.
+    paper_direction_rates = np.array([r_co2_methanation, r_co_methanation, -r_wgs])
 
     derivatives = np.zeros_like(y)
-    derivatives[INDEX["CO"]] = -a * (r_co_methanation + r_wgs)
-    derivatives[INDEX["H2"]] = a * (-3.0 * r_co_methanation + r_wgs)
-    derivatives[INDEX["CH4"]] = a * r_co_methanation
-    derivatives[INDEX["H2O"]] = a * (r_co_methanation - r_wgs)
-    derivatives[INDEX["CO2"]] = a * r_wgs
+    derivatives[: len(SPECIES)] = a * (STOICH_FULL @ paper_direction_rates)
 
     if config.thermal.mode == "isothermal":
         derivatives[-2] = 0.0
     else:
         heat_capacity_flow = float(flows @ cp_species_j_mol_k(temperature_k))
-        dh_co_methanation = reaction_enthalpies_j_mol(temperature_k)[1]
-        dh_wgs = -reaction_enthalpies_j_mol(temperature_k)[2]
-        reaction_heat_w_kg = a * (-dh_co_methanation * r_co_methanation - dh_wgs * r_wgs)
+        reaction_heat_w_kg = -a * float(
+            reaction_enthalpies_j_mol(temperature_k) @ paper_direction_rates
+        )
         wall_heat_w_kg = 0.0
         if config.thermal.mode == "heat_exchange":
             area_per_bed_volume = 4.0 / config.bed.tube_diameter_m
@@ -138,9 +159,78 @@ def _initial_state(config: ReactorConfig) -> np.ndarray:
     )
 
 
+def _full_m4_dry_start(config: ReactorConfig, y0: np.ndarray) -> tuple[float, np.ndarray]:
+    """Use the leading physical inlet series to start the stiff solver.
+
+    For a dry CO/H2 feed, water starts at O(W), while WGS-produced CO2
+    and direct CO2 methanation start at O(W**2). This avoids finite-difference
+    Jacobian probes through the undefined CO2/H2O ratio at W=0 without
+    adding an artificial steam feed.
+    """
+    if (
+        config.reaction_mode != "m4_full"
+        or config.activity == 0.0
+        or y0[INDEX["H2O"]] > 0.0
+        or y0[INDEX["CO2"]] > 0.0
+    ):
+        return 0.0, y0
+    partial_pressure_bar, total_flow, _, _, _ = _local_properties(config, y0)
+    r_co, _ = rates_reduced_m4(partial_pressure_bar, y0[-2])
+    if r_co <= 0.0:
+        return 0.0, y0
+
+    p_co = partial_pressure_bar[INDEX["CO"]]
+    p_h2 = partial_pressure_bar[INDEX["H2"]]
+    adsorption = adsorption_denominator(partial_pressure_bar, y0[-2])
+    k1, _, k3 = kinetic_constants(y0[-2])
+    keq_rwgs = equilibrium_constants(y0[-2])[2]
+    pressure_per_flow = (y0[-1] / PA_PER_BAR) / total_flow
+    co2_over_water_coefficient = k1 * p_h2**1.5 / adsorption**2
+    wgs_per_water_coefficient = (
+        k3 * p_co * pressure_per_flow
+        / (adsorption**2 * keq_rwgs * np.sqrt(p_h2))
+    )
+    a = config.activity
+    water_linear_coefficient = a * r_co
+    # With H2O = h1*W and CO2 = c2*W**2, the leading rates are
+    # r_WGS = B*H2O and r1 = A*CO2/H2O. Solving the CO2 balance gives c2.
+    co2_quadratic_coefficient = (
+        a * wgs_per_water_coefficient * water_linear_coefficient
+        / (2.0 + co2_over_water_coefficient / r_co)
+    )
+    # Keep the first generated water flow well above the solver's absolute
+    # flow tolerance, while remaining in the range where the inlet series
+    # is accurate and before the first exported profile point.
+    start_mass = max(
+        config.catalyst_mass_kg * 1.0e-8,
+        100.0 * config.solver.atol_flow_mol_s / water_linear_coefficient,
+    )
+    max_start_mass = config.catalyst_mass_kg * min(
+        1.0e-4, 0.5 / (config.solver.output_points - 1)
+    )
+    if start_mass > max_start_mass:
+        raise ValueError(
+            "Full M4 dry-inlet start exceeds the small-inlet range; "
+            "decrease solver.atol_flow_mol_s."
+        )
+    state = y0 + start_mass * reactor_rhs(0.0, y0, config)
+    wgs_extent = (
+        0.5 * a * wgs_per_water_coefficient
+        * water_linear_coefficient * start_mass**2
+    )
+    co2_extent = co2_quadratic_coefficient * start_mass**2
+    co2_methanation_extent = wgs_extent - co2_extent
+    state[: len(SPECIES)] += (
+        -STOICH_FULL[:, 2] * wgs_extent
+        + STOICH_FULL[:, 0] * co2_methanation_extent
+    )
+    return start_mass, state
+
+
 def simulate(config: ReactorConfig) -> SimulationResult:
     """Integrate the configured bed and return profiles in the configured coordinate."""
     y0 = _initial_state(config)
+    start_mass, integration_y0 = _full_m4_dry_start(config, y0)
     atol = np.array(
         [config.solver.atol_flow_mol_s] * len(SPECIES)
         + [config.solver.atol_temperature_k, config.solver.atol_pressure_pa]
@@ -166,8 +256,8 @@ def simulate(config: ReactorConfig) -> SimulationResult:
 
     solution = solve_ivp(
         fun=lambda w, state: reactor_rhs(w, state, config),
-        t_span=(0.0, config.catalyst_mass_kg),
-        y0=y0,
+        t_span=(start_mass, config.catalyst_mass_kg),
+        y0=integration_y0,
         method=config.solver.method,
         rtol=config.solver.rtol,
         atol=atol,
@@ -176,7 +266,12 @@ def simulate(config: ReactorConfig) -> SimulationResult:
     )
     endpoint = float(solution.t[-1])
     points = np.linspace(0.0, endpoint, config.solver.output_points)
-    states = solution.sol(points).T if solution.sol is not None else solution.y.T
+    if start_mass > 0.0:
+        states = np.empty((len(points), len(y0)))
+        states[0] = y0
+        states[1:] = solution.sol(points[1:]).T
+    else:
+        states = solution.sol(points).T if solution.sol is not None else solution.y.T
     terminal_event = None
     labels = ("minimum_pressure", "maximum_temperature", "minimum_hydrogen")
     for label, times in zip(labels, solution.t_events):

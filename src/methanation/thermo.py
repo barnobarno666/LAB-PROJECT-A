@@ -1,4 +1,4 @@
-"""Thermochemical closure for the initial reduced-M4 implementation."""
+"""Thermochemical closure for the full and reduced M4 reactions."""
 
 from __future__ import annotations
 

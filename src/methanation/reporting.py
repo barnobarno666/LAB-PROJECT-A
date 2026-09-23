@@ -21,7 +21,13 @@ def _write_profiles(result: SimulationResult, output_dir: Path) -> None:
     ]
     columns += [f"flow_{name}_mol_s" for name in SPECIES]
     columns += [f"concentration_{name}_mol_m3" for name in SPECIES]
+    columns += [
+        "intrinsic_r1_co2_methanation_mol_kg_s",
+        "intrinsic_r2_co_methanation_mol_kg_s",
+        "intrinsic_wgs_mol_kg_s",
+    ]
     concentrations = result.concentrations_mol_m3
+    rates = result.intrinsic_reaction_rates_mol_kg_s
     with (output_dir / "profiles.csv").open("w", newline="", encoding="utf-8") as stream:
         writer = csv.writer(stream)
         writer.writerow(columns)
@@ -29,7 +35,7 @@ def _write_profiles(result: SimulationResult, output_dir: Path) -> None:
             writer.writerow([
                 result.catalyst_mass_kg[i], result.bed_length_m[i], result.temperature_k[i], result.pressure_pa[i] / 100_000.0,
                 result.co_conversion[i], result.methane_yield[i],
-                *result.molar_flows_mol_s[i], *concentrations[i],
+                *result.molar_flows_mol_s[i], *concentrations[i], *rates[i],
             ])
 
 
@@ -218,6 +224,7 @@ def write_outputs(result: SimulationResult, output_dir: str | Path) -> None:
     _write_profiles(result, output)
     _make_figures(result, output)
     peak_index = int(np.argmax(result.temperature_k))
+    reaction_rates = result.intrinsic_reaction_rates_mol_kg_s
     summary = {
         "reaction_mode": result.config.reaction_mode,
         "status": "completed" if result.success else "incomplete_or_failed",
@@ -229,6 +236,7 @@ def write_outputs(result: SimulationResult, output_dir: str | Path) -> None:
         "reached_catalyst_mass_kg": float(result.catalyst_mass_kg[-1]),
         "outlet_co_conversion": float(result.co_conversion[-1]),
         "outlet_methane_yield": float(result.methane_yield[-1]),
+        "peak_intrinsic_r1_co2_methanation_mol_kg_s": float(np.max(reaction_rates[:, 0])),
         "peak_temperature_k": float(result.temperature_k[peak_index]),
         "peak_temperature_location_m": float(result.bed_length_m[peak_index]),
         "outlet_pressure_bar": float(result.pressure_pa[-1] / 100_000.0),

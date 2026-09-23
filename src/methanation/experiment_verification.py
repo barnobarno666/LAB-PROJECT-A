@@ -1,4 +1,4 @@
-"""No-fit comparison of the reduced M4 model with the user's Experiment 1 report."""
+"""No-fit comparison of an M4 model with the user's Experiment 1 report."""
 
 from __future__ import annotations
 
@@ -31,18 +31,20 @@ def _model_input_data(data: dict[str, Any], pressure_bar: float | None = None) -
 
 
 def compare_experiment1(
-    data: dict[str, Any], pressure_bar: float | None = None
+    data: dict[str, Any], pressure_bar: float | None = None,
+    reaction_mode: str = "m4_full",
 ) -> tuple[Group14Comparison, SimulationResult]:
-    """Run the unchanged reduced model at Experiment 1 conditions."""
+    """Run the selected M4 mode at Experiment 1 conditions."""
     from .verification import group14_comparison_config
 
     model_data = _model_input_data(data, pressure_bar)
-    result = simulate(group14_comparison_config(model_data))
+    result = simulate(group14_comparison_config(model_data, reaction_mode))
     predicted = float(result.co_conversion[-1])
     observed = float(data["reported_metrics"]["co_conversion_fraction"])
     error_pp = (predicted - observed) * 100.0
     comparison = Group14Comparison(
         catalyst_mass_kg=float(result.config.catalyst_mass_kg),
+        reaction_mode=result.config.reaction_mode,
         inlet_temperature_k=float(result.config.feed.temperature_k),
         inlet_pressure_bar=float(result.config.feed.pressure_bar),
         predicted_co_conversion_fraction=predicted,
@@ -124,9 +126,12 @@ def _write_experiment1_report(
     output_dir.mkdir(parents=True, exist_ok=True)
     comparison_dict = comparison.to_dict()
     comparison_dict["comparison_type"] = (
-        "no-fit reduced M4 prediction versus Experiment 1 reported CO conversion"
+        "no-fit M4 prediction versus Experiment 1 reported CO conversion"
     )
     comparison_dict["source"] = data["source"]
+    comparison_dict["peak_intrinsic_r1_co2_methanation_mol_kg_s"] = float(
+        result.intrinsic_reaction_rates_mol_kg_s[:, 0].max()
+    )
     comparison_dict["interpretation"] = (
         "The report's CO conversion is supported by its rounded inlet/outlet CO flows; "
         "the pressure basis and other GC species flows remain internally inconsistent."
@@ -146,13 +151,22 @@ def _write_experiment1_report(
     )
 
     n2_delta_pct = audit["n2_outlet_relative_difference"] * 100.0
-    report = f"""# Experiment 1 CO conversion versus reduced M4 model
+    reaction_note = (
+        "Full M4 includes direct CO2 methanation, CO methanation, and WGS. "
+        "A leading-order inlet expansion resolves the dry CO/H2 start without adding steam."
+        if comparison.reaction_mode == "m4_full"
+        else "Reduced M4 includes CO methanation and WGS. Its expanded rates "
+        "are finite at the dry inlet."
+    )
+    report = f"""# Experiment 1 CO conversion versus {comparison.model_label} model
 
 ## No-fit comparison
 
-The model uses the Experiment 1 catalyst mass, feed molar flows, temperature, and the 2 bar pressure stated in Appendix A. The reduced M4 kinetics are unchanged, with activity fixed at 1.0. No model parameter was fitted to this experiment.
+The model uses the Experiment 1 catalyst mass, feed molar flows, temperature, and the 2 bar pressure stated in Appendix A. Reaction mode is `{comparison.reaction_mode}`; the published M4 kinetics are unchanged, with activity fixed at 1.0. No model parameter was fitted to this experiment. {reaction_note}
 
-| Metric | Reduced M4 prediction | Experiment 1 report | Prediction minus report |
+The source kinetics were fitted on a 24 wt% Ni/Al2O3 catalyst at 5 and 15 bar; both pressure interpretations here extrapolate below that range.
+
+| Metric | {comparison.model_label} prediction | Experiment 1 report | Prediction minus report |
 |---|---:|---:|---:|
 | CO conversion | {comparison.predicted_co_conversion_fraction:.3%} | {comparison.experimental_co_conversion_fraction:.3%} | {comparison.signed_error_percentage_points:+.2f} percentage points |
 
@@ -191,19 +205,24 @@ The experiment provides a more credible conversion benchmark than the previously
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Compare the reduced M4 model with the Experiment 1 report."
+        description="Compare an M4 model with the Experiment 1 report."
     )
     parser.add_argument("--data", required=True, help="Experiment 1 transcription as JSON")
     parser.add_argument("--output", required=True, help="Directory for verification outputs")
+    parser.add_argument(
+        "--reaction-mode", choices=("m4_full", "m4_reduced_co_wgs"), default="m4_full"
+    )
     args = parser.parse_args()
     data = json.loads(Path(args.data).read_text(encoding="utf-8"))
-    comparison, result = compare_experiment1(data)
+    comparison, result = compare_experiment1(data, reaction_mode=args.reaction_mode)
     if not comparison.solver_success or result.terminal_event is not None:
         raise RuntimeError(
             f"Model did not reach the full catalyst-mass endpoint: {comparison.solver_message}; "
             f"terminal_event={result.terminal_event}"
         )
-    atmospheric_comparison, atmospheric_result = compare_experiment1(data, pressure_bar=1.0)
+    atmospheric_comparison, atmospheric_result = compare_experiment1(
+        data, pressure_bar=1.0, reaction_mode=args.reaction_mode
+    )
     if not atmospheric_comparison.solver_success or atmospheric_result.terminal_event is not None:
         raise RuntimeError("Atmospheric-pressure alternative did not reach the full endpoint.")
     audit = audit_experiment1_data(data)

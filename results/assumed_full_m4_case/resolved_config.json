@@ -2,7 +2,14 @@
   "reaction_mode": "m4_full",
   "feed": {
     "total_molar_flow_mol_s": 0.05,
-    "mole_ratio": {"CO": 1.0, "H2": 4.0, "CH4": 0.0, "H2O": 0.0, "CO2": 0.0, "N2": 25.0},
+    "mole_ratio": {
+      "CO": 1.0,
+      "H2": 4.0,
+      "CH4": 0.0,
+      "H2O": 0.0,
+      "CO2": 0.0,
+      "N2": 25.0
+    },
     "temperature_k": 623.15,
     "pressure_bar": 5.0
   },
@@ -10,7 +17,7 @@
     "tube_diameter_m": 0.127,
     "bed_length_m": 0.3048,
     "catalyst_loading_kg_m3_bed": 750.0,
-    "void_fraction": 0.40,
+    "void_fraction": 0.4,
     "particle_diameter_m": 0.003
   },
   "thermal": {

@@ -115,8 +115,8 @@ class ReactorConfig:
         return self.feed.pressure_bar * PA_PER_BAR
 
     def validate(self) -> None:
-        if self.reaction_mode != "m4_reduced_co_wgs":
-            raise ValueError("Only reaction_mode='m4_reduced_co_wgs' is implemented.")
+        if self.reaction_mode not in {"m4_reduced_co_wgs", "m4_full"}:
+            raise ValueError("reaction_mode must be m4_reduced_co_wgs or m4_full")
         if self.thermal.mode not in {"isothermal", "adiabatic", "heat_exchange"}:
             raise ValueError("thermal.mode must be isothermal, adiabatic, or heat_exchange")
         if self.transport.mode not in {"constant_pressure", "ergun"}:
@@ -158,4 +158,13 @@ class ReactorConfig:
         if sum(self.feed.mole_ratio.values()) <= 0.0:
             raise ValueError("feed mole ratios must have a positive total")
         if self.feed.mole_ratio.get("H2", 0.0) <= 0.0:
-            raise ValueError("The reduced M4 rate law requires positive inlet hydrogen.")
+            raise ValueError("M4 rate laws require positive inlet hydrogen.")
+        if (
+            self.reaction_mode == "m4_full"
+            and self.feed.mole_ratio.get("H2O", 0.0) == 0.0
+            and self.feed.mole_ratio.get("CO2", 0.0) > 0.0
+        ):
+            raise ValueError(
+                "Full M4 has no finite rate at a dry inlet containing CO2; "
+                "specify a physically supported water feed."
+            )

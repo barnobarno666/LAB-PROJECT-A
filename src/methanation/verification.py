@@ -1,4 +1,4 @@
-"""Group 14 experimental benchmark for the reduced M4 reactor model."""
+"""Group 14 experimental benchmark for the selected M4 reactor mode."""
 
 from __future__ import annotations
 
@@ -66,6 +66,7 @@ class Group14Comparison:
     """No-fit prediction of the reported Group 14 CO-conversion measurement."""
 
     catalyst_mass_kg: float
+    reaction_mode: str
     inlet_temperature_k: float
     inlet_pressure_bar: float
     predicted_co_conversion_fraction: float
@@ -76,9 +77,14 @@ class Group14Comparison:
     solver_success: bool
     solver_message: str
 
+    @property
+    def model_label(self) -> str:
+        return "Full M4" if self.reaction_mode == "m4_full" else "Reduced M4"
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "comparison_type": "no-fit mechanistic prediction versus unresolved source-reported conversion",
+            "reaction_mode": self.reaction_mode,
             "catalyst_mass_kg": self.catalyst_mass_kg,
             "inlet_temperature_k": self.inlet_temperature_k,
             "inlet_pressure_bar": self.inlet_pressure_bar,
@@ -137,7 +143,9 @@ def audit_group14_data(data: dict[str, Any]) -> Group14Audit:
     )
 
 
-def group14_comparison_config(data: dict[str, Any]) -> ReactorConfig:
+def group14_comparison_config(
+    data: dict[str, Any], reaction_mode: str = "m4_full"
+) -> ReactorConfig:
     """Build the model input from the measured conditions and 3 g catalyst basis.
 
     The governing equations are integrated in catalyst mass. Bed geometry and
@@ -153,7 +161,7 @@ def group14_comparison_config(data: dict[str, Any]) -> ReactorConfig:
     bed_length_m = catalyst_mass_kg / (loading_kg_m3 * cross_section_m2)
     return ReactorConfig.from_dict(
         {
-            "reaction_mode": "m4_reduced_co_wgs",
+            "reaction_mode": reaction_mode,
             "feed": {
                 "total_molar_flow_mol_s": sum(inlet.values()) / 3600.0,
                 "mole_ratio": inlet,
@@ -176,8 +184,8 @@ def group14_comparison_config(data: dict[str, Any]) -> ReactorConfig:
             "activity": 1.0,
             "solver": {
                 "method": "Radau",
-                "rtol": 1e-6,
-                "atol_flow_mol_s": 1e-10,
+                "rtol": 1e-8 if reaction_mode == "m4_full" else 1e-6,
+                "atol_flow_mol_s": 1e-14 if reaction_mode == "m4_full" else 1e-10,
                 "atol_temperature_k": 1e-7,
                 "atol_pressure_pa": 1e-2,
                 "max_temperature_k": 1200.0,
@@ -189,15 +197,18 @@ def group14_comparison_config(data: dict[str, Any]) -> ReactorConfig:
     )
 
 
-def compare_group14_experiment(data: dict[str, Any]) -> tuple[Group14Comparison, SimulationResult]:
+def compare_group14_experiment(
+    data: dict[str, Any], reaction_mode: str = "m4_full"
+) -> tuple[Group14Comparison, SimulationResult]:
     """Run the fixed-condition, no-parameter-fit Group 14 comparison."""
-    result = simulate(group14_comparison_config(data))
+    result = simulate(group14_comparison_config(data, reaction_mode))
     predicted = float(result.co_conversion[-1])
     observed = float(data["reported_metrics"]["co_conversion_fraction"])
     error_pp = 100.0 * (predicted - observed)
     return (
         Group14Comparison(
             catalyst_mass_kg=float(result.config.catalyst_mass_kg),
+            reaction_mode=result.config.reaction_mode,
             inlet_temperature_k=float(result.config.feed.temperature_k),
             inlet_pressure_bar=float(result.config.feed.pressure_bar),
             predicted_co_conversion_fraction=predicted,
@@ -229,12 +240,29 @@ def _write_report(
     result: SimulationResult | None = None,
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
+    reaction_note = (
+        "Full M4 includes direct CO2 methanation, CO methanation, and WGS "
+        "(the reverse of the paper's RWGS reaction)."
+        if comparison.reaction_mode == "m4_full"
+        else "Reduced M4 includes CO methanation and WGS only."
+    )
+    inlet_note = (
+        "A leading-order inlet expansion starts full M4 from the documented "
+        "zero-water, zero-CO2 CO/H2 feed without adding an artificial steam flow."
+        if comparison.reaction_mode == "m4_full"
+        else "Expanded CO methanation and WGS rates are finite at the dry inlet."
+    )
     (output_dir / "group14_data_audit.json").write_text(
         json.dumps(audit.to_dict(), indent=2), encoding="utf-8"
     )
     entries = data["conflicting_document_entries"]
+    comparison_dict = comparison.to_dict()
+    if result is not None:
+        comparison_dict["peak_intrinsic_r1_co2_methanation_mol_kg_s"] = float(
+            np.max(result.intrinsic_reaction_rates_mol_kg_s[:, 0])
+        )
     (output_dir / "group14_model_comparison.json").write_text(
-        json.dumps(comparison.to_dict(), indent=2), encoding="utf-8"
+        json.dumps(comparison_dict, indent=2), encoding="utf-8"
     )
     _plot_conversion_comparison(
         comparison,
@@ -245,9 +273,9 @@ def _write_report(
 
 ## Result
 
-This is a direct, **no-fit** comparison: M4 kinetic parameters are left unchanged, and the model is evaluated at the Group 14 temperature, pressure, feed, and 3 g catalyst mass. The plot compares the model prediction with the document's reported 99.207% CO conversion. That reported value is not reconciled with the same document's GC composition and flow measurements, so treat this as an unresolved reported-value comparison, not model validation.
+This is a direct, **no-fit** comparison using `{comparison.reaction_mode}`: M4 kinetic parameters are left unchanged, and the model is evaluated at the Group 14 temperature, pressure, feed, and 3 g catalyst mass. The plot compares the model prediction with the document's reported 99.207% CO conversion. That reported value is not reconciled with the same document's GC composition and flow measurements, so treat this as an unresolved reported-value comparison, not model validation.
 
-| Metric | M4 prediction | Reported value | Prediction minus reported value |
+| Metric | {comparison.model_label} prediction | Reported value | Prediction minus reported value |
 |---|---:|---:|---:|
 | CO conversion | {comparison.predicted_co_conversion_fraction:.3%} | {comparison.experimental_co_conversion_fraction:.3%} | {comparison.signed_error_percentage_points:+.2f} percentage points |
 
@@ -264,8 +292,10 @@ The model run completed: `{comparison.solver_success}`. Model conversion is calc
 
 ## Comparison assumptions
 
-- Kinetics: supplied reduced M4 model (CO methanation + WGS), with published kinetic parameters and activity fixed at 1.0.
+- Kinetics: {comparison.model_label} with published M4 parameters and activity fixed at 1.0. {reaction_note}
+- Dry-inlet treatment: {inlet_note}
 - Reactor: isothermal at {comparison.inlet_temperature_k:.2f} K and constant pressure at {comparison.inlet_pressure_bar:.5f} bar.
+- Literature scope: the M4 parameters were fitted on a 24 wt% Ni/Al2O3 catalyst at 5 and 15 bar, so this approximately 1 bar prediction extrapolates the pressure range.
 - Integration endpoint: {comparison.catalyst_mass_kg * 1000.0:.3f} g catalyst.
 - Table 3 inlet molar flows are used exactly as documented.
 - This is a prediction, not a fitted model: no kinetic, activity, heat-transfer, or transport parameter was adjusted to improve agreement.
@@ -346,7 +376,7 @@ def _plot_conversion_comparison(
         x_model,
         color=COLOR_MODEL,
         linewidth=2.2,
-        label=rf"Reduced M4 Model ($T={comparison.inlet_temperature_k - 273.15:.0f}\,^\circ\mathrm{{C}}$, $P={comparison.inlet_pressure_bar:.2f}\,\mathrm{{bar}}$)",
+        label=rf"{comparison.model_label} ($T={comparison.inlet_temperature_k - 273.15:.0f}\,^\circ\mathrm{{C}}$, $P={comparison.inlet_pressure_bar:.2f}\,\mathrm{{bar}}$)",
         zorder=3,
     )
     ax_main.plot(
@@ -433,13 +463,16 @@ def _plot_conversion_comparison(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Compare the reduced M4 model with Group 14's reported CO conversion.")
+    parser = argparse.ArgumentParser(description="Compare an M4 model with Group 14's reported CO conversion.")
     parser.add_argument("--data", required=True, help="JSON transcribed from Group 14 data document")
     parser.add_argument("--output", required=True, help="Directory for comparison outputs")
+    parser.add_argument(
+        "--reaction-mode", choices=("m4_full", "m4_reduced_co_wgs"), default="m4_full"
+    )
     args = parser.parse_args()
     data = json.loads(Path(args.data).read_text(encoding="utf-8"))
     audit = audit_group14_data(data)
-    comparison, result = compare_group14_experiment(data)
+    comparison, result = compare_group14_experiment(data, args.reaction_mode)
     _write_report(data, audit, comparison, Path(args.output), result=result)
     print(f"predicted_co_conversion={comparison.predicted_co_conversion_fraction:.6f}")
     print(f"experimental_co_conversion={comparison.experimental_co_conversion_fraction:.6f}")

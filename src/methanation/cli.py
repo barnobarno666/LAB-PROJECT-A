@@ -11,7 +11,7 @@ from .reporting import write_outputs
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run the reduced M4 packed-bed reactor model.")
+    parser = argparse.ArgumentParser(description="Run the selected M4 packed-bed reactor model.")
     parser.add_argument("--config", required=True, help="Path to a JSON reactor configuration.")
     parser.add_argument("--output", required=True, help="Directory for profiles, summary, and figures.")
     args = parser.parse_args()

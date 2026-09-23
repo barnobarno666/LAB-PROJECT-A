@@ -56,3 +56,20 @@ def test_bdf_agrees_with_radau_for_the_coupled_assumed_case():
     assert bdf.success, bdf.message
     assert abs(radau.co_conversion[-1] - bdf.co_conversion[-1]) < 1e-4
     assert abs(radau.temperature_k.max() - bdf.temperature_k.max()) < 0.1
+
+
+def test_full_m4_uses_generated_co2_and_conserves_elements():
+    full_config = ReactorConfig.from_json(CONFIG_PATH)
+    reduced_config = replace(full_config, reaction_mode="m4_reduced_co_wgs")
+    full = simulate(full_config)
+    reduced = simulate(reduced_config)
+    assert full.success, full.message
+    assert reduced.success, reduced.message
+    assert full.molar_flows_mol_s[0, INDEX["CO2"]] == 0.0
+    assert full.molar_flows_mol_s[0, INDEX["H2O"]] == 0.0
+    assert full.intrinsic_reaction_rates_mol_kg_s[0, 0] == 0.0
+    assert np.max(full.intrinsic_reaction_rates_mol_kg_s[:, 0]) > 0.0
+    assert np.all(reduced.intrinsic_reaction_rates_mol_kg_s[:, 0] == 0.0)
+    assert full.molar_flows_mol_s[-1, INDEX["CO2"]] < reduced.molar_flows_mol_s[-1, INDEX["CO2"]]
+    assert abs(full.co_conversion[-1] - reduced.co_conversion[-1]) > 1e-6
+    assert max(full.elemental_residuals().values()) < 1e-8

@@ -1,0 +1,17 @@
+{
+  "comparison_type": "no-fit M4 prediction versus Experiment 1 reported CO conversion",
+  "reaction_mode": "m4_full",
+  "catalyst_mass_kg": 0.00312,
+  "inlet_temperature_k": 623.15,
+  "inlet_pressure_bar": 2.0,
+  "predicted_co_conversion_fraction": 0.9693906879130317,
+  "experimental_co_conversion_fraction": 0.4063,
+  "signed_error_percentage_points": 56.309068791303176,
+  "absolute_error_percentage_points": 56.309068791303176,
+  "predicted_methane_yield_fraction": 0.7254393058717725,
+  "solver_success": true,
+  "solver_message": "The solver successfully reached the end of the integration interval.",
+  "source": "exp1 sub.pdf, abstract, Results and Discussion, Appendices A-C",
+  "peak_intrinsic_r1_co2_methanation_mol_kg_s": 0.0010763554723981798,
+  "interpretation": "The report's CO conversion is supported by its rounded inlet/outlet CO flows; the pressure basis and other GC species flows remain internally inconsistent."
+}

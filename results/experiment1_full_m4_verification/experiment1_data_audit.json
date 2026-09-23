@@ -1,0 +1,20 @@
+{
+  "reported_co_conversion_fraction": 0.4063,
+  "co_conversion_from_reported_co_flows_fraction": 0.40625,
+  "n2_inlet_mol_h": 0.799,
+  "n2_outlet_mol_h": 0.79,
+  "n2_outlet_relative_difference": -0.011264080100125166,
+  "gc_composition_fraction_sum": 0.9975999999999999,
+  "outlet_flow_sum_appendix_c_mol_h": 1.098,
+  "outlet_flow_sum_appendix_b_table4_mol_h": 1.053,
+  "outlet_dry_flow_reported_mol_h": 1.11,
+  "n2_scaled_dry_outlet_flow_mol_h": 1.1125034809245338,
+  "n2_scaled_co_outlet_flow_mol_h": 0.19524436090225566,
+  "n2_scaled_co_conversion_fraction": 0.3898613721804511,
+  "carbon_relative_residual_using_appendix_c_flows": -0.22500000000000003,
+  "oxygen_relative_residual_using_appendix_c_flows": -0.0937499999999999,
+  "water_from_hydrogen_balance_mol_h": 0.9029999999999999,
+  "water_from_oxygen_balance_mol_h": 0.02999999999999997,
+  "co2_flow_appendix_b_table4_mol_h": 0.005,
+  "co2_flow_appendix_c_calculation_mol_h": 0.05
+}
