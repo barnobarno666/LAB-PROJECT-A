@@ -62,12 +62,13 @@ COLOR_GRID = "#EAEAEA"
 COLOR_ZERO = "#718096"
 
 SPECIES_PALETTE = {
-    "H2":  {"color": "#0077BB", "style": "-",              "width": 2.0, "label": r"$\mathrm{H}_2$"},
-    "CO":  {"color": "#CC3311", "style": "--",             "width": 2.0, "label": r"$\mathrm{CO}$"},
-    "CH4": {"color": "#009988", "style": "-.",             "width": 2.0, "label": r"$\mathrm{CH}_4$"},
-    "H2O": {"color": "#EE7733", "style": ":",              "width": 2.2, "label": r"$\mathrm{H}_2\mathrm{O}$"},
-    "N2":  {"color": "#5A6B7C", "style": (0, (5, 2, 1, 2)), "width": 1.8, "label": r"$\mathrm{N}_2$"},
-    "CO2": {"color": "#EE3377", "style": "-",              "width": 1.7, "label": r"$\mathrm{CO}_2$"},
+    # Synthwave-inspired hues tuned for contrast on a white report background.
+    "H2":  {"color": "#0077B6", "style": "-", "width": 1.5, "label": r"$\mathrm{H}_2$"},
+    "CO":  {"color": "#E6007E", "style": "-", "width": 1.5, "label": r"$\mathrm{CO}$"},
+    "CH4": {"color": "#6C2BD9", "style": "-", "width": 1.5, "label": r"$\mathrm{CH}_4$"},
+    "H2O": {"color": "#E76F00", "style": "-", "width": 1.5, "label": r"$\mathrm{H}_2\mathrm{O}$"},
+    "N2":  {"color": "#4B4E8A", "style": "-", "width": 1.5, "label": r"$\mathrm{N}_2$"},
+    "CO2": {"color": "#008F7A", "style": "-", "width": 1.5, "label": r"$\mathrm{CO}_2$"},
 }
 
 

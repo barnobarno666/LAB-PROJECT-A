@@ -109,8 +109,8 @@ def _make_figures(result: SimulationResult, output_dir: Path) -> None:
             result.bed_length_m,
             values,
             color=sp_style["color"],
-            linestyle="-",
-            linewidth=1.9,
+            linestyle=sp_style["style"],
+            linewidth=sp_style["width"],
             label=sp_style["label"],
             zorder=3,
         )
