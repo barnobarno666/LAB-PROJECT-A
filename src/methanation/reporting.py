@@ -43,8 +43,8 @@ from .plotting import (
 )
 
 
-def _savefig(fig: plt.Figure, path: Path) -> None:
-    save_figure(fig, path, dpi=300)
+def _savefig(fig: plt.Figure, path: Path, *, tight: bool = True) -> None:
+    save_figure(fig, path, dpi=300, tight=tight)
 
 
 def _make_figures(result: SimulationResult, output_dir: Path) -> None:
@@ -91,37 +91,73 @@ def _make_figures(result: SimulationResult, output_dir: Path) -> None:
     ax.legend(loc="lower right", bbox_to_anchor=(0.95, 0.08), handlelength=2.0)
     _savefig(fig, output_dir / "co_conversion_vs_catalyst_mass.png")
 
-    # 3. Species concentrations vs. bed length
-    fig, ax = plt.subplots(figsize=(6.2, 4.4))
+    # 3. Species concentrations vs. bed length. A logarithmic y-axis keeps
+    # nitrogen, reactants, and lower-concentration products readable together.
+    fig, ax = plt.subplots(figsize=(6.0, 4.2))
+    concentrations = result.concentrations_mol_m3
+    plotted_lines = []
     for i, species in enumerate(SPECIES):
         sp_style = SPECIES_PALETTE.get(
             species,
             {"color": "#333333", "style": "-", "width": 1.8, "label": species},
         )
-        ax.plot(
+        values = concentrations[:, i]
+        # Log axes cannot represent zero inlet concentrations. Mask only those
+        # points; retain every positive model value without adding a floor.
+        values = np.where(values > 0.0, values, np.nan)
+        (line,) = ax.plot(
             result.bed_length_m,
-            result.concentrations_mol_m3[:, i],
+            values,
             color=sp_style["color"],
-            linestyle=sp_style["style"],
-            linewidth=sp_style["width"],
+            linestyle="-",
+            linewidth=1.9,
             label=sp_style["label"],
             zorder=3,
         )
+        plotted_lines.append(line)
     ax.set_xlabel(r"Bed Length, $z$ [$\mathrm{m}$]", labelpad=6)
-    ax.set_ylabel(r"Gas Concentration, $C_i$ [$\mathrm{mol}\cdot\mathrm{m}^{-3}$]", labelpad=6)
-    ax.set_xlim(0.0, float(result.bed_length_m[-1]))
-    ax.set_ylim(bottom=0.0)
-    ax.xaxis.set_minor_locator(ticker.AutoMinorLocator(2))
-    ax.yaxis.set_minor_locator(ticker.AutoMinorLocator(2))
-    ax.legend(
-        loc="upper right",
-        ncol=2,
-        handlelength=2.2,
-        columnspacing=1.0,
-        handletextpad=0.5,
-        labelspacing=0.4,
+    ax.set_ylabel(
+        r"Gas Concentration, $C_i$ [$\mathrm{mol}\cdot\mathrm{m}^{-3}$] (log scale)",
+        labelpad=6,
     )
-    _savefig(fig, output_dir / "species_concentrations_vs_bed_length.png")
+    ax.set_xlim(0.0, float(result.bed_length_m[-1]))
+    positive = concentrations[concentrations > 0.0]
+    lower_decade = 10.0 ** np.floor(np.log10(float(positive.min())))
+    upper_decade = 10.0 ** np.ceil(np.log10(float(positive.max())))
+    ax.set_yscale("log", base=10)
+    ax.set_ylim(lower_decade, upper_decade)
+    ax.xaxis.set_minor_locator(ticker.AutoMinorLocator(2))
+    ax.yaxis.set_major_locator(ticker.LogLocator(base=10, numticks=6))
+    ax.yaxis.set_minor_locator(
+        ticker.LogLocator(base=10, subs=np.arange(2, 10) * 0.1, numticks=12)
+    )
+    ax.yaxis.set_major_formatter(ticker.LogFormatterMathtext(base=10))
+    ax.legend(
+        plotted_lines,
+        [line.get_label() for line in plotted_lines],
+        loc="center right",
+        bbox_to_anchor=(0.985, 0.82),
+        ncol=2,
+        handlelength=1.8,
+        columnspacing=0.9,
+        handletextpad=0.5,
+        labelspacing=0.35,
+    )
+    fig.text(
+        0.5,
+        0.012,
+        "Zero inlet concentrations are omitted on the logarithmic axis.",
+        ha="center",
+        va="bottom",
+        fontsize=7.8,
+        color="#555555",
+    )
+    fig.tight_layout(rect=(0.02, 0.05, 0.99, 0.99))
+    _savefig(
+        fig,
+        output_dir / "species_concentrations_vs_bed_length.png",
+        tight=False,
+    )
 
     # 4. Temperature and pressure vs. bed length (Dual Y-Axis)
     fig, ax_temp = plt.subplots(figsize=(6.2, 4.4))
