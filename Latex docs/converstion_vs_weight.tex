@@ -73,7 +73,7 @@ Illustrative inlet (Figs. 1--2) & Dry feed CO:H$_2$:N$_2$ = 1:4:25 at $0.050\,\m
 Assumed bed and transport & $D_t=0.0254\,\mathrm m$, $L=0.3048\,\mathrm m$, and $\rho_B=750\,\mathrm{kg\,m^{-3}_{bed}}$ give $W_{tot}=0.1158\,\mathrm{kg}$ (calculated); $\varepsilon_b=0.40$, $D_p=3\,\mathrm{mm}$, $\mu=2.5\times10^{-5}\,\mathrm{Pa\,s}$, and $U=10\,\mathrm{W\,m^{-2}\,K^{-1}}$. Pressure drop uses Ergun; wall heat exchange is enabled and fresh-catalyst activity is $a=1$.\\
 Model and numerical assumptions & Steady 1-D plug flow with the reduced M4 CO-methanation/WGS network; direct CO$_2$ methanation is omitted. Heat capacities are constant (CO/H$_2$/CH$_4$/H$_2$O/CO$_2$/N$_2$: 30.3/29.3/52.0/36.5/46.5/30.1 $\mathrm{J\,mol^{-1}\,K^{-1}}$) and reaction heats are fixed at $-\Delta H_2=206$ and $-\Delta H_W=41\,\mathrm{kJ\,mol^{-1}}$. The stiff system uses Radau ($rtol=10^{-6}$) and 401 output points.\\
 Group-14 reported inputs & Appendix B, Table 3: CO/H$_2$/N$_2$ = 0.320/0.399/0.799 $\mathrm{mol\,h^{-1}}$; catalyst = 3.00 g, reaction temperature = $350\,^{\circ}\mathrm C$, and pressure = 760 mmHg (about 1.013 bar). These source-reported conditions are separate from the 5-bar illustrative run above.\\
-Other figure cases & Figs. 3--4 vary inlet temperature (250--400 $^{\circ}\mathrm C$) and pressure (1--15 bar, with Fig. 4 restricted to 5--15 bar), holding other base inputs fixed. Fig. 5 uses the Experiment 1 basis: 3.12 g catalyst, $350\,^{\circ}\mathrm C$, 2 bar, isothermal; inlet H$_2$/CO ratio and catalyst space time vary. Figs. 6--7 use absolute feed-flow sweeps at 1 bar and 3.12 g catalyst.
+Other figure cases & Figs. 3--4 vary inlet temperature (250--400 $^{\circ}\mathrm C$) and pressure (1--15 bar, with Fig. 4 restricted to 5--15 bar), holding other base inputs fixed. Fig. 5 uses the Experiment 1 basis: 3.12 g catalyst, $350\,^{\circ}\mathrm C$, a 1 bar pressure override, and isothermal operation; inlet H$_2$/CO ratio and catalyst space time vary. Figs. 6--7 use absolute feed-flow sweeps at 1 bar and 3.12 g catalyst.
 \end{tabularx}
 \end{keyequation}
 
@@ -234,11 +234,11 @@ Therefore, the figures show samples of the integrated profiles, not a separate c
 \vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
 \vspace{8pt}
 \begin{center}
-\includegraphics[width=0.98\linewidth,height=0.68\textheight,keepaspectratio]{../results/experiment1_ratio_contact_time_sweep/ratio_contact_time_co_conversion.png}
+\includegraphics[width=0.98\linewidth,height=0.68\textheight,keepaspectratio]{../results/experiment1_ratio_contact_time_sweep_1bar/ratio_contact_time_co_conversion.png}
 \end{center}
-\begin{center}\small\textbf{Figure 5.} Full M4 predicted outlet CO conversion as inlet H$_2$/CO ratio and catalyst space time vary.\end{center}
+\begin{center}\small\textbf{Figure 5.} Full M4 predicted outlet CO conversion at 1 bar as inlet H$_2$/CO ratio and catalyst space time vary.\end{center}
 \begin{keyequation}
-\small The circle identifies the modeled Experiment 1 reference point (H$_2$/CO $=2.9969$, $W_{cat}/F_{CO,in}=35.10\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$), where predicted conversion is 96.94\%. This differs from the source-reported 40.63\%; the reported value is not used as a fit target. The sweep uses the Appendix A pressure of 2 bar, below the 5--15 bar kinetic-fit pressure range.
+\small The circle identifies the modeled Experiment 1 reference point (H$_2$/CO $=2.9969$, $W_{cat}/F_{CO,in}=35.10\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$), where predicted conversion is 78.72\%. This differs from the source-reported 40.63\%; the reported value is not used as a fit target. The sweep uses 1 bar absolute, consistent with the source's atmospheric-pressure description; Appendix A instead lists 2 bar. The selected pressure is below the 5--15 bar kinetic-fit range.
 \end{keyequation}
 
 \clearpage
@@ -265,12 +265,12 @@ F_{CO,in}=\frac{W_{cat}}{\tau_{cat,CO}},\qquad
 F_{H_2,in}=r_{H_2/CO}F_{CO,in},\qquad
 F_{N_2,in}=\left(\frac{F_{N_2}}{F_{CO}}\right)_{Exp1}F_{CO,in}.
 \]
-Thus CO and N$_2$ flows scale together and H$_2$ is reset to the selected ratio; the N$_2$/CO ratio remains at its Experiment 1 value. All other selected inputs are held fixed at 350\,$^\circ$C, 2 bar, and isothermal operation. The conversion plotted at each grid point is
+Thus CO and N$_2$ flows scale together and H$_2$ is reset to the selected ratio; the N$_2$/CO ratio remains at its Experiment 1 value. All other selected inputs are held fixed at 350\,$^\circ$C, 1 bar absolute, and isothermal operation. The conversion plotted at each grid point is
 \[
 X_{CO,out}(\%)=100\left(1-\frac{F_{CO,out}}{F_{CO,in}}\right).
 \]
 
-The map shows the combined conditional response to stoichiometry and catalyst per CO throughput. Conversion rises strongly as the feed approaches the stoichiometric ratio from below, then the improvement diminishes at higher H$_2$/CO and larger space time. These are model sensitivities, not validated operating predictions: the 1 in $\times$ 12 in geometry is assumed, the 3.12 g charge implies a sparse-bed voidage of about 0.98384 under the assumed particle density, and every pressure point is below the kinetic fit's 5 bar lower limit. The source also describes atmospheric pressure in its abstract and discussion while Appendix A states 2 bar; this calculation follows the explicit Appendix A value.
+The map shows the combined conditional response to stoichiometry and catalyst per CO throughput. Conversion rises strongly as the feed approaches the stoichiometric ratio from below, then the improvement diminishes at higher H$_2$/CO and larger space time. These are model sensitivities, not validated operating predictions: the 1 in $\times$ 12 in geometry is assumed, the 3.12 g charge implies a sparse-bed voidage of about 0.98384 under the assumed particle density, and 1 bar is below the kinetic fit's 5 bar lower limit. The source describes atmospheric pressure in its abstract and discussion while Appendix A states 2 bar; this sweep follows the atmospheric-pressure description using a 1 bar override.
 
 \clearpage
 \thispagestyle{fancy}

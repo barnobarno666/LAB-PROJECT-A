@@ -61,6 +61,7 @@ def _base_experiment_config(
     catalyst_mass_g: float,
     particle_density_kg_m3: float,
     transport_mode: str,
+    pressure_bar: float | None,
 ) -> tuple[ReactorConfig, dict[str, float | str]]:
     config = ReactorConfig.from_json(config_path)
     observed = json.loads(observed_data_path.read_text(encoding="utf-8"))
@@ -70,6 +71,18 @@ def _base_experiment_config(
     co_mol_h = float(inlet_mol_h["CO"])
     h2_mol_h = float(inlet_mol_h["H2"])
     n2_mol_h = float(inlet_mol_h["N2"])
+    selected_pressure_bar = (
+        float(basis["reaction_pressure_bar"])
+        if pressure_bar is None
+        else float(pressure_bar)
+    )
+    source_pressure_note = str(basis.get("pressure_interpretation", ""))
+    pressure_note = source_pressure_note
+    if pressure_bar is not None:
+        pressure_note = (
+            f"{source_pressure_note} Selected sweep pressure override: "
+            f"{selected_pressure_bar:g} bar."
+        )
     if co_mol_h <= 0.0 or catalyst_mass_g <= 0.0:
         raise ValueError("The baseline CO feed and catalyst mass must be positive.")
 
@@ -84,7 +97,7 @@ def _base_experiment_config(
     total_mol_h = co_mol_h + h2_mol_h + n2_mol_h
     data["reaction_mode"] = "m4_full"
     data["feed"]["temperature_k"] = float(basis["reaction_temperature_c"] + 273.15)
-    data["feed"]["pressure_bar"] = float(basis["reaction_pressure_bar"])
+    data["feed"]["pressure_bar"] = selected_pressure_bar
     data["feed"]["total_molar_flow_mol_s"] = total_mol_h / 3600.0
     data["feed"]["mole_ratio"] = {"CO": co_mol_h, "H2": h2_mol_h, "N2": n2_mol_h}
     data["bed"]["catalyst_loading_kg_m3_bed"] = catalyst_mass_kg / bed_volume_m3
@@ -105,10 +118,10 @@ def _base_experiment_config(
         "bed_voidage": voidage,
         "particle_density_kg_m3_assumed": particle_density_kg_m3,
         "inlet_temperature_c": float(basis["reaction_temperature_c"]),
-        "inlet_pressure_bar_abs": float(basis["reaction_pressure_bar"]),
+        "inlet_pressure_bar_abs": selected_pressure_bar,
         "transport_mode": transport_mode,
         "thermal_mode": "isothermal",
-        "pressure_source_note": str(basis.get("pressure_interpretation", "")),
+        "pressure_source_note": pressure_note,
     }
     return ReactorConfig.from_dict(data), metadata
 
@@ -359,6 +372,7 @@ def run_sweep(
     particle_density_kg_m3: float = 1250.0,
     transport_mode: str = "ergun",
     solver_method: str = "BDF",
+    pressure_bar: float | None = None,
 ) -> dict[str, object]:
     if ratio_points < 3 or space_time_points < 3:
         raise ValueError("Each sweep axis needs at least three points.")
@@ -368,6 +382,8 @@ def run_sweep(
         raise ValueError("transport_mode must be ergun or constant_pressure.")
     if solver_method not in {"Radau", "BDF"}:
         raise ValueError("solver_method must be Radau or BDF.")
+    if pressure_bar is not None and pressure_bar <= 0.0:
+        raise ValueError("pressure_bar must be positive.")
 
     base_config, baseline = _base_experiment_config(
         config_path,
@@ -375,6 +391,7 @@ def run_sweep(
         catalyst_mass_g=catalyst_mass_g,
         particle_density_kg_m3=particle_density_kg_m3,
         transport_mode=transport_mode,
+        pressure_bar=pressure_bar,
     )
     config_data = base_config.to_dict()
     config_data["solver"]["method"] = solver_method
@@ -509,7 +526,7 @@ def run_sweep(
             "pressure_interpretation": str(baseline["pressure_source_note"]),
         },
         "model_domain_and_geometry_notes": [
-            "The chosen Experiment 1 pressure is 2 bar; the project's published kinetic-fit pressure range begins at 5 bar, so all cells extrapolate in pressure.",
+            f"The selected sweep pressure is {float(baseline['inlet_pressure_bar_abs']):g} bar; the project's published kinetic-fit pressure range begins at 5 bar, so all cells extrapolate in pressure.",
             "The 1 in x 12 in reactor dimensions are inherited assumptions, not dimensions confirmed by Experiment 1.",
             "At 3.12 g, the assumed geometry and particle density imply very high voidage; this is a sparse-bed illustration, not a conventional packed-bed validation.",
             "The model is isothermal at the reported inlet temperature; this sweep isolates composition and throughput effects but does not predict hot spots.",
@@ -563,6 +580,7 @@ def main() -> None:
     parser.add_argument("--particle-density-kg-m3", type=float, default=1250.0)
     parser.add_argument("--transport-mode", choices=("ergun", "constant_pressure"), default="ergun")
     parser.add_argument("--solver-method", choices=("Radau", "BDF"), default="BDF")
+    parser.add_argument("--pressure-bar", type=float, default=None)
     args = parser.parse_args()
     run_sweep(
         args.config,
@@ -578,6 +596,7 @@ def main() -> None:
         particle_density_kg_m3=args.particle_density_kg_m3,
         transport_mode=args.transport_mode,
         solver_method=args.solver_method,
+        pressure_bar=args.pressure_bar,
     )
 
 
