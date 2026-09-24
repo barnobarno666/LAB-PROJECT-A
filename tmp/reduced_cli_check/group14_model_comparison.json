@@ -1,0 +1,15 @@
+{
+  "comparison_type": "no-fit mechanistic prediction versus unresolved source-reported conversion",
+  "reaction_mode": "m4_reduced_co_wgs",
+  "catalyst_mass_kg": 0.0030000000000000005,
+  "inlet_temperature_k": 623.15,
+  "inlet_pressure_bar": 1.013249999600366,
+  "predicted_co_conversion_fraction": 0.41014442270300544,
+  "experimental_co_conversion_fraction": 0.99207,
+  "signed_error_percentage_points": -58.19255772969946,
+  "absolute_error_percentage_points": 58.19255772969946,
+  "predicted_methane_yield_fraction": 0.2914800011203472,
+  "solver_success": true,
+  "solver_message": "The solver successfully reached the end of the integration interval.",
+  "peak_intrinsic_r1_co2_methanation_mol_kg_s": 0.0
+}

@@ -1,0 +1,585 @@
+BARNO & ASHIQ’S PART                                                                                      Fixed-bed methanation
+
+
+
+
+BARNO & ASHIQ’S PART
+Governing balances, axial proﬁles, and operating-condition sensitivity for CO methanation.
+
+  Operating inputs, givens, and assumptions
+  Illustrative inlet (Figs.         Dry feed CO:H2 :N2 = 1:4:25 at 0.050 mol s−1 : FCO,0 = 0.001667, FH2 ,0 = 0.006667, and
+  2–4)                              FN2 ,0 = 0.041667 mol s−1 ; inlet CH4 , H2 O, and CO2 are zero. T0 = Tw = 623.15 K (350 ◦ C),
+                                    P0 = 5.00 bar.
+  Assumed bed and                   Dt = 0.0254 m, L = 0.3048 m, and ρB = 750 kg m−3      bed give Wtot = 0.1158 kg (calculated);
+  transport                         εb = 0.40, Dp = 3 mm, µ = 2.5 × 10−5 Pa s, and U = 10 W m−2 K−1 . Pressure drop uses
+                                    Ergun; wall heat exchange is enabled and fresh-catalyst activity is a = 1.
+  Model and numerical               Figs.    2–3 use reduced M4 (CO methanation/WGS); Fig.              4 uses Full M4, includ-
+  assumptions                       ing direct CO2 methanation. Heat capacities are constant (CO/H2 /CH4 /H2 O/CO2 /N2 :
+                                    30.3/29.3/52.0/36.5/46.5/30.1 J mol−1 K−1 ) and reaction heats are ﬁxed at −∆H2 = 206
+                                    and −∆HW = 41 kJ mol−1 . The stiﬀ system uses Radau and 401 output points.
+  Group-14 reported inputs          Appendix B, Table 3: CO/H2 /N2 = 0.320/0.399/0.799 mol h−1 ; catalyst = 3.00 g, reaction
+                                    temperature = 350 ◦ C, and pressure = 760 mmHg (about 1.013 bar). These source-reported
+                                    conditions are separate from the 5-bar illustrative run above.
+  Other ﬁgure cases                 Part I (Figs. 1–4) contains the 1-bar three-model Experiment 1 comparison, two illustrative
+                                    base-case proﬁles, and the assumed Full M4 species proﬁle. Part II (Figs. 5–10) contains
+                                    the Full M4 temperature-pressure, ratio/space-time, and feed-ﬂow sensitivities, including the
+                                    isolated N2 sweep. Part III (Fig. 11 and Table 1) contains the four-factor Full M4 grid-search
+                                    optimization. The 1-bar comparison and sensitivity cases are below the Full M4 5–15 bar
+                                    ﬁtted pressure interval; model-speciﬁc domain limits are stated with the veriﬁcation ﬁgure.
+
+
+
+Model basis
+The bed is treated as a steady, one-dimensional plug-ﬂow reactor. The reduced network retains CO methanation
+and water-gas shift (WGS):
+                                       CO + 3H2 −→ CH4 + H2 O (r2 ),
+                                               CO + H2 O −→ CO2 + H2            (rW ).
+At each position, the reduced M4 kinetics give net rates r2 and rW from local temperature and partial pressures
+                               −1 −1
+pi = yi P . Rates are in mol kgcat s , ﬂows Fi in mol s−1 , and a is catalyst activity. Integration uses catalyst
+mass W . For uniform loading ρB in a tube of cross-section Ac = πDt2 /4,
+
+                                                                 W
+                                      W = ρB Ac z,        z=          ,     Wtot = ρB Ac L.
+                                                               ρ B Ac
+                                                                 ∑
+A steady mole balance over a catalyst slice dW gives dFi /dW = a j νij rj , where a is catalyst activity. Written
+for the modeled species:
+                               dFCO                       dFH2
+                                      = −a(r2 + rW ),           = a(−3r2 + rW ),
+                                dW                         dW
+                              dFCH4                      dFH2 O
+                                      = ar2 ,                   = a(r2 − rW ),
+                                dW                        dW
+                              dFCO2                       dFN2
+                                      = arW ,                   = 0.
+                                dW                         dW
+
+Temperature from the energy balance
+For a diﬀerential slice, reaction heat raises the gas sensible enthalpy; heat transfer to the wall removes heat when
+the gas is hotter than the wall. Thus
+                          ∑                 dT                                 U aw
+                                  Fi Cp,i      = a [r2 (−∆H2 ) + rW (−∆HW )] −      (T − Tw ).
+                              i
+                                            dW                                  ρB
+
+Dividing by the gas heat-capacity ﬂow gives the temperature equation integrated by the solver:
+
+
+
+
+Coupled axial balances                                                                                                               1
+BARNO & ASHIQ’S PART                                                                                     Fixed-bed methanation
+
+
+
+
+                                                                      U aw
+                                        a [r2 (−∆H2 ) + rW (−∆HW )] −      (T − Tw )
+                                dT                                     ρB
+                                   =                      ∑
+                                dW                          i Fi Cp,i
+
+
+Here aw = 4/Dt is the cylindrical heat-transfer area per bed volume. The formulation uses exothermic heats
+−∆H2 = 206 and −∆HW = 41 kJ mol−1 . The current implementation uses constant heat capacities and these
+constant reaction enthalpies.
+
+Pressure from the Ergun equation
+The Ergun pressure gradient combines viscous resistance (ﬁrst term) and inertial resistance (second term):
+                                      [                                         ]
+                              dP        150µ(1 − εb )2 us   1.75ρg (1 − εb )u2s
+                                  =−                      +                       .
+                              dz             Dp2 ε3b             Dp ε3b
+
+The reacting-gas properties are recalculated locally:
+
+                                Ftot RT             PM                ∑                     Fi
+                         us =           ,    ρg =      ,      M=          yi Mi ,   yi =        .
+                                 P Ac               RT                i
+                                                                                           Ftot
+
+Since dz/dW = 1/(ρB Ac ), the pressure equation in the solver’s catalyst-mass coordinate is
+
+                                             [                                         ]
+                                dP       1     150µ(1 − εb )2 us   1.75ρg (1 − εb )u2s
+                                   =−                            +
+                                dW    ρ B Ac        Dp2 ε3b             Dp ε3b
+
+Pressure is integrated in Pa; the kinetic partial pressures are evaluated in bar. The pressure loss is coupled to
+reaction because the local ﬂow, composition, temperature, and density change down the bed.
+
+Integrated solution and plotting
+The numerical problem is the coupled initial-value system
+
+      dy                        [                            ]T             [                   ]T
+         = f (y),        y(W ) = F(W )T      T (W ) P (W )        ,   y(0) = FT
+                                                                              0     T0     P0        ,   0 ≤ W ≤ Wtot .
+      dW
+The code integrates this system with the stiﬀ Radau method and samples the solution at 401 evenly spaced
+catalyst-mass locations. The plotted coordinates are zj = Wj /(ρB Ac ), Tj = T (Wj ), and Pj,bar = P (Wj )/105 .
+CO conversion is calculated as
+                                                         FCO (W )
+                                          XCO (W ) = 1 −          .
+                                                          FCO,0
+Diﬀerentiating this deﬁnition and substituting the CO balance gives
+
+                                                dXCO   a(r2 + rW )
+                                                     =             .
+                                                 dW      FCO,0
+
+Therefore, the ﬁgures show samples of the integrated proﬁles, not a separate closed-form solution for T (z) or
+P (z).
+
+
+
+
+Coupled axial balances                                                                                                      2
+BARNO & ASHIQ’S PART                                                                             Fixed-bed methanation
+
+
+
+Kinetic rate-law audit
+The veriﬁcation implementations were checked against the printed kinetic equations and their published parameter
+bases. All partial pressures are evaluated from local mole fractions and total pressure; the literature-model
+integrators convert reported rates to the common catalyst-mass coordinate. The comparison remains a no-ﬁt
+transferability check because the catalysts and, for Quindimil, the inlet reaction family diﬀer from Experiment
+1.
+Full M4. The implementation follows Celoria et al., Eqs. (19)–(21), with the common denominator
+                                  √                             pCH
+                      DM 4 = 1 + KH2 pH2 + KCO pCO + KC 2 4 + KCH4 pCH4 .
+                                                                 p H2
+Expanding the paper’s equilibrium-driving-force forms gives the rates used in code:
+                                                 (       3/2
+                                                                           )
+                                            k1     pCO2 pH2    pCH4 pH2 O
+                                     r1 = 2                  −         5/2
+                                                                             ,
+                                           DM 4      pH2 O     Keq,1 pH2
+                                                 (                         )
+                                            k2         √       pCH4 pH2 O
+                                     r2 = 2        pCO pH2 −           5/2
+                                                                             ,
+                                           DM 4                 Keq,2 pH2
+                                                 (                          )
+                                            k3         √         pCO pH2 O
+                                r3RW GS = 2        pCO2 pH2 −         √        .
+                                           DM 4                 Keq,3 pH2
+Here r1 and r2 are the methanation rates and r3RW GS is the paper’s reverse water-gas-shift rate. The public
+reactor rates use forward WGS, so its signed rate is rW = −rRW GS . Kinetic and adsorption temperature shifts
+use the paper’s Arrhenius and van’t Hoﬀ forms, respectively. Source: Celoria et al. (2025).
+                                                                                                     √
+Kopyscinski. Equations (25)–(26) in the published corrigendum are used, including the corrected pCO ad-
+sorption factor:
+                                                       √
+                  √            pH O             k1 KC pCO pH2            k2 (Kα pCO pH2 O − pCO2 pH2 /Keq )
+   DK = 1 + KC pCO + KOH √ 2 , rCH4 =                    2     , rW =                 √      2              .
+                                pH2                    DK                               pH2 DK
+The paper’s second rate is positive in the forward WGS direction; the veriﬁcation integrator converts it to the
+internal RWGS stoichiometric sign. The Arrhenius and adsorption-constant correlations are the published ones,
+with pressure in bar and rates in mol kg−1
+                                         cat s
+                                               −1
+                                                  . Source: Kopyscinski et al. corrigendum.
+Quindimil. The implemented shared denominator and expanded rates are
+                                                                                   (                         )
+                                                                             k4            √   pCO pH2 O
+                                                              rRW GS =   impl 2
+                                                                                       pCO2 pH2 −    √          ,
+                                                                       (DQ   )             Keq,RW GS pH2
+ impl               √         pH O                                              (                           )
+DQ    = 1+KHCOO pCO2 pH2 +KOH √ 2 +KCO pCO ,
+                               pH2                                        k6        √        pCH4 pH2 O
+                                                                rCH4 =   impl 2
+                                                                                 pCO pH2 −              5/2
+                                                                                                              .
+                                                                       (DQ   )             Keq,COmeth pH2
+The reversible driving forces are algebraically equivalent to the paper’s RWGS and CO-methanation forms; the
+gas-phase CO net formation is rCO,net = rRW GS − rCH4 . Table 4 values are shifted with the paper’s activation-
+                                                                                                     −1 −1
+                                                                                                     cat h
+energy/adsorption-enthalpy correlations; pressures are converted from bar to atm and rates from mol g√       to
+       −1 −1
+mol kgcat s . One qualiﬁcation matters: Appendix A, Eq. (A3.15), contains an additional standalone KH2 pH2
+                                                                                           √
+term in the shared denominator, but Table 4 reports only the composite KHCOO = KCO2 KH2 and does not
+tabulate an independent KH2 . The current code retains the reported composite term and omits that standalone
+contribution. Therefore this is a reduced/lumped reading of the published model, not an exact reproduction of
+the full printed denominator. In addition, the model was ﬁtted to CO2 /H2 experiments, so applying it to the
+CO/H2 inlet is a feed-scope extrapolation. Source: Quindimil et al. (2022).
+
+  The signs are consistent once directions are made explicit: the M4 kinetics report RWGS and the reactor uses WGS
+  (rW = −rRW GS ); Kopyscinski’s second rate is forward WGS and is negated for the reactor’s RWGS stoichiometric
+  column; Quindimil’s pair is represented as RWGS plus CO methanation. The M4 equilibrium constants in this
+  code use the documented constant-∆H thermodynamic closure, rather than claiming a verbatim reproduction of an
+  unreported paper-speciﬁc numerical equilibrium correlation.
+
+
+  Plotted demonstration case. Dt = 0.0254 m (1.00 in), L = 0.3048 m (12.00 in), ρB = 750 kg m−3 , εb =
+  0.40, Dp = 3 mm, µ = 2.5 × 10−5 Pa s, U = 10 W m−2 K−1 ; T0 = Tw = 623.15 K, P0 = 5 bar, and feed ratio
+  CO:H2 :N2 =1:4:25 at 0.05 mol s−1 . Several geometry, feed, transport, and heat-transfer inputs remain assumed; this
+  run is illustrative, not experimental validation.
+
+
+
+
+Coupled axial balances                                                                                                   3
+                             PART I
+
+
+
+
+Veriﬁcation and reactor proﬁles
+
+    A common-basis comparison with Experiment 1, followed by the
+          illustrative base-case conversion and bed proﬁles.
+BARNO & ASHIQ’S PART                                                                            Fixed-bed methanation
+
+
+
+Experiment 1 CO-conversion comparison
+
+
+
+
+  Figure 1. No-ﬁt predictions from Full M4, Kopyscinski, and the reduced/lumped Quindimil implementation at the
+                Experiment 1 basis (350 ◦ C, 1.00 bar, 3.12 g catalyst, isothermal, constant pressure).
+
+
+  The measured outlet conversion is 40.63%; predictions are 78.72% (Full M4), 99.985% (Kopyscinski), and 3.37%
+  (Quindimil). Only Kopyscinski is evaluated within its cited 1–2 bar pressure interval. Full M4 is below its 5–15
+  bar ﬁt range; Quindimil is below its 2–6 bar range and its parameters were ﬁtted to CO2 /H2 , not this CO/H2 feed.
+  Catalyst formulations also diﬀer. Read this as a no-ﬁt transferability comparison, not independent validation of all
+  three models. The Quindimil denominator is the reduced/lumped form described in the kinetic audit above.
+
+
+
+
+Coupled axial balances                                                                                                   5
+BARNO & ASHIQ’S PART                                                                           Fixed-bed methanation
+
+
+
+CO conversion along the catalyst bed
+
+
+
+
+      Figure 2. Reduced M4 model prediction of CO conversion versus catalyst mass for the demonstration case.
+
+
+  The calculated outlet conversion is 95.78% for this assumed conﬁguration. This curve is a model demonstration, not
+  an experimental ﬁt or validation result.
+
+
+
+
+Coupled axial balances                                                                                                 6
+BARNO & ASHIQ’S PART                                                                              Fixed-bed methanation
+
+
+
+Temperature and pressure along the bed
+
+
+
+
+                   Figure 3. Integrated temperature and Ergun pressure proﬁles versus bed length.
+
+
+  The sampled temperature peaks at 817.8 K near z = 0.0533 m and is 799.6 K at the outlet. Pressure falls from 5.0000
+  to 4.9405 bar (about 5.95 kPa). The plotted pressure axis is tightly auto-scaled, so the visible line exaggerates this
+  relative drop.
+
+
+
+
+Coupled axial balances                                                                                                     7
+BARNO & ASHIQ’S PART                                                                           Fixed-bed methanation
+
+
+
+Species concentrations along the bed
+
+
+
+
+  Figure 4. Full M4 species concentrations versus bed length for the assumed 5-bar, 350 ◦ C, CO:H2 :N2 = 1:4:25 case.
+
+
+  This assumed-input proﬁle does not use the Experiment 1 feed basis: its H2 /CO ratio is 4 and inlet pressure is 5
+  bar; Experiment 1 uses H2 /CO = 2.9969 (about 3) and the selected 1-bar absolute basis.
+
+
+
+
+Coupled axial balances                                                                                                  8
+                           PART II
+
+
+
+
+      Sensitivity analysis
+
+Full M4 contour and feed-composition sweeps. Low-pressure results
+  are conditional extrapolations below the ﬁtted pressure domain.
+BARNO & ASHIQ’S PART                                                                                 Fixed-bed methanation
+
+
+
+CO conversion across reactor inlet conditions
+
+
+
+
+             Figure 5. Full M4 sensitivity of bed-outlet CO conversion to inlet temperature and pressure.
+
+
+  The hatched 1–< 5 bar region is below the pressure range tested for the Celoria et al. kinetic ﬁt and is an extrapolation;
+  5–15 bar is within the reported pressure range. The two bands use separate linear color scales, so read each colorbar
+  independently. The sweep covers 250–400 ◦ C and varies only inlet temperature and pressure, with the other assumed
+  base-case inputs ﬁxed. Although inlet temperatures lie within the paper’s ﬁtted temperature range, 469 of 484 cases
+  have sampled bed temperatures above 400 ◦ C and therefore extrapolate the kinetics locally. This is a conditional
+  model sensitivity, not experimental validation. Kinetic source: Celoria et al.
+
+
+
+
+Coupled axial balances                                                                                                         10
+BARNO & ASHIQ’S PART                                                                                   Fixed-bed methanation
+
+
+
+CO conversion within the kinetic-ﬁt pressure range
+
+
+
+
+                          Figure 6. Full M4 sensitivity restricted to inlet pressures of 5–15 bar.
+
+
+  This view isolates the pressure interval reported for the Celoria et al. kinetic ﬁt, with a single linear color scale. Inlet
+  temperature spans 250–400 ◦ C. The kinetic ﬁt was tested at discrete temperature and pressure conditions; values
+  between those conditions are model interpolations. The reactor’s predicted local bed temperature may exceed 400 ◦ C
+  even when its inlet temperature is within range, so the result remains an exploratory conditional prediction rather
+  than experimental validation.
+
+
+
+
+Coupled axial balances                                                                                                           11
+BARNO & ASHIQ’S PART                                                                             Fixed-bed methanation
+
+
+
+CO conversion across inlet ratio and catalyst space time
+
+
+
+
+    Figure 7. Full M4 predicted outlet CO conversion at 1 bar as inlet H2 /CO ratio and catalyst space time vary.
+
+
+                                                                                                                  −1
+  The circle identiﬁes the modeled Experiment 1 reference point (H2 /CO = 2.9969, Wcat /FCO,in = 35.10 kgcat s molCO ),
+  where predicted conversion is 78.72%. This diﬀers from the source-reported 40.63%; the reported value is not used as
+  a ﬁt target. The sweep uses 1 bar absolute, consistent with the source’s atmospheric-pressure description; Appendix
+  A instead lists 2 bar. The selected pressure is below the 5–15 bar kinetic-ﬁt range.
+
+
+
+
+Coupled axial balances                                                                                                    12
+BARNO & ASHIQ’S PART                                                                       Fixed-bed methanation
+
+
+
+Deﬁning the ratio and space-time sweep
+
+
+The horizontal coordinate is the inlet molar ratio
+                                                            FH2 ,in
+                                                rH2 /CO =           ,
+                                                            FCO,in
+
+where rH2 /CO = 3 is the stoichiometric feed ratio for CO methanation. The vertical coordinate is catalyst space
+time on a CO-feed basis:
+
+                                              Wcat                              −1
+                                 τcat,CO =              [τcat,CO ] = kgcat s molCO .
+                                             FCO,in
+
+Here Wcat is catalyst mass and FCO,in is inlet CO molar ﬂow. This ratio has units of catalyst mass per CO
+throughput. A larger value means more catalyst is available per mole of CO fed. It is often informally called
+contact time, but it is not the gas residence time in seconds: gas residence time depends on bed void volume and
+the local volumetric ﬂow, while Wcat /FCO,in is a catalyst-normalized throughput measure.
+The sweep holds Wcat = 3.12 g ﬁxed, so it changes space time by changing feed throughput. Equivalently,
+                                                                           (     )
+                        Wcat                                                 FN2
+              FCO,in =         ,     FH2 ,in = rH2 /CO FCO,in ,  FN2 ,in =            FCO,in .
+                       τcat,CO                                               FCO Exp1
+
+Thus CO and N2 ﬂows scale together and H2 is reset to the selected ratio; the N2 /CO ratio remains at its
+Experiment 1 value. All other selected inputs are held ﬁxed at 350 ◦ C, 1 bar absolute, and isothermal operation.
+The conversion plotted at each grid point is
+                                                         (              )
+                                                               FCO,out
+                                      XCO,out (%) = 100 1 −               .
+                                                               FCO,in
+
+The map shows the combined conditional response to stoichiometry and catalyst per CO throughput. Conversion
+rises strongly as the feed approaches the stoichiometric ratio from below, then the improvement diminishes at
+higher H2 /CO and larger space time. These are model sensitivities, not validated operating predictions: the
+1 in × 12 in geometry is assumed, the 3.12 g charge implies a sparse-bed voidage of about 0.98384 under the
+assumed particle density, and 1 bar is below the kinetic ﬁt’s 5 bar lower limit. The source describes atmospheric
+pressure in its abstract and discussion while Appendix A states 2 bar; this sweep follows the atmospheric-pressure
+description using a 1 bar override.
+
+
+
+
+Coupled axial balances                                                                                         13
+BARNO & ASHIQ’S PART                                                                              Fixed-bed methanation
+
+
+
+CO conversion across absolute reactive-feed ﬂows
+
+
+
+
+ Figure 8. Full M4 predicted outlet CO conversion versus absolute inlet H2 and CO ﬂow; N2 is ﬁxed at 0.799 mol h−1 .
+
+
+  Each point is a no-ﬁt Full M4 simulation at 350 ◦ C, 1.00 bar, and 3.12 g catalyst under isothermal, constant-pressure
+  conditions. Since the axes are absolute molar ﬂows, moving across the map changes both feed composition and total
+  throughput; this is not solely an H2 /CO-ratio sweep. The 1-bar condition is below the 5–15-bar kinetic-ﬁt pressure
+  range, so the map is an extrapolative model sensitivity rather than experimental validation. No experimental
+  measurements are plotted.
+
+
+
+
+Coupled axial balances                                                                                                     14
+BARNO & ASHIQ’S PART                                                                             Fixed-bed methanation
+
+
+
+CO conversion under nitrogen dilution
+
+
+
+
+     Figure 9. Full M4 predicted outlet CO conversion versus inlet H2 and N2 ﬂow; CO is ﬁxed at 0.320 mol h−1 .
+
+
+  This sweep isolates the conditional eﬀect of nitrogen dilution while varying H2 feed, with CO held ﬁxed. At a given
+  H2 ﬂow, increasing the inert N2 feed lowers the reactant mole fractions and increases total throughput, reducing the
+  predicted conversion. Conditions are 350 ◦ C, 1.00 bar, and 3.12 g catalyst, isothermal and constant-pressure. As
+  in Fig. 7, the 1-bar result extrapolates below the 5–15-bar kinetic-ﬁt range and is not experimental validation; no
+  experimental measurements are plotted.
+
+
+
+
+Coupled axial balances                                                                                                   15
+BARNO & ASHIQ’S PART                                                                            Fixed-bed methanation
+
+
+
+CO conversion under nitrogen dilution
+
+
+
+
+  Figure 10. Full M4 predicted outlet CO conversion as inlet N2 ﬂow varies from 0.4 to 1.2 mol/h, with CO = 0.320
+ mol/h and H2 = 0.959 mol/h ﬁxed. The reference point at N2 = 0.799 mol/h gives 78.72% conversion. Conditions are
+                   350 ◦ C, 1 bar absolute, and 3.12 g catalyst, isothermal and constant-pressure.
+
+
+  Conversion decreases from 88.14% to 70.34% over the plotted N2 range. The 1-bar calculations are below the 5–15-bar
+  kinetic-ﬁt pressure range; interpret this as a conditional model sensitivity, not experimental validation.
+
+
+
+
+Coupled axial balances                                                                                                  16
+                           PART III
+
+
+
+
+              Optimization
+
+A separate four-factor Full M4 grid search. The reported result is
+   the best sampled point, not a continuous or experimentally
+                       validated optimum.
+BARNO & ASHIQ’S PART                                                                             Fixed-bed methanation
+
+
+
+Optimization
+The discrete grid search identiﬁes the best sampled operating point for the Full M4 reactor model. It maximizes
+completed-bed CO conversion over four inputs: inlet H2 /CO ratio, inlet temperature, inlet pressure, and catalyst
+space time on a CO-feed basis. The Experiment 1 catalyst mass (3.12 g), bed geometry and voidage, and N2 /CO
+inlet ratio are ﬁxed. At each selected H2 /CO ratio and space time, the inlet ﬂows are reconstructed as
+                                                                             (     )
+                            Wcat                                               FN2
+                  FCO,in =         ,    FH2 ,in = rH2 /CO FCO,in , FN2 ,in =             FCO,in .
+                           τcat,CO                                             FCO Exp1
+
+Thus changing space time scales the inlet throughput while preserving N2 /CO; N2 is not an independent op-
+timization variable. Each point is an isothermal Full M4 simulation with Ergun pressure drop, solved using
+BDF. The grid contains 12 H2 /CO ratios, 9 inlet temperatures, 9 pressures, and 21 space-time values, for
+12 × 9 × 9 × 21 = 20,412 simulations; all completed. The objective is
+                                                                           (            )
+                                                                                FCO,out
+                                 max                XCO,out , XCO,out = 100 1 −           %.
+                      rH2 /CO , Tin , Pin , τcat,CO                             FCO,in
+
+                             Table 1. Best sampled point in the four-factor grid search.
+
+  Quantity                                  Best sampled value                             Position or role
+  Inlet H2 /CO ratio                        5.00 mol/mol                                   Upper grid bound
+  Inlet temperature                         370 ◦ C                                        Interior grid value
+  Inlet pressure                            15.0 bar abs                                   Upper grid bound
+                                                             −1
+  Catalyst space time, Wcat /FCO,in         140.4 kgcat s molCO                            Upper grid bound
+  CO / H2 / N2 inlet ﬂows                   0.080 / 0.400 / 0.19975 mol/h                  Derived values
+  Outlet CO conversion                      99.9999928%                                    Maximized objective
+  Outlet CH4 yield                          99.9999318%                                    Predicted output
+
+The maximum is the best sampled grid point, not a continuous or experimentally validated optimum. The
+selected point lies at the upper bounds for H2 /CO, pressure, and space time. The objective does not penalize
+hydrogen use, low throughput, or operating pressure, and the model is isothermal. Treat the result as exploratory;
+a practical operating recommendation would require those constraints and objectives to be deﬁned.
+
+
+
+
+Coupled axial balances                                                                                             18
+BARNO & ASHIQ’S PART                                                                            Fixed-bed methanation
+
+
+
+Four-factor optimization map
+The pressure-slice ﬁgure shows the conversion landscape around the selected grid point. Each panel varies inlet
+H2 /CO ratio and temperature at ﬁxed pressure, with catalyst space time held at its optimized grid value. The
+star marks the best sampled point at 15 bar and 370 ◦ C.
+
+
+
+
+     Figure 11. Pressure slices of predicted outlet CO conversion from the four-factor grid. Space time is ﬁxed at
+                                               −1
+                              140.4 kgcat s molCO ; the star marks the best sampled point.
+
+
+  Only 5, 9, and 15 bar are shown because 1–4 bar fall below the kinetic-ﬁt pressure range. The shared color scale
+  allows comparison across panels. The ﬁgure and table report model predictions, not experimental validation.
+
+
+
+
+Coupled axial balances                                                                                               19
+

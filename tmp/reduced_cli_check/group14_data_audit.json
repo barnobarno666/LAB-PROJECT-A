@@ -1,0 +1,31 @@
+{
+  "normalized_fraction_sum": 1.00002,
+  "tracer_reconstructed_dry_outlet_mol_h": 1.2905414136193307,
+  "tracer_reconstructed_flows_mol_h": {
+    "H2": 0.04987942563638713,
+    "N2": 0.799,
+    "CH4": 0.0588228776327691,
+    "CO": 0.18630255847008656,
+    "CO2": 0.19141310246801915,
+    "Ar": 0.005149260240341129
+  },
+  "dry_elemental_flow_in_mol_atom_h": {
+    "C": 0.32,
+    "H": 0.798,
+    "O": 0.32,
+    "N": 1.598
+  },
+  "dry_elemental_flow_out_mol_atom_h": {
+    "C": 0.43653853857087477,
+    "H": 0.3350503618038506,
+    "O": 0.5691287634061248,
+    "N": 1.598
+  },
+  "carbon_relative_residual": 0.36418293303398364,
+  "oxygen_relative_residual": 0.77852738564414,
+  "water_from_hydrogen_balance_mol_h": 0.2314748190980747,
+  "water_from_oxygen_balance_mol_h": -0.24912876340612483,
+  "tracer_co_conversion_fraction": 0.4178045047809795,
+  "reported_co_conversion_fraction": 0.99207,
+  "physically_reconcilable": false
+}

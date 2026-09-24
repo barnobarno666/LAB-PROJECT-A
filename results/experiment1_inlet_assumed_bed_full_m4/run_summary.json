@@ -1,0 +1,23 @@
+{
+  "reaction_mode": "m4_full",
+  "status": "completed",
+  "message": "The solver successfully reached the end of the integration interval.",
+  "terminal_event": null,
+  "solver_method": "Radau",
+  "solver_function_evaluations": 1110,
+  "configured_catalyst_mass_kg": 0.00312,
+  "reached_catalyst_mass_kg": 0.00312,
+  "outlet_co_conversion": 0.787226498478716,
+  "outlet_methane_yield": 0.6017603506964794,
+  "peak_intrinsic_r1_co2_methanation_mol_kg_s": 0.00035054200786883424,
+  "peak_temperature_k": 623.15,
+  "peak_temperature_location_m": 0.0,
+  "outlet_pressure_bar": 1.0,
+  "elemental_relative_residuals": {
+    "C": 1.7326228342676168e-12,
+    "H": 1.5262491479201577e-14,
+    "O": 3.4856761032230074e-12,
+    "N": 0.0
+  },
+  "assumption_notice": "This configuration contains assumed inputs and is not an Experiment #1 validation run."
+}
