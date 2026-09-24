@@ -299,7 +299,7 @@ def run_sweep(
             "temperature_c": float(experiment1["basis"]["reaction_temperature_c"]),
             "pressure_bar_abs": pressure_bar,
             "pressure_override_note": (
-                "Both contour panels use 2 bar by request. Group 14 source reports 760 mmHg; "
+                f"Both contour panels use {pressure_bar:g} bar. Group 14 source reports 760 mmHg; "
                 "Subah's PDF conflicts between Appendix A and its narrative."
             ),
             "catalyst_mass_g": catalyst_mass_g,
@@ -363,8 +363,9 @@ def run_sweep(
         ],
         "limits": [
             "The contour is a no-fit model sensitivity, not experimental validation.",
-            "Both source points are evaluated at common 2 bar and 3.12 g for a controlled comparison.",
-            "Full-M4 kinetic results at 2 bar extrapolate below the 5-15 bar fit range.",
+            f"Both source points are evaluated at common {pressure_bar:g} bar and "
+            f"{catalyst_mass_g:g} g for a controlled comparison.",
+            f"Full-M4 kinetic results at {pressure_bar:g} bar extrapolate below the 5-15 bar fit range.",
             "The Group-14 reported conversion is unresolved against its source GC and flow data.",
         ],
     }
@@ -372,18 +373,19 @@ def run_sweep(
         json.dumps(metadata, indent=2), encoding="utf-8"
     )
     (output_dir / "README.md").write_text(
-        """# Poster feed-flow contours
+        f"""# Poster feed-flow contours
 
 Run from the project root with: uv run m4-sweep-feed-flows
 
-The two standalone plots use the no-fit Full M4 model at 350 °C, 2 bar, 3.12 g
-catalyst, isothermal and constant-pressure conditions. `co_conversion_h2_co`
-varies H2 and CO inlet molar flows while holding N2 at 0.799 mol/h.
-`co_conversion_h2_n2` varies H2 and N2 while holding CO at 0.320 mol/h.
+The two standalone plots use the no-fit Full M4 model at
+{float(experiment1["basis"]["reaction_temperature_c"]):g} °C, {pressure_bar:g} bar,
+{catalyst_mass_g:g} g catalyst, isothermal and constant-pressure conditions.
+co_conversion_h2_co varies H2 and CO inlet molar flows while holding N2 at
+0.799 mol/h. co_conversion_h2_n2 varies H2 and N2 while holding CO at 0.320 mol/h.
 
 The image files contain the contour results, axes, and conversion scale only.
-Both surfaces use the common conditions requested for comparison. At 2 bar,
-the predictions extrapolate below the 5-15 bar kinetic-fit range.
+Both surfaces use the common pressure of {pressure_bar:g} bar. The predictions
+extrapolate below the 5-15 bar kinetic-fit range.
 
 The CSV records every grid cell and solver status. The JSON file records the
 resolved conditions and source-point predictions.

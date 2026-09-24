@@ -1,0 +1,94 @@
+{
+  "model": "m4_full",
+  "metric": "completed-bed outlet CO conversion percent",
+  "common_model_conditions": {
+    "temperature_c": 350.0,
+    "pressure_bar_abs": 1.0,
+    "pressure_override_note": "Both contour panels use 1 bar. Group 14 source reports 760 mmHg; Subah's PDF conflicts between Appendix A and its narrative.",
+    "catalyst_mass_g": 3.12,
+    "thermal_mode": "isothermal",
+    "transport_mode": "constant_pressure",
+    "activity": 1.0,
+    "fit_pressure_range_bar": [
+      5.0,
+      15.0
+    ],
+    "solver_method": "BDF",
+    "solver_rtol": 1e-06,
+    "solver_atol_flow_mol_s": 1e-10
+  },
+  "panels": {
+    "H2_vs_CO_at_fixed_N2": {
+      "x_axis": "CO inlet molar flow (mol/h)",
+      "y_axis": "H2 inlet molar flow (mol/h)",
+      "fixed_N2_mol_h": 0.799,
+      "co_range_mol_h": [
+        0.24,
+        0.4
+      ],
+      "h2_range_mol_h": [
+        0.2,
+        1.2
+      ]
+    },
+    "H2_vs_N2_at_fixed_CO": {
+      "x_axis": "N2 inlet molar flow (mol/h)",
+      "y_axis": "H2 inlet molar flow (mol/h)",
+      "fixed_CO_mol_h": 0.32,
+      "n2_range_mol_h": [
+        0.4,
+        1.2
+      ],
+      "h2_range_mol_h": [
+        0.2,
+        1.2
+      ]
+    }
+  },
+  "source_points": {
+    "Group-14": {
+      "inlet_molar_flow_mol_h": {
+        "N2": 0.799,
+        "H2": 0.399,
+        "CO": 0.32
+      },
+      "source_catalyst_mass_g": 3.0,
+      "source_pressure_mmhg": 760.0,
+      "reported_conversion_pct": 99.207,
+      "common_basis_model_prediction_pct": 40.933000038476315,
+      "interpretation": "The reported 99.207% is unresolved against source flow and GC data."
+    },
+    "Subah_Experiment_1": {
+      "inlet_molar_flow_mol_h": {
+        "N2": 0.799,
+        "H2": 0.959,
+        "CO": 0.32
+      },
+      "source_catalyst_mass_g": 3.12,
+      "source_pressure_bar": 1.0,
+      "reported_conversion_pct": 40.63,
+      "common_basis_model_prediction_pct": 78.72253717049591,
+      "interpretation": "The user confirmed that the verification run should use 1 bar absolute, consistent with the abstract and Results and Discussion description of atmospheric-pressure operation. Appendix A's conflicting 2 bar entry is retained as a documented source inconsistency."
+    }
+  },
+  "grid": {
+    "flow_points_per_axis_before_reference_insertion": 19,
+    "total_cases": 819,
+    "failed_or_incomplete_cases": 0
+  },
+  "output_files": [
+    "co_conversion_h2_co.png",
+    "co_conversion_h2_co.svg",
+    "co_conversion_h2_n2.png",
+    "co_conversion_h2_n2.svg",
+    "feed_flow_contour.csv",
+    "feed_flow_metadata.json",
+    "README.md"
+  ],
+  "limits": [
+    "The contour is a no-fit model sensitivity, not experimental validation.",
+    "Both source points are evaluated at common 1 bar and 3.12 g for a controlled comparison.",
+    "Full-M4 kinetic results at 1 bar extrapolate below the 5-15 bar fit range.",
+    "The Group-14 reported conversion is unresolved against its source GC and flow data."
+  ]
+}
