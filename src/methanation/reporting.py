@@ -99,7 +99,8 @@ def _make_figures(result: SimulationResult, output_dir: Path) -> None:
 
     # 3. Species concentrations vs. bed length. A logarithmic y-axis keeps
     # nitrogen, reactants, and lower-concentration products readable together.
-    fig, ax = plt.subplots(figsize=(6.0, 4.2))
+    fig, ax = plt.subplots(figsize=(6.0, 4.2), facecolor="#fffdf9")
+    ax.set_facecolor("#fffdf9")
     concentrations = result.concentrations_mol_m3
     plotted_lines = []
     for i, species in enumerate(SPECIES):
@@ -121,10 +122,14 @@ def _make_figures(result: SimulationResult, output_dir: Path) -> None:
             zorder=3,
         )
         plotted_lines.append(line)
-    ax.set_xlabel(r"Bed Length, $z$ [$\mathrm{m}$]", labelpad=6)
+    for spine in ax.spines.values():
+        spine.set_color("#241b35")
+    ax.tick_params(axis="both", which="both", colors="#241b35")
+    ax.set_xlabel(r"Bed Length, $z$ [$\mathrm{m}$]", labelpad=6, color="#241b35")
     ax.set_ylabel(
         r"Gas Concentration, $C_i$ [$\mathrm{mol}\cdot\mathrm{m}^{-3}$] (log scale)",
         labelpad=6,
+        color="#241b35",
     )
     ax.set_xlim(0.0, float(result.bed_length_m[-1]))
     positive = concentrations[concentrations > 0.0]
@@ -148,6 +153,8 @@ def _make_figures(result: SimulationResult, output_dir: Path) -> None:
         columnspacing=0.9,
         handletextpad=0.5,
         labelspacing=0.35,
+        facecolor="#fffdf9",
+        edgecolor="#d8ceda",
     )
     fig.text(
         0.5,
@@ -156,7 +163,7 @@ def _make_figures(result: SimulationResult, output_dir: Path) -> None:
         ha="center",
         va="bottom",
         fontsize=7.8,
-        color="#555555",
+        color="#6f6276",
     )
     fig.tight_layout(rect=(0.02, 0.05, 0.99, 0.99))
     _savefig(

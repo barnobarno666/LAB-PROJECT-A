@@ -62,13 +62,13 @@ COLOR_GRID = "#EAEAEA"
 COLOR_ZERO = "#718096"
 
 SPECIES_PALETTE = {
-    # Synthwave-inspired hues tuned for contrast on a white report background.
-    "H2":  {"color": "#0077B6", "style": "-", "width": 1.5, "label": r"$\mathrm{H}_2$"},
-    "CO":  {"color": "#E6007E", "style": "-", "width": 1.5, "label": r"$\mathrm{CO}$"},
-    "CH4": {"color": "#6C2BD9", "style": "-", "width": 1.5, "label": r"$\mathrm{CH}_4$"},
-    "H2O": {"color": "#E76F00", "style": "-", "width": 1.5, "label": r"$\mathrm{H}_2\mathrm{O}$"},
-    "N2":  {"color": "#4B4E8A", "style": "-", "width": 1.5, "label": r"$\mathrm{N}_2$"},
-    "CO2": {"color": "#008F7A", "style": "-", "width": 1.5, "label": r"$\mathrm{CO}_2$"},
+    # Violet-sunset contour palette, darkened for clear species traces on paper.
+    "H2":  {"color": "#3B6D8A", "style": "-", "width": 1.5, "label": r"$\mathrm{H}_2$"},
+    "CO":  {"color": "#C54586", "style": "-", "width": 1.5, "label": r"$\mathrm{CO}$"},
+    "CH4": {"color": "#7D408F", "style": "-", "width": 1.5, "label": r"$\mathrm{CH}_4$"},
+    "H2O": {"color": "#D97855", "style": "-", "width": 1.5, "label": r"$\mathrm{H}_2\mathrm{O}$"},
+    "N2":  {"color": "#3D245F", "style": "-", "width": 1.5, "label": r"$\mathrm{N}_2$"},
+    "CO2": {"color": "#AB5A8C", "style": "-", "width": 1.5, "label": r"$\mathrm{CO}_2$"},
 }
 
 

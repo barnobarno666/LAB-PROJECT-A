@@ -80,11 +80,11 @@
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.08}
 \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash\bfseries}p{0.25\linewidth}X@{}}
-Illustrative inlet (Figs. 1--2) & Dry feed CO:H$_2$:N$_2$ = 1:4:25 at $0.050\,\mathrm{mol\,s^{-1}}$: $F_{\mathrm{CO},0}=0.001667$, $F_{\mathrm{H_2},0}=0.006667$, and $F_{\mathrm{N_2},0}=0.041667\,\mathrm{mol\,s^{-1}}$; inlet CH$_4$, H$_2$O, and CO$_2$ are zero. $T_0=T_w=623.15\,\mathrm K$ ($350\,^{\circ}\mathrm C$), $P_0=5.00\,\mathrm{bar}$.\\
+Illustrative inlet (Figs. 2--4) & Dry feed CO:H$_2$:N$_2$ = 1:4:25 at $0.050\,\mathrm{mol\,s^{-1}}$: $F_{\mathrm{CO},0}=0.001667$, $F_{\mathrm{H_2},0}=0.006667$, and $F_{\mathrm{N_2},0}=0.041667\,\mathrm{mol\,s^{-1}}$; inlet CH$_4$, H$_2$O, and CO$_2$ are zero. $T_0=T_w=623.15\,\mathrm K$ ($350\,^{\circ}\mathrm C$), $P_0=5.00\,\mathrm{bar}$.\\
 Assumed bed and transport & $D_t=0.0254\,\mathrm m$, $L=0.3048\,\mathrm m$, and $\rho_B=750\,\mathrm{kg\,m^{-3}_{bed}}$ give $W_{tot}=0.1158\,\mathrm{kg}$ (calculated); $\varepsilon_b=0.40$, $D_p=3\,\mathrm{mm}$, $\mu=2.5\times10^{-5}\,\mathrm{Pa\,s}$, and $U=10\,\mathrm{W\,m^{-2}\,K^{-1}}$. Pressure drop uses Ergun; wall heat exchange is enabled and fresh-catalyst activity is $a=1$.\\
-Model and numerical assumptions & Steady 1-D plug flow with the reduced M4 CO-methanation/WGS network; direct CO$_2$ methanation is omitted. Heat capacities are constant (CO/H$_2$/CH$_4$/H$_2$O/CO$_2$/N$_2$: 30.3/29.3/52.0/36.5/46.5/30.1 $\mathrm{J\,mol^{-1}\,K^{-1}}$) and reaction heats are fixed at $-\Delta H_2=206$ and $-\Delta H_W=41\,\mathrm{kJ\,mol^{-1}}$. The stiff system uses Radau ($rtol=10^{-6}$) and 401 output points.\\
+Model and numerical assumptions & Figs. 2--3 use reduced M4 (CO methanation/WGS); Fig. 4 uses Full M4, including direct CO$_2$ methanation. Heat capacities are constant (CO/H$_2$/CH$_4$/H$_2$O/CO$_2$/N$_2$: 30.3/29.3/52.0/36.5/46.5/30.1 $\mathrm{J\,mol^{-1}\,K^{-1}}$) and reaction heats are fixed at $-\Delta H_2=206$ and $-\Delta H_W=41\,\mathrm{kJ\,mol^{-1}}$. The stiff system uses Radau and 401 output points.\\
 Group-14 reported inputs & Appendix B, Table 3: CO/H$_2$/N$_2$ = 0.320/0.399/0.799 $\mathrm{mol\,h^{-1}}$; catalyst = 3.00 g, reaction temperature = $350\,^{\circ}\mathrm C$, and pressure = 760 mmHg (about 1.013 bar). These source-reported conditions are separate from the 5-bar illustrative run above.\\
-Other figure cases & Part I (Figs. 1--3) contains the 1-bar three-model Experiment 1 comparison and the two illustrative base-case profiles. Part II (Figs. 4--9) contains the Full M4 temperature-pressure, ratio/space-time, and feed-flow sensitivities, including the isolated N$_2$ sweep. Part III (Fig. 10 and Table 1) contains the four-factor Full M4 grid-search optimization. The 1-bar comparison and sensitivity cases are below the Full M4 5--15 bar fitted pressure interval; model-specific domain limits are stated with the verification figure.
+Other figure cases & Part I (Figs. 1--4) contains the 1-bar three-model Experiment 1 comparison, two illustrative base-case profiles, and the assumed Full M4 species profile. Part II (Figs. 5--10) contains the Full M4 temperature-pressure, ratio/space-time, and feed-flow sensitivities, including the isolated N$_2$ sweep. Part III (Fig. 11 and Table 1) contains the four-factor Full M4 grid-search optimization. The 1-bar comparison and sensitivity cases are below the Full M4 5--15 bar fitted pressure interval; model-specific domain limits are stated with the verification figure.\\
 \end{tabularx}
 \end{keyequation}
 
@@ -224,9 +224,6 @@ The reversible driving forces are algebraically equivalent to the paper's RWGS a
 \(D_t=0.0254\,\mathrm m\) (1.00 in), \(L=0.3048\,\mathrm m\) (12.00 in), \(\rho_B=750\,\mathrm{kg\,m^{-3}}\), \(\varepsilon_b=0.40\), \(D_p=3\,\mathrm{mm}\), \(\mu=2.5\times10^{-5}\,\mathrm{Pa\,s}\), \(U=10\,\mathrm{W\,m^{-2}\,K^{-1}}\); \(T_0=T_w=623.15\,\mathrm K\), \(P_0=5\,\mathrm{bar}\), and feed ratio CO:H\(_2\):N\(_2\)=1:4:25 at \(0.05\,\mathrm{mol\,s^{-1}}\). Several geometry, feed, transport, and heat-transfer inputs remain assumed; this run is illustrative, not experimental validation.}
 \end{runbox}
 
-\vspace{1pt}
-{\scriptsize\color{bodygray}Equation basis: Subah and Somo formulation, Sections 3, 6, and 7. Numerical implementation: \texttt{src/methanation/reactor.py}; plotting: \texttt{src/methanation/reporting.py}.}
-
 \clearpage
 \partdivider{I}{Verification and reactor profiles}{A common-basis comparison with Experiment 1, followed by the illustrative base-case conversion and bed profiles.}
 \thispagestyle{fancy}
@@ -267,6 +264,19 @@ The reversible driving forces are algebraically equivalent to the paper's RWGS a
 \small The sampled temperature peaks at \(817.8\,\mathrm K\) near \(z=0.0533\,\mathrm m\) and is \(799.6\,\mathrm K\) at the outlet. Pressure falls from \(5.0000\) to \(4.9405\,\mathrm{bar}\) (about \(5.95\,\mathrm{kPa}\)). The plotted pressure axis is tightly auto-scaled, so the visible line exaggerates this relative drop.
 \end{keyequation}
 
+\clearpage
+\thispagestyle{fancy}
+{\Large\bfseries\color{navy} Species concentrations along the bed\par}
+\vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
+\vspace{8pt}
+\begin{center}
+\includegraphics[width=0.99\linewidth,height=0.62\textheight,keepaspectratio]{../results/assumed_full_m4_case/species_concentrations_vs_bed_length.png}
+\end{center}
+\begin{center}\small\textbf{Figure 4.} Full M4 species concentrations versus bed length for the assumed 5-bar, 350\,$^\circ$C, CO:H$_2$:N$_2$ = 1:4:25 case.\end{center}
+\begin{keyequation}
+\small This assumed-input profile does not use the Experiment 1 feed basis: its H$_2$/CO ratio is 4 and inlet pressure is 5 bar; Experiment 1 uses H$_2$/CO $=2.9969$ (about 3) and the selected 1-bar absolute basis.
+\end{keyequation}
+
 \partdivider{II}{Sensitivity analysis}{Full M4 contour and feed-composition sweeps. Low-pressure results are conditional extrapolations below the fitted pressure domain.}
 \thispagestyle{fancy}
 {\Large\bfseries\color{navy} CO conversion across reactor inlet conditions\par}
@@ -275,7 +285,7 @@ The reversible driving forces are algebraically equivalent to the paper's RWGS a
 \begin{center}
 \includegraphics[width=0.99\linewidth,height=0.72\textheight,keepaspectratio]{../results/temperature_pressure_full_m4_sweep/full_m4_temperature_pressure_contour.png}
 \end{center}
-\begin{center}\small\textbf{Figure 4.} Full M4 sensitivity of bed-outlet CO conversion to inlet temperature and pressure.\end{center}
+\begin{center}\small\textbf{Figure 5.} Full M4 sensitivity of bed-outlet CO conversion to inlet temperature and pressure.\end{center}
 \begin{keyequation}
 \small The hatched 1--$<5\,\mathrm{bar}$ region is below the pressure range tested for the Celoria et al. kinetic fit and is an extrapolation; 5--15 bar is within the reported pressure range. The two bands use separate linear color scales, so read each colorbar independently. The sweep covers 250--400\,$^\circ$C and varies only inlet temperature and pressure, with the other assumed base-case inputs fixed. Although inlet temperatures lie within the paper's fitted temperature range, 469 of 484 cases have sampled bed temperatures above 400\,$^\circ$C and therefore extrapolate the kinetics locally. This is a conditional model sensitivity, not experimental validation. Kinetic source: \href{https://doi.org/10.1016/j.cej.2025.162113}{Celoria et al.}
 \end{keyequation}
@@ -288,7 +298,7 @@ The reversible driving forces are algebraically equivalent to the paper's RWGS a
 \begin{center}
 \includegraphics[width=0.99\linewidth,height=0.72\textheight,keepaspectratio]{../results/temperature_pressure_full_m4_sweep/full_m4_temperature_pressure_contour_5_15bar.png}
 \end{center}
-\begin{center}\small\textbf{Figure 5.} Full M4 sensitivity restricted to inlet pressures of 5--15 bar.\end{center}
+\begin{center}\small\textbf{Figure 6.} Full M4 sensitivity restricted to inlet pressures of 5--15 bar.\end{center}
 \begin{keyequation}
 \small This view isolates the pressure interval reported for the Celoria et al. kinetic fit, with a single linear color scale. Inlet temperature spans 250--400\,$^\circ$C. The kinetic fit was tested at discrete temperature and pressure conditions; values between those conditions are model interpolations. The reactor's predicted local bed temperature may exceed 400\,$^\circ$C even when its inlet temperature is within range, so the result remains an exploratory conditional prediction rather than experimental validation.
 \end{keyequation}
@@ -301,7 +311,7 @@ The reversible driving forces are algebraically equivalent to the paper's RWGS a
 \begin{center}
 \includegraphics[width=0.99\linewidth,height=0.70\textheight,keepaspectratio]{../results/experiment1_ratio_contact_time_sweep_1bar/ratio_contact_time_co_conversion.png}
 \end{center}
-\begin{center}\small\textbf{Figure 6.} Full M4 predicted outlet CO conversion at 1 bar as inlet H$_2$/CO ratio and catalyst space time vary.\end{center}
+\begin{center}\small\textbf{Figure 7.} Full M4 predicted outlet CO conversion at 1 bar as inlet H$_2$/CO ratio and catalyst space time vary.\end{center}
 \begin{keyequation}
 \small The circle identifies the modeled Experiment 1 reference point (H$_2$/CO $=2.9969$, $W_{cat}/F_{CO,in}=35.10\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$), where predicted conversion is 78.72\%. This differs from the source-reported 40.63\%; the reported value is not used as a fit target. The sweep uses 1 bar absolute, consistent with the source's atmospheric-pressure description; Appendix A instead lists 2 bar. The selected pressure is below the 5--15 bar kinetic-fit range.
 \end{keyequation}
@@ -345,7 +355,7 @@ The map shows the combined conditional response to stoichiometry and catalyst pe
 \begin{center}
 \includegraphics[width=0.99\linewidth,height=0.70\textheight,keepaspectratio]{../results/experiment1_feed_flow_sensitivity_1bar/co_conversion_h2_co.png}
 \end{center}
-\begin{center}\small\textbf{Figure 7.} Full M4 predicted outlet CO conversion versus absolute inlet H$_2$ and CO flow; N$_2$ is fixed at $0.799\,\mathrm{mol\,h^{-1}}$.\end{center}
+\begin{center}\small\textbf{Figure 8.} Full M4 predicted outlet CO conversion versus absolute inlet H$_2$ and CO flow; N$_2$ is fixed at $0.799\,\mathrm{mol\,h^{-1}}$.\end{center}
 \begin{keyequation}
 \small Each point is a no-fit Full M4 simulation at $350\,^{\circ}\mathrm C$, 1.00 bar, and 3.12 g catalyst under isothermal, constant-pressure conditions. Since the axes are absolute molar flows, moving across the map changes both feed composition and total throughput; this is not solely an H$_2$/CO-ratio sweep. The 1-bar condition is below the 5--15-bar kinetic-fit pressure range, so the map is an extrapolative model sensitivity rather than experimental validation. No experimental measurements are plotted.
 \end{keyequation}
@@ -358,9 +368,9 @@ The map shows the combined conditional response to stoichiometry and catalyst pe
 \begin{center}
 \includegraphics[width=0.99\linewidth,height=0.70\textheight,keepaspectratio]{../results/experiment1_feed_flow_sensitivity_1bar/co_conversion_h2_n2.png}
 \end{center}
-\begin{center}\small\textbf{Figure 8.} Full M4 predicted outlet CO conversion versus inlet H$_2$ and N$_2$ flow; CO is fixed at $0.320\,\mathrm{mol\,h^{-1}}$.\end{center}
+\begin{center}\small\textbf{Figure 9.} Full M4 predicted outlet CO conversion versus inlet H$_2$ and N$_2$ flow; CO is fixed at $0.320\,\mathrm{mol\,h^{-1}}$.\end{center}
 \begin{keyequation}
-\small This sweep isolates the conditional effect of nitrogen dilution while varying H$_2$ feed, with CO held fixed. At a given H$_2$ flow, increasing the inert N$_2$ feed lowers the reactant mole fractions and increases total throughput, reducing the predicted conversion. Conditions are $350\,^{\circ}\mathrm C$, 1.00 bar, and 3.12 g catalyst, isothermal and constant-pressure. As in Fig. 6, the 1-bar result extrapolates below the 5--15-bar kinetic-fit range and is not experimental validation; no experimental measurements are plotted.
+\small This sweep isolates the conditional effect of nitrogen dilution while varying H$_2$ feed, with CO held fixed. At a given H$_2$ flow, increasing the inert N$_2$ feed lowers the reactant mole fractions and increases total throughput, reducing the predicted conversion. Conditions are $350\,^{\circ}\mathrm C$, 1.00 bar, and 3.12 g catalyst, isothermal and constant-pressure. As in Fig. 7, the 1-bar result extrapolates below the 5--15-bar kinetic-fit range and is not experimental validation; no experimental measurements are plotted.
 \end{keyequation}
 
 \clearpage
@@ -370,7 +380,7 @@ The map shows the combined conditional response to stoichiometry and catalyst pe
 \vspace{8pt}
 \begin{center}
 \includegraphics[width=0.99\linewidth,height=0.70\textheight,keepaspectratio]{../results/experiment1_n2_isolated_sensitivity_1bar/n2_conversion_sweep.png}
-\par\smallskip\small\textbf{Figure 9.} Full M4 predicted outlet CO conversion as inlet N$_2$ flow varies from 0.4 to 1.2 mol/h, with CO = 0.320 mol/h and H$_2$ = 0.959 mol/h fixed. The reference point at N$_2$ = 0.799 mol/h gives 78.72\% conversion. Conditions are 350\,$^\circ$C, 1 bar absolute, and 3.12 g catalyst, isothermal and constant-pressure.
+\par\smallskip\small\textbf{Figure 10.} Full M4 predicted outlet CO conversion as inlet N$_2$ flow varies from 0.4 to 1.2 mol/h, with CO = 0.320 mol/h and H$_2$ = 0.959 mol/h fixed. The reference point at N$_2$ = 0.799 mol/h gives 78.72\% conversion. Conditions are 350\,$^\circ$C, 1 bar absolute, and 3.12 g catalyst, isothermal and constant-pressure.
 \end{center}
 \begin{keyequation}
 \small Conversion decreases from 88.14\% to 70.34\% over the plotted N$_2$ range. The 1-bar calculations are below the 5--15-bar kinetic-fit pressure range; interpret this as a conditional model sensitivity, not experimental validation.
@@ -414,7 +424,7 @@ The maximum is the best sampled grid point, not a continuous or experimentally v
 The pressure-slice figure shows the conversion landscape around the selected grid point. Each panel varies inlet H$_2$/CO ratio and temperature at fixed pressure, with catalyst space time held at its optimized grid value. The star marks the best sampled point at 15 bar and $370\,^{\circ}\mathrm C$.
 \begin{center}
 \includegraphics[width=0.99\linewidth,height=0.72\textheight,keepaspectratio]{../results/experiment1_four_factor_grid_optimization/four_factor_optimization_pressure_slices.png}
-\par\smallskip\small\textbf{Figure 10.} Pressure slices of predicted outlet CO conversion from the four-factor grid. Space time is fixed at $140.4\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$; the star marks the best sampled point.
+\par\smallskip\small\textbf{Figure 11.} Pressure slices of predicted outlet CO conversion from the four-factor grid. Space time is fixed at $140.4\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$; the star marks the best sampled point.
 \end{center}
 \begin{keyequation}
 \small Only 5, 9, and 15 bar are shown because 1--4 bar fall below the kinetic-fit pressure range. The shared color scale allows comparison across panels. The figure and table report model predictions, not experimental validation.
