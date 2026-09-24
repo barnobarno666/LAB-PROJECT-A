@@ -16,6 +16,7 @@ dev = ["pytest>=8.3"]
 m4-reactor = "methanation.cli:main"
 m4-verify-group14 = "methanation.verification:main"
 m4-verify-experiment1 = "methanation.experiment_verification:main"
+m4-verify-experiment1-three-models = "methanation.experiment1_three_model_verification:main"
 m4-sweep-ratio-contact-time = "methanation.ratio_contact_time_sensitivity:main"
 m4-sweep-stoich-temperature-pressure = "methanation.stoich_temperature_pressure_sensitivity:main"
 m4-sweep-feed-flows = "methanation.feed_flow_sensitivity:main"

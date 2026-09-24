@@ -1,17 +1,86 @@
 {
-  "comparison_type": "no-fit M4 prediction versus Experiment 1 reported CO conversion",
-  "reaction_mode": "m4_full",
-  "catalyst_mass_kg": 0.00312,
-  "inlet_temperature_k": 623.15,
-  "inlet_pressure_bar": 2.0,
-  "predicted_co_conversion_fraction": 0.9693906879130317,
-  "experimental_co_conversion_fraction": 0.4063,
-  "signed_error_percentage_points": 56.309068791303176,
-  "absolute_error_percentage_points": 56.309068791303176,
-  "predicted_methane_yield_fraction": 0.7254393058717725,
-  "solver_success": true,
-  "solver_message": "The solver successfully reached the end of the integration interval.",
-  "source": "exp1 sub.pdf, abstract, Results and Discussion, Appendices A-C",
-  "peak_intrinsic_r1_co2_methanation_mol_kg_s": 0.0010763554723981798,
-  "interpretation": "The report's CO conversion is supported by its rounded inlet/outlet CO flows; the pressure basis and other GC species flows remain internally inconsistent."
+  "comparison_type": "three independent no-fit models versus Experiment 1",
+  "shared_conditions": {
+    "pressure_bar_absolute": 1.0,
+    "temperature_c": 350.0,
+    "catalyst_mass_g": 3.12,
+    "inlet_molar_flow_mol_h": {
+      "N2": 0.799,
+      "H2": 0.959,
+      "CO": 0.32
+    },
+    "thermal_mode": "isothermal",
+    "transport_mode": "constant_pressure"
+  },
+  "reported_co_conversion_fraction": 0.4063,
+  "models": {
+    "full_m4": {
+      "comparison_type": "no-fit mechanistic prediction versus unresolved source-reported conversion",
+      "reaction_mode": "m4_full",
+      "catalyst_mass_kg": 0.00312,
+      "inlet_temperature_k": 623.15,
+      "inlet_pressure_bar": 1.0,
+      "predicted_co_conversion_fraction": 0.7872265097887868,
+      "experimental_co_conversion_fraction": 0.4063,
+      "signed_error_percentage_points": 38.09265097887868,
+      "absolute_error_percentage_points": 38.09265097887868,
+      "predicted_methane_yield_fraction": 0.6017603455659644,
+      "solver_success": true,
+      "solver_message": "The solver successfully reached the end of the integration interval.",
+      "model_label": "Full M4",
+      "published_pressure_range_bar": [
+        5.0,
+        15.0
+      ],
+      "pressure_status": "extrapolated below fitted range",
+      "feed_scope_status": "CO/H2 feed is within the model's studied reaction families",
+      "elemental_residuals": {
+        "C": 1.0992793589466311e-13,
+        "H": 6.10499659168063e-16,
+        "O": 2.1802628062325693e-13,
+        "N": 0.0
+      }
+    },
+    "kopyscinski_1_2_bar": {
+      "model_label": "Kopyscinski",
+      "published_pressure_range_bar": [
+        1.0,
+        2.0
+      ],
+      "pressure_status": "within published range",
+      "feed_scope_status": "CO/H2 feed matches the model's primary CO-methanation scope",
+      "predicted_co_conversion_fraction": 0.999849630106947,
+      "experimental_co_conversion_fraction": 0.4063,
+      "signed_error_percentage_points": 59.3549630106947,
+      "solver_success": true,
+      "solver_message": "The solver successfully reached the end of the integration interval.",
+      "elemental_residuals": {
+        "C": 2.1345230270808372e-15,
+        "H": 6.10499659168063e-16,
+        "O": 4.4215119846674486e-15,
+        "N": 0.0
+      }
+    },
+    "quindimil_2_6_bar": {
+      "model_label": "Quindimil",
+      "published_pressure_range_bar": [
+        2.0,
+        6.0
+      ],
+      "pressure_status": "extrapolated below fitted range",
+      "feed_scope_status": "CO/H2 feed extrapolates beyond the model's CO2/H2 fitting scope",
+      "predicted_co_conversion_fraction": 0.03369426985057091,
+      "experimental_co_conversion_fraction": 0.4063,
+      "signed_error_percentage_points": -37.26057301494291,
+      "solver_success": true,
+      "solver_message": "The solver successfully reached the end of the integration interval.",
+      "elemental_residuals": {
+        "C": 7.623296525288704e-16,
+        "H": 2.0349988638935435e-16,
+        "O": 1.6771252355635149e-15,
+        "N": 0.0
+      }
+    }
+  },
+  "interpretation": "The curves are independent literature-model predictions at identical conditions. They are not pressure-spliced and no kinetic parameter was fitted to Experiment 1."
 }

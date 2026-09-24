@@ -54,4 +54,12 @@ Use the user's Experiment 1 report with:
 uv run m4-verify-experiment1 --data data/experiment1_observed_data.json --output results/experiment1_full_m4_verification
 ```
 
-This compares full M4 with the report's 40.63% CO conversion using the reported 3.12 g catalyst mass, 350 °C, inlet molar flows, and the 2 bar pressure stated in Appendix A. The report also describes atmospheric-pressure operation, so the output includes that pressure alternative. It preserves the measured 0.799/0.790 mol/h N2 inlet/outlet values without rescaling and records other GC-table inconsistencies. No parameter fitting is performed. Both verification commands accept `--reaction-mode m4_reduced_co_wgs` to reproduce the older two-reaction comparison in a separate output directory.
+This compares full M4 with the report's 40.63% CO conversion using the reported 3.12 g catalyst mass, 350 °C, inlet molar flows, and the user-confirmed 1 bar absolute pressure. Appendix A's conflicting 2 bar entry remains documented as a source inconsistency. It preserves the measured 0.799/0.790 mol/h N2 inlet/outlet values without rescaling and records other GC-table inconsistencies. No parameter fitting is performed. Both verification commands accept `--reaction-mode m4_reduced_co_wgs` to reproduce the older two-reaction comparison in a separate output directory.
+
+For the separate three-model verification plot, run:
+
+```powershell
+uv run m4-verify-experiment1-three-models --data data/experiment1_observed_data.json --output results/experiment1_full_m4_verification
+```
+
+That command keeps the Experiment 1 flow, 350 °C temperature, and 3.12 g catalyst mass unchanged and evaluates full M4, corrected Kopyscinski kinetics, and Quindimil kinetics independently at 1.00 bar. It does not pressure-splice the models. Kopyscinski is within its published 1-2 bar range; Quindimil and full M4 are explicitly labelled as pressure extrapolations at 1 bar.

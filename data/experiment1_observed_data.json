@@ -4,8 +4,8 @@
   "basis": {
     "catalyst_mass_g": 3.12,
     "reaction_temperature_c": 350.0,
-    "reaction_pressure_bar": 2.0,
-    "pressure_interpretation": "Appendix A states 2 bar; the abstract and Results and Discussion also describe atmospheric-pressure operation. The verification uses the explicit Appendix A value and reports the atmospheric-pressure alternative."
+    "reaction_pressure_bar": 1.0,
+    "pressure_interpretation": "The user confirmed that the verification run should use 1 bar absolute, consistent with the abstract and Results and Discussion description of atmospheric-pressure operation. Appendix A's conflicting 2 bar entry is retained as a documented source inconsistency."
   },
   "inlet_molar_flow_mol_h": {
     "N2": 0.799,

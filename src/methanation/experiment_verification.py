@@ -158,11 +158,24 @@ def _write_experiment1_report(
         else "Reduced M4 includes CO methanation and WGS. Its expanded rates "
         "are finite at the dry inlet."
     )
+    if np.isclose(comparison.inlet_pressure_bar, 1.0):
+        pressure_comparison_note = (
+            "The verification pressure is the user-confirmed atmospheric value of "
+            "1 bar absolute; Appendix A's conflicting 2 bar entry is retained as a "
+            "source limitation rather than used for this run."
+        )
+    else:
+        pressure_comparison_note = (
+            "If the report's atmospheric-pressure prose is used instead, the same "
+            f"no-fit model predicts {atmospheric_comparison.predicted_co_conversion_fraction:.3%} "
+            f"at 1 bar ({atmospheric_comparison.signed_error_percentage_points:+.2f} "
+            "percentage points relative to the reported conversion)."
+        )
     report = f"""# Experiment 1 CO conversion versus {comparison.model_label} model
 
 ## No-fit comparison
 
-The model uses the Experiment 1 catalyst mass, feed molar flows, temperature, and the 2 bar pressure stated in Appendix A. Reaction mode is `{comparison.reaction_mode}`; the published M4 kinetics are unchanged, with activity fixed at 1.0. No model parameter was fitted to this experiment. {reaction_note}
+The model uses the Experiment 1 catalyst mass, feed molar flows, temperature, and the selected {comparison.inlet_pressure_bar:.2f} bar absolute verification pressure. Reaction mode is `{comparison.reaction_mode}`; the published M4 kinetics are unchanged, with activity fixed at 1.0. No model parameter was fitted to this experiment. {reaction_note}
 
 The source kinetics were fitted on a 24 wt% Ni/Al2O3 catalyst at 5 and 15 bar; both pressure interpretations here extrapolate below that range.
 
@@ -172,14 +185,14 @@ The source kinetics were fitted on a 24 wt% Ni/Al2O3 catalyst at 5 and 15 bar; b
 
 The model run completed: `{comparison.solver_success}` ({comparison.solver_message}). Model conversion uses molar flow: (inlet CO - outlet CO) / inlet CO. Predicted methane yield on the CO-inlet basis is {comparison.predicted_methane_yield_fraction:.3%}.
 
-If the report's prose saying atmospheric pressure is correct instead of Appendix A's 2 bar, the same no-fit model predicts {atmospheric_comparison.predicted_co_conversion_fraction:.3%} at 1 bar, a {atmospheric_comparison.signed_error_percentage_points:+.2f} percentage-point difference from the reported conversion. Pressure ambiguity changes the prediction materially, but neither interpretation reproduces the reported result.
+{pressure_comparison_note}
 
 ## Experiment values used
 
 - Source: {data['source']}
 - Catalyst mass: {data['basis']['catalyst_mass_g']:.2f} g
 - Reaction temperature: {data['basis']['reaction_temperature_c']:.1f} °C
-- Primary pressure assumption: {data['basis']['reaction_pressure_bar']:.2f} bar, interpreted as absolute model pressure from Appendix A
+- Verification pressure: {comparison.inlet_pressure_bar:.2f} bar absolute
 - Inlet flows from Appendix C: N2 {data['inlet_molar_flow_mol_h']['N2']:.3f}, H2 {data['inlet_molar_flow_mol_h']['H2']:.3f}, CO {data['inlet_molar_flow_mol_h']['CO']:.3f} mol/h
 - Outlet flows from the Appendix C sample calculation: N2 {data['outlet_dry_molar_flow_mol_h']['N2']:.3f}, CO {data['outlet_dry_molar_flow_mol_h']['CO']:.3f} mol/h
 - Reported CO conversion: {data['reported_metrics']['co_conversion_fraction']:.3%}
@@ -192,7 +205,7 @@ As a cross-check, the normalized GC fractions sum to {audit['gc_composition_frac
 
 ## Source limitations
 
-- The appendix states 2 bar, but the abstract and Results and Discussion describe operation at atmospheric pressure. The figure uses 2 bar; the atmospheric-pressure model result is reported above.
+- Appendix A states 2 bar, but the abstract and Results and Discussion describe atmospheric pressure. The user confirmed that this verification should use 1 bar absolute.
 - Appendix B Table 4 lists CO2 at {audit['co2_flow_appendix_b_table4_mol_h']:.3f} mol/h, while the Appendix C calculation uses {audit['co2_flow_appendix_c_calculation_mol_h']:.3f} mol/h. The stated CH4/CO2 selectivity of 0.16 also follows the 0.050 mol/h value.
 - Using the Appendix C outlet flows, carbon is short by {abs(audit['carbon_relative_residual_using_appendix_c_flows']):.1%} and oxygen by {abs(audit['oxygen_relative_residual_using_appendix_c_flows']):.1%}. The hydrogen balance implies {audit['water_from_hydrogen_balance_mol_h']:.3f} mol/h water, while the oxygen balance permits only {audit['water_from_oxygen_balance_mol_h']:.3f} mol/h. Thus the CO conversion is arithmetically supported by the reported CO flows and the N2 flow is close, but the full species table is not a closed material balance.
 
