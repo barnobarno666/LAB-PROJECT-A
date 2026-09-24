@@ -1,6 +1,7 @@
 # Poster feed-flow contours
 
-Run from the project root with: uv run m4-sweep-feed-flows
+Run from the project root with:
+uv run m4-sweep-feed-flows --pressure-bar 1 --output results/experiment1_feed_flow_sensitivity_1bar
 
 The two standalone plots use the no-fit Full M4 model at
 350 °C, 1 bar,

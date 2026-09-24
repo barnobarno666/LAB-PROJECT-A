@@ -375,7 +375,8 @@ def run_sweep(
     (output_dir / "README.md").write_text(
         f"""# Poster feed-flow contours
 
-Run from the project root with: uv run m4-sweep-feed-flows
+Run from the project root with:
+uv run m4-sweep-feed-flows --pressure-bar {pressure_bar:g} --output {output_dir.as_posix()}
 
 The two standalone plots use the no-fit Full M4 model at
 {float(experiment1["basis"]["reaction_temperature_c"]):g} °C, {pressure_bar:g} bar,
