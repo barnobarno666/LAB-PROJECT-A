@@ -14,7 +14,6 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.lines import Line2D
 import numpy as np
 
 from .config import ReactorConfig
@@ -30,8 +29,6 @@ CONTOUR_CMAP = LinearSegmentedColormap.from_list(
     ["#24104f", "#63358d", "#bd4f91", "#ec865f", "#f5c96a", "#fff2c6"],
     N=256,
 )
-GROUP14_COLOR = "#c92a2a"
-SUBAH_COLOR = "#007c91"
 
 
 def _axis_with_references(values: np.ndarray, references: tuple[float, ...]) -> np.ndarray:
@@ -148,251 +145,59 @@ def _point_value(
     return value
 
 
-def _draw_source_point(
-    ax,
-    *,
-    x: float,
-    y: float,
-    color: str,
-    marker: str,
-    label: str,
-    conversion_text: str,
-    offset: tuple[int, int],
-) -> None:
-    ax.scatter(
-        [x],
-        [y],
-        s=78,
-        marker=marker,
-        facecolor=PAPER,
-        edgecolor=color,
-        linewidth=1.8,
-        zorder=6,
-    )
-    ax.annotate(
-        f"{label}\n{conversion_text}",
-        xy=(x, y),
-        xytext=offset,
-        textcoords="offset points",
-        fontsize=7.6,
-        color="#192a3a",
-        bbox={"boxstyle": "round,pad=0.28", "facecolor": PAPER, "edgecolor": color, "alpha": 0.94},
-        arrowprops={"arrowstyle": "-", "color": color, "lw": 0.8},
-        zorder=7,
-    )
-
-
-def _write_figure(
-    output_path: Path,
+def _write_panel_figures(
+    output_dir: Path,
     *,
     co_values: np.ndarray,
     h2_values: np.ndarray,
     n2_values: np.ndarray,
     co_surface: np.ndarray,
     n2_surface: np.ndarray,
-    group14: dict[str, object],
-    experiment1: dict[str, object],
-    group14_model_co_pct: float,
-    experiment1_model_co_pct: float,
-    catalyst_mass_g: float,
-    pressure_bar: float,
-    temperature_c: float,
-    fixed_n2_mol_h: float,
-    fixed_co_mol_h: float,
 ) -> None:
-    apply_design3_style(font_size=9.5)
-    fig, axes = plt.subplots(1, 2, figsize=(13.0, 6.3), sharey=True, facecolor=PAPER)
-    for ax in axes:
-        ax.set_facecolor(PAPER)
-
+    apply_design3_style(font_size=14)
+    output_dir.mkdir(parents=True, exist_ok=True)
     levels = np.linspace(0.0, 100.0, 21)
-    co_x, co_y = np.meshgrid(co_values, h2_values)
-    n2_x, n2_y = np.meshgrid(n2_values, h2_values)
-    co_contour = axes[0].contourf(
-        co_x,
-        co_y,
-        np.ma.masked_invalid(co_surface),
-        levels=levels,
-        cmap=CONTOUR_CMAP,
-        extend="both",
-    )
-    axes[1].contourf(
-        n2_x,
-        n2_y,
-        np.ma.masked_invalid(n2_surface),
-        levels=levels,
-        cmap=CONTOUR_CMAP,
-        extend="both",
-    )
-
-    contour_lines = (20, 40, 60, 70, 80, 90, 95, 98)
-    for ax, x_grid, y_grid, values in (
-        (axes[0], co_x, co_y, co_surface),
-        (axes[1], n2_x, n2_y, n2_surface),
-    ):
-        finite = values[np.isfinite(values)]
-        available = [
-            level for level in contour_lines
-            if finite.size and finite.min() < level < finite.max()
-        ]
-        if available:
-            lines = ax.contour(
-                x_grid,
-                y_grid,
-                np.ma.masked_invalid(values),
-                levels=available,
-                colors="#fffdf9",
-                linewidths=0.75,
-                alpha=0.9,
-            )
-            ax.clabel(lines, inline=True, fontsize=7.4, fmt="%g%%")
-        ax.grid(color="#ffffff", alpha=0.2, linewidth=0.6)
-        ax.set_ylim(float(h2_values[0]), float(h2_values[-1]))
-
-    group14_flows = group14["inlet_molar_flow_mol_h"]
-    experiment1_flows = experiment1["inlet_molar_flow_mol_h"]
-    observed_group14 = 100.0 * float(group14["reported_metrics"]["co_conversion_fraction"])
-    observed_experiment1 = 100.0 * float(experiment1["reported_metrics"]["co_conversion_fraction"])
-
-    _draw_source_point(
-        axes[0],
-        x=float(group14_flows["CO"]),
-        y=float(group14_flows["H2"]),
-        color=GROUP14_COLOR,
-        marker="o",
-        label="Group 14",
-        conversion_text=f"model {group14_model_co_pct:.1f}% | report {observed_group14:.2f}%*",
-        offset=(10, 9),
-    )
-    _draw_source_point(
-        axes[0],
-        x=float(experiment1_flows["CO"]),
-        y=float(experiment1_flows["H2"]),
-        color=SUBAH_COLOR,
-        marker="D",
-        label="Subah Exp. 1",
-        conversion_text=f"model {experiment1_model_co_pct:.1f}% | report {observed_experiment1:.2f}%",
-        offset=(10, -35),
-    )
-    _draw_source_point(
-        axes[1],
-        x=float(group14_flows["N2"]),
-        y=float(group14_flows["H2"]),
-        color=GROUP14_COLOR,
-        marker="o",
-        label="Group 14",
-        conversion_text=f"model {group14_model_co_pct:.1f}% | report {observed_group14:.2f}%*",
-        offset=(10, 9),
-    )
-    _draw_source_point(
-        axes[1],
-        x=float(experiment1_flows["N2"]),
-        y=float(experiment1_flows["H2"]),
-        color=SUBAH_COLOR,
-        marker="D",
-        label="Subah Exp. 1",
-        conversion_text=f"model {experiment1_model_co_pct:.1f}% | report {observed_experiment1:.2f}%",
-        offset=(10, -35),
-    )
-
-    co_line = np.linspace(float(co_values[0]), float(co_values[-1]), 200)
-    stoich_h2 = 3.0 * co_line
-    inside = stoich_h2 <= float(h2_values[-1])
-    axes[0].plot(
-        co_line[inside],
-        stoich_h2[inside],
-        color="#f3d477",
-        linestyle="--",
-        linewidth=1.5,
-        label=r"Stoichiometric H$_2$/CO = 3",
-        zorder=4,
-    )
-    axes[0].set_title(
-        r"(a) Reactive feeds; $\mathrm{N_2}$ held fixed",
-        loc="left",
-        fontsize=11,
-        fontweight="bold",
-    )
-    axes[1].set_title(
-        r"(b) $\mathrm{H_2}$ feed and $\mathrm{N_2}$ dilution; CO held fixed",
-        loc="left",
-        fontsize=11,
-        fontweight="bold",
-    )
-    axes[0].set_xlabel(r"Inlet CO flow, $F_{\mathrm{CO,in}}$ [mol h$^{-1}$]")
-    axes[1].set_xlabel(r"Inlet N$_2$ flow, $F_{\mathrm{N_2,in}}$ [mol h$^{-1}$]")
-    axes[0].set_ylabel(r"Inlet H$_2$ flow, $F_{\mathrm{H_2,in}}$ [mol h$^{-1}$]")
-
-    shared_handles = [
-        Line2D(
-            [],
-            [],
-            marker="o",
-            linestyle="none",
-            markerfacecolor=PAPER,
-            markeredgecolor=GROUP14_COLOR,
-            markersize=7,
-            label="Group-14 feed",
-        ),
-        Line2D(
-            [],
-            [],
-            marker="D",
-            linestyle="none",
-            markerfacecolor=PAPER,
-            markeredgecolor=SUBAH_COLOR,
-            markersize=6.5,
-            label="Subah Experiment-1 feed",
-        ),
-        Line2D([], [], color="#f3d477", linestyle="--", linewidth=1.5, label=r"H$_2$/CO = 3 stoichiometric line"),
-    ]
-    fig.suptitle(
-        "Full-M4 CO conversion across inlet feed rates",
-        x=0.07,
-        ha="left",
-        fontsize=14,
-        fontweight="bold",
-        y=0.98,
-    )
-    fig.legend(
-        handles=shared_handles,
-        loc="upper center",
-        bbox_to_anchor=(0.53, 0.925),
-        ncol=3,
-        frameon=True,
-        facecolor=PAPER,
-        edgecolor="#d7d2c8",
-        fontsize=8.3,
-    )
-    cbar = fig.colorbar(co_contour, ax=axes, pad=0.025, fraction=0.045, shrink=0.88)
-    cbar.set_label("Predicted outlet CO conversion [%]")
-    fig.text(
-        0.07,
-        0.025,
+    panels = (
         (
-            f"Common model: {temperature_c:.0f} °C, {pressure_bar:.2f} bar, "
-            f"{catalyst_mass_g:.2f} g, isothermal constant-pressure Full M4, activity 1. "
-            f"Panel (a) N$_2$ = {fixed_n2_mol_h:.3f} mol/h; panel (b) CO = {fixed_co_mol_h:.3f} mol/h.\n"
-            "Group-14 source used 3.00 g and 760 mmHg; its point is evaluated at the requested common 2 bar and 3.12 g. "
-            "Subah PDF pressure is disputed; Appendix A states 2 bar.\n"
-            "*Group-14's reported 99.207% is unresolved against its source GC/flow data. "
-            "These 2-bar predictions extrapolate below the 5-15 bar kinetic-fit range."
+            "co_conversion_h2_co",
+            co_values,
+            co_surface,
+            r"Inlet CO flow, $F_{\mathrm{CO,in}}$ (mol h$^{-1}$)",
         ),
-        ha="left",
-        va="bottom",
-        fontsize=7.4,
-        color="#555b65",
-        wrap=True,
+        (
+            "co_conversion_h2_n2",
+            n2_values,
+            n2_surface,
+            r"Inlet N$_2$ flow, $F_{\mathrm{N_2,in}}$ (mol h$^{-1}$)",
+        ),
     )
-    fig.subplots_adjust(left=0.09, right=0.87, top=0.84, bottom=0.22, wspace=0.20)
-
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path.with_suffix(".png"), dpi=320, bbox_inches="tight")
-    svg_path = output_path.with_suffix(".svg")
-    fig.savefig(svg_path, bbox_inches="tight")
-    svg_lines = svg_path.read_text(encoding="utf-8").splitlines()
-    svg_path.write_text("\n".join(line.rstrip() for line in svg_lines) + "\n", encoding="utf-8")
-    plt.close(fig)
+    for stem, x_values, surface, x_label in panels:
+        x_grid, y_grid = np.meshgrid(x_values, h2_values)
+        fig, ax = plt.subplots(figsize=(7.6, 6.0), facecolor=PAPER)
+        ax.set_facecolor(PAPER)
+        filled = ax.contourf(
+            x_grid,
+            y_grid,
+            np.ma.masked_invalid(surface),
+            levels=levels,
+            cmap=CONTOUR_CMAP,
+        )
+        ax.set_xlabel(x_label)
+        ax.set_ylabel(r"Inlet H$_2$ flow, $F_{\mathrm{H_2,in}}$ (mol h$^{-1}$)")
+        ax.set_xlim(float(x_values[0]), float(x_values[-1]))
+        ax.set_ylim(float(h2_values[0]), float(h2_values[-1]))
+        cbar = fig.colorbar(filled, ax=ax, pad=0.035, fraction=0.055)
+        cbar.set_label("CO conversion (%)")
+        cbar.set_ticks(np.arange(0.0, 101.0, 20.0))
+        fig.tight_layout(pad=0.6)
+        fig.savefig(output_dir / f"{stem}.png", dpi=600, bbox_inches="tight")
+        svg_path = output_dir / f"{stem}.svg"
+        fig.savefig(svg_path, bbox_inches="tight")
+        svg_lines = svg_path.read_text(encoding="utf-8").splitlines()
+        svg_path.write_text("\n".join(line.rstrip() for line in svg_lines) + "\n", encoding="utf-8")
+        plt.close(fig)
+    for suffix in (".png", ".svg"):
+        (output_dir / f"reactive_feed_flow_contour{suffix}").unlink(missing_ok=True)
 
 
 def run_sweep(
@@ -477,22 +282,13 @@ def run_sweep(
         writer.writeheader()
         writer.writerows(records)
 
-    _write_figure(
-        output_dir / "reactive_feed_flow_contour",
+    _write_panel_figures(
+        output_dir,
         co_values=co_values,
         h2_values=h2_values,
         n2_values=n2_values,
         co_surface=co_surface,
         n2_surface=n2_surface,
-        group14=group14,
-        experiment1=experiment1,
-        group14_model_co_pct=group14_model,
-        experiment1_model_co_pct=experiment1_model,
-        catalyst_mass_g=catalyst_mass_g,
-        pressure_bar=pressure_bar,
-        temperature_c=float(experiment1["basis"]["reaction_temperature_c"]),
-        fixed_n2_mol_h=fixed_n2,
-        fixed_co_mol_h=fixed_co,
     )
 
     failed = sum(record["status"] != "completed" for record in records)
@@ -557,8 +353,10 @@ def run_sweep(
             "failed_or_incomplete_cases": failed,
         },
         "output_files": [
-            "reactive_feed_flow_contour.png",
-            "reactive_feed_flow_contour.svg",
+            "co_conversion_h2_co.png",
+            "co_conversion_h2_co.svg",
+            "co_conversion_h2_n2.png",
+            "co_conversion_h2_n2.svg",
             "feed_flow_contour.csv",
             "feed_flow_metadata.json",
             "README.md",
@@ -574,23 +372,18 @@ def run_sweep(
         json.dumps(metadata, indent=2), encoding="utf-8"
     )
     (output_dir / "README.md").write_text(
-        """# Reactive-feed and nitrogen-flow contour
+        """# Poster feed-flow contours
 
 Run from the project root with: uv run m4-sweep-feed-flows
 
-The two panels use the no-fit Full M4 model at 350 °C, 2 bar, 3.12 g catalyst,
-isothermal and constant-pressure conditions. Panel (a) varies the absolute H2
-and CO inlet molar flows while holding N2 at 0.799 mol/h. Panel (b) varies H2
-and N2 while holding CO at 0.320 mol/h. Thus N2 is included as a separate inert
-dilution sensitivity, rather than treated as a reactive stoichiometric feed.
+The two standalone plots use the no-fit Full M4 model at 350 °C, 2 bar, 3.12 g
+catalyst, isothermal and constant-pressure conditions. `co_conversion_h2_co`
+varies H2 and CO inlet molar flows while holding N2 at 0.799 mol/h.
+`co_conversion_h2_n2` varies H2 and N2 while holding CO at 0.320 mol/h.
 
-Markers show the reported inlet-flow coordinates. Their labels compare the
-common-basis model prediction with the conversion reported by each source.
-Group 14's source pressure is 760 mmHg and catalyst mass is 3.00 g; the
-contour uses 2 bar and 3.12 g for both datasets by request. Group 14's 99.207%
-reported conversion is unresolved against its own GC and flow values. The
-Subah report also conflicts on pressure between Appendix A and its narrative.
-Both model predictions are extrapolations below the 5-15 bar kinetic-fit range.
+The image files contain the contour results, axes, and conversion scale only.
+Both surfaces use the common conditions requested for comparison. At 2 bar,
+the predictions extrapolate below the 5-15 bar kinetic-fit range.
 
 The CSV records every grid cell and solver status. The JSON file records the
 resolved conditions and source-point predictions.

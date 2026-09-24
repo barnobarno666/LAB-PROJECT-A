@@ -77,8 +77,10 @@
     "failed_or_incomplete_cases": 0
   },
   "output_files": [
-    "reactive_feed_flow_contour.png",
-    "reactive_feed_flow_contour.svg",
+    "co_conversion_h2_co.png",
+    "co_conversion_h2_co.svg",
+    "co_conversion_h2_n2.png",
+    "co_conversion_h2_n2.svg",
     "feed_flow_contour.csv",
     "feed_flow_metadata.json",
     "README.md"
