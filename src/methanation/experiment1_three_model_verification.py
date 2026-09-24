@@ -25,7 +25,7 @@ from .experiment_verification import (
     audit_experiment1_data,
     compare_experiment1,
 )
-from .plotting import COLOR_EXP, COLOR_MODEL, COLOR_ZERO, apply_design3_style, save_figure
+from .plotting import apply_design3_style, save_figure
 from .verification import group14_comparison_config
 
 
@@ -33,10 +33,12 @@ ATM_PER_BAR = 1.0 / 1.01325
 MOL_G_H_TO_MOL_KG_S = 1000.0 / 3600.0
 
 MODEL_COLORS = {
-    "full_m4": COLOR_MODEL,
-    "kopyscinski_1_2_bar": "#0096C7",
-    "quindimil_2_6_bar": "#7B2CBF",
+    "full_m4": "#24104F",
+    "kopyscinski_1_2_bar": "#BD4F91",
+    "quindimil_2_6_bar": "#EC865F",
 }
+EXPERIMENT_COLOR = "#D5A021"
+EXPERIMENT_EDGE = "#7A5500"
 
 
 @dataclass(frozen=True)
@@ -293,26 +295,22 @@ def _plot_three_models(
     output_path: Path,
 ) -> None:
     apply_design3_style(font_size=10.0)
-    from matplotlib.gridspec import GridSpec
 
     profiles = (
         (
-            f"Full M4: {m4_result.co_conversion[-1] * 100.0:.2f}% "
-            "(5-15 bar fit; extrapolated)",
+            "Full M4",
             m4_result.catalyst_mass_kg,
             m4_result.co_conversion,
             MODEL_COLORS["full_m4"],
         ),
         (
-            f"Kopyscinski: {kopyscinski.co_conversion[-1] * 100.0:.2f}% "
-            "(1-2 bar fit)",
+            "Kopyscinski",
             kopyscinski.catalyst_mass_kg,
             kopyscinski.co_conversion,
             MODEL_COLORS["kopyscinski_1_2_bar"],
         ),
         (
-            f"Quindimil: {quindimil.co_conversion[-1] * 100.0:.2f}% "
-            "(2-6 bar fit; extrapolated)",
+            "Quindimil",
             quindimil.catalyst_mass_kg,
             quindimil.co_conversion,
             MODEL_COLORS["quindimil_2_6_bar"],
@@ -321,12 +319,9 @@ def _plot_three_models(
     catalyst_mass_g = float(m4_result.catalyst_mass_kg[-1] * 1000.0)
     observed_pct = observed_conversion_fraction * 100.0
 
-    fig = plt.figure(figsize=(6.2, 5.2))
-    gs = GridSpec(2, 1, height_ratios=[3.2, 1.0], hspace=0.10)
-    ax_main = fig.add_subplot(gs[0])
-    ax_res = fig.add_subplot(gs[1], sharex=ax_main)
+    fig, ax_main = plt.subplots(figsize=(6.2, 4.4), facecolor="#FFFFFF")
+    ax_main.set_facecolor("#FFFFFF")
 
-    endpoint_residuals: list[tuple[str, float, str]] = []
     for label, mass_kg, conversion, color in profiles:
         ax_main.plot(
             mass_kg * 1000.0,
@@ -336,18 +331,17 @@ def _plot_three_models(
             label=label,
             zorder=3,
         )
-        endpoint_residuals.append((label, float(conversion[-1] * 100.0 - observed_pct), color))
-
     ax_main.plot(
         [catalyst_mass_g],
         [observed_pct],
         marker="o",
         linestyle="none",
-        color=COLOR_EXP,
-        markerfacecolor="#FFFFFF",
-        markeredgewidth=1.8,
+        color=EXPERIMENT_COLOR,
+        markerfacecolor=EXPERIMENT_COLOR,
+        markeredgecolor=EXPERIMENT_EDGE,
+        markeredgewidth=1.5,
         markersize=6.8,
-        label="Experiment 1 observed",
+        label="Experiment 1",
         zorder=5,
     )
     ax_main.annotate(
@@ -357,22 +351,13 @@ def _plot_three_models(
         arrowprops=dict(
             arrowstyle="->",
             connectionstyle="arc3,rad=-0.15",
-            color=COLOR_EXP,
+            color=EXPERIMENT_EDGE,
             lw=1.1,
         ),
         fontsize=8.8,
         fontweight="bold",
-        color=COLOR_EXP,
+        color=EXPERIMENT_EDGE,
         zorder=6,
-    )
-    ax_main.text(
-        0.03,
-        0.94,
-        "a",
-        transform=ax_main.transAxes,
-        fontsize=13,
-        fontweight="bold",
-        va="top",
     )
     ax_main.text(
         0.97,
@@ -384,12 +369,12 @@ def _plot_three_models(
         va="top",
     )
     ax_main.set_ylabel(r"$\mathrm{CO}$ Conversion, $X_{\mathrm{CO}}$ [$\%$]", labelpad=6)
+    ax_main.set_xlabel(r"Catalyst Mass, $W$ [$\mathrm{g}$]", labelpad=6)
     ax_main.set_xlim(0.0, max(catalyst_mass_g * 1.05, 3.2))
     ax_main.set_ylim(0.0, 105.0)
     ax_main.yaxis.set_major_locator(ticker.MultipleLocator(20))
     ax_main.yaxis.set_minor_locator(ticker.MultipleLocator(5))
     ax_main.xaxis.set_minor_locator(ticker.AutoMinorLocator(2))
-    plt.setp(ax_main.get_xticklabels(), visible=False)
     ax_main.legend(
         loc="lower right",
         bbox_to_anchor=(0.97, 0.05),
@@ -399,26 +384,8 @@ def _plot_three_models(
         framealpha=0.94,
         handlelength=2.0,
         handletextpad=0.6,
-        labelspacing=0.4,
+        labelspacing=0.45,
     )
-
-    ax_res.axhline(0.0, color=COLOR_ZERO, linestyle="--", linewidth=0.85, zorder=2)
-    for _, residual, color in endpoint_residuals:
-        ax_res.plot(
-            [catalyst_mass_g],
-            [residual],
-            marker="s",
-            linestyle="none",
-            color=color,
-            markersize=5.2,
-            zorder=4,
-        )
-    max_abs = max(abs(item[1]) for item in endpoint_residuals)
-    ax_res.set_ylim(-max(max_abs * 1.25, 5.0), max(max_abs * 1.25, 5.0))
-    ax_res.set_xlabel(r"Catalyst Mass, $W$ [$\mathrm{g}$]", labelpad=6)
-    ax_res.set_ylabel(r"$\Delta X_{\mathrm{CO}}$ [pp]", labelpad=6)
-    ax_res.tick_params(top=False)
-    ax_res.yaxis.set_minor_locator(ticker.AutoMinorLocator(2))
     save_figure(fig, output_path, dpi=300, tight=False)
 
 
