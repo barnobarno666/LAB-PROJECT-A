@@ -69,6 +69,7 @@
       ],
       "pressure_status": "extrapolated below fitted range",
       "feed_scope_status": "CO/H2 feed extrapolates beyond the model's CO2/H2 fitting scope",
+      "kinetic_form_status": "reduced/lumped denominator: Table 4 reports K_HCOO but no standalone K_H2; the sqrt(K_H2*p_H2) contribution in Appendix A Eq. (A3.15) is omitted",
       "predicted_co_conversion_fraction": 0.03369426985057091,
       "experimental_co_conversion_fraction": 0.4063,
       "signed_error_percentage_points": -37.26057301494291,

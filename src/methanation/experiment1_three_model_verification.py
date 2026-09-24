@@ -130,10 +130,11 @@ def _reference_shift(
 def quindimil_parameters(temperature_k: float) -> dict[str, float]:
     """Quindimil Table-4 values shifted from the 350.15 C reference row.
 
-    Native pressure is atm and native rate is mol/(g_cat h).  Hydrogen
-    adsorption is omitted because its regressed value was not significantly
-    different from zero.  The combined formate term is
-    K_HCOO = K_CO2*sqrt(K_H2), as reported by the authors.
+    Native pressure is atm and native rate is mol/(g_cat h).  Table 4 reports
+    the combined formate term K_HCOO = K_CO2*sqrt(K_H2), but not an independent
+    K_H2 for the standalone sqrt(K_H2*p_H2) term in Appendix A, Eq. (A3.15).
+    This implementation omits that standalone contribution and is therefore
+    a reduced/lumped reading of the printed rate law.
     """
     if temperature_k <= 0.0:
         raise ValueError("Temperature must be positive.")
@@ -427,6 +428,10 @@ def write_outputs(data: dict, output_dir: Path) -> dict:
             "published_pressure_range_bar": [2.0, 6.0],
             "pressure_status": "extrapolated below fitted range",
             "feed_scope_status": "CO/H2 feed extrapolates beyond the model's CO2/H2 fitting scope",
+            "kinetic_form_status": (
+                "reduced/lumped denominator: Table 4 reports K_HCOO but no standalone K_H2; "
+                "the sqrt(K_H2*p_H2) contribution in Appendix A Eq. (A3.15) is omitted"
+            ),
             "predicted_co_conversion_fraction": float(quindimil.co_conversion[-1]),
             "experimental_co_conversion_fraction": observed,
             "signed_error_percentage_points": float(
@@ -499,6 +504,12 @@ The Quindimil curve is additionally a feed-composition extrapolation because
 its parameters were fitted to CO2/H2 experiments, whereas Experiment 1 starts
 with CO/H2/N2. It is included because the user requested all three models at the
 same one-bar condition, not because it is claimed as an in-domain validation.
+
+The Quindimil rate implementation is reduced/lumped relative to the full printed
+Appendix A, Eq. (A3.15): Table 4 reports the combined K_HCOO parameter but no
+independent K_H2 value for the standalone sqrt(K_H2*p_H2) denominator term. The
+code retains the reported composite contribution and omits that unresolved term.
+Its conversion is therefore not an exact reproduction of the full printed law.
 
 The Kopyscinski implementation uses the published corrigendum's
 sqrt(p_CO) adsorption term. The Quindimil implementation retains its native atm
