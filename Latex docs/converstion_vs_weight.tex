@@ -272,6 +272,32 @@ X_{CO,out}(\%)=100\left(1-\frac{F_{CO,out}}{F_{CO,in}}\right).
 
 The map shows the combined conditional response to stoichiometry and catalyst per CO throughput. Conversion rises strongly as the feed approaches the stoichiometric ratio from below, then the improvement diminishes at higher H$_2$/CO and larger space time. These are model sensitivities, not validated operating predictions: the 1 in $\times$ 12 in geometry is assumed, the 3.12 g charge implies a sparse-bed voidage of about 0.98384 under the assumed particle density, and every pressure point is below the kinetic fit's 5 bar lower limit. The source also describes atmospheric pressure in its abstract and discussion while Appendix A states 2 bar; this calculation follows the explicit Appendix A value.
 
+\clearpage
+\thispagestyle{fancy}
+{\Large\bfseries\color{navy} CO conversion across absolute reactive-feed flows\par}
+\vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
+\vspace{8pt}
+\begin{center}
+\includegraphics[width=0.96\linewidth,height=0.61\textheight,keepaspectratio]{../results/experiment1_feed_flow_sensitivity/co_conversion_h2_co.png}
+\end{center}
+\begin{center}\small\textbf{Figure 6.} Full M4 predicted outlet CO conversion versus absolute inlet H$_2$ and CO flow; N$_2$ is fixed at $0.799\,\mathrm{mol\,h^{-1}}$.\end{center}
+\begin{keyequation}
+\small Each point is a no-fit Full M4 simulation at $350\,^{\circ}\mathrm C$, 2.00 bar, and 3.12 g catalyst under isothermal, constant-pressure conditions. Since the axes are absolute molar flows, moving across the map changes both feed composition and total throughput; this is not solely an H$_2$/CO-ratio sweep. The common 2-bar condition is below the 5--15-bar kinetic-fit pressure range, so the map is an extrapolative model sensitivity rather than experimental validation. No experimental measurements are plotted.
+\end{keyequation}
+
+\clearpage
+\thispagestyle{fancy}
+{\Large\bfseries\color{navy} CO conversion under nitrogen dilution\par}
+\vspace{3pt}{\color{copper}\rule{22mm}{1.6pt}}\par
+\vspace{8pt}
+\begin{center}
+\includegraphics[width=0.96\linewidth,height=0.61\textheight,keepaspectratio]{../results/experiment1_feed_flow_sensitivity/co_conversion_h2_n2.png}
+\end{center}
+\begin{center}\small\textbf{Figure 7.} Full M4 predicted outlet CO conversion versus inlet H$_2$ and N$_2$ flow; CO is fixed at $0.320\,\mathrm{mol\,h^{-1}}$.\end{center}
+\begin{keyequation}
+\small This sweep isolates the conditional effect of nitrogen dilution while varying H$_2$ feed, with CO held fixed. At a given H$_2$ flow, increasing the inert N$_2$ feed lowers the reactant mole fractions and increases total throughput, reducing the predicted conversion. Conditions are $350\,^{\circ}\mathrm C$, 2.00 bar, and 3.12 g catalyst, isothermal and constant-pressure. As in Fig. 6, the 2-bar result extrapolates below the 5--15-bar kinetic-fit range and is not experimental validation; no experimental measurements are plotted.
+\end{keyequation}
+
 \end{document}
 
 
