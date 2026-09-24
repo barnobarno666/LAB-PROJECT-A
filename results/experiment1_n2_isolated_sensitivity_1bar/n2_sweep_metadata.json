@@ -1,0 +1,38 @@
+{
+  "model": "m4_full",
+  "metric": "completed-bed outlet CO conversion percent",
+  "sweep": {
+    "varied": "N2 inlet molar flow",
+    "n2_range_mol_h": [
+      0.4,
+      1.2
+    ],
+    "number_of_cases": 42,
+    "reference_n2_mol_h": 0.799,
+    "reference_conversion_pct": 78.72253717049591
+  },
+  "fixed_inputs": {
+    "co_inlet_mol_h": 0.32,
+    "h2_inlet_mol_h": 0.959,
+    "h2_co_molar_ratio": 2.9968749999999997,
+    "inlet_temperature_c": 350.0,
+    "inlet_pressure_bar_abs": 1.0,
+    "catalyst_mass_g": 3.12,
+    "thermal_mode": "isothermal",
+    "transport_mode": "constant_pressure",
+    "solver_method": "BDF",
+    "solver_rtol": 1e-06,
+    "solver_atol_flow_mol_s": 1e-10
+  },
+  "interpretation": [
+    "CO and H2 inlet molar flows are fixed while N2 flow changes.",
+    "Changing N2 also changes total inlet flow and dilution; the resulting curve is the combined N2-flow effect under the stated fixed inputs.",
+    "This is a conditional no-fit model sensitivity, not experimental validation.",
+    "The 1 bar predictions extrapolate below the model's 5-15 bar kinetic-fit pressure range."
+  ],
+  "outputs": [
+    "n2_conversion_sweep.csv",
+    "n2_conversion_sweep.png",
+    "n2_conversion_sweep.svg"
+  ]
+}

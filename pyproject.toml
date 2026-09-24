@@ -20,6 +20,7 @@ m4-verify-experiment1-three-models = "methanation.experiment1_three_model_verifi
 m4-sweep-ratio-contact-time = "methanation.ratio_contact_time_sensitivity:main"
 m4-sweep-stoich-temperature-pressure = "methanation.stoich_temperature_pressure_sensitivity:main"
 m4-sweep-feed-flows = "methanation.feed_flow_sensitivity:main"
+m4-sweep-n2-flow = "methanation.nitrogen_flow_sensitivity:main"
 
 [build-system]
 requires = ["hatchling>=1.25"]
