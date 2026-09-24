@@ -73,7 +73,7 @@ Illustrative inlet (Figs. 1--2) & Dry feed CO:H$_2$:N$_2$ = 1:4:25 at $0.050\,\m
 Assumed bed and transport & $D_t=0.0254\,\mathrm m$, $L=0.3048\,\mathrm m$, and $\rho_B=750\,\mathrm{kg\,m^{-3}_{bed}}$ give $W_{tot}=0.1158\,\mathrm{kg}$ (calculated); $\varepsilon_b=0.40$, $D_p=3\,\mathrm{mm}$, $\mu=2.5\times10^{-5}\,\mathrm{Pa\,s}$, and $U=10\,\mathrm{W\,m^{-2}\,K^{-1}}$. Pressure drop uses Ergun; wall heat exchange is enabled and fresh-catalyst activity is $a=1$.\\
 Model and numerical assumptions & Steady 1-D plug flow with the reduced M4 CO-methanation/WGS network; direct CO$_2$ methanation is omitted. Heat capacities are constant (CO/H$_2$/CH$_4$/H$_2$O/CO$_2$/N$_2$: 30.3/29.3/52.0/36.5/46.5/30.1 $\mathrm{J\,mol^{-1}\,K^{-1}}$) and reaction heats are fixed at $-\Delta H_2=206$ and $-\Delta H_W=41\,\mathrm{kJ\,mol^{-1}}$. The stiff system uses Radau ($rtol=10^{-6}$) and 401 output points.\\
 Group-14 reported inputs & Appendix B, Table 3: CO/H$_2$/N$_2$ = 0.320/0.399/0.799 $\mathrm{mol\,h^{-1}}$; catalyst = 3.00 g, reaction temperature = $350\,^{\circ}\mathrm C$, and pressure = 760 mmHg (about 1.013 bar). These source-reported conditions are separate from the 5-bar illustrative run above.\\
-Other figure cases & Figs. 3--4 vary inlet temperature (250--400 $^{\circ}\mathrm C$) and pressure (1--15 bar, with Fig. 4 restricted to 5--15 bar), holding other base inputs fixed. Fig. 5 uses the Experiment 1 basis: 3.12 g catalyst, $350\,^{\circ}\mathrm C$, a 1 bar pressure override, and isothermal operation; inlet H$_2$/CO ratio and catalyst space time vary. Figs. 6--7 use absolute feed-flow sweeps at 1 bar and 3.12 g catalyst.
+Other figure cases & Figs. 3--4 vary inlet temperature (250--400 $^{\circ}\mathrm C$) and pressure (1--15 bar, with Fig. 4 restricted to 5--15 bar), holding other base inputs fixed. Fig. 5 uses the Experiment 1 basis: 3.12 g catalyst, $350\,^{\circ}\mathrm C$, a 1 bar pressure override, and isothermal operation; inlet H$_2$/CO ratio and catalyst space time vary. Figs. 6--7 use absolute feed-flow sweeps at 1 bar and 3.12 g catalyst. Figs. 8--9 present an isolated N$_2$ sweep and the four-factor grid-search optimization, respectively.
 \end{tabularx}
 \end{keyequation}
 
@@ -296,6 +296,61 @@ The map shows the combined conditional response to stoichiometry and catalyst pe
 \begin{center}\small\textbf{Figure 7.} Full M4 predicted outlet CO conversion versus inlet H$_2$ and N$_2$ flow; CO is fixed at $0.320\,\mathrm{mol\,h^{-1}}$.\end{center}
 \begin{keyequation}
 \small This sweep isolates the conditional effect of nitrogen dilution while varying H$_2$ feed, with CO held fixed. At a given H$_2$ flow, increasing the inert N$_2$ feed lowers the reactant mole fractions and increases total throughput, reducing the predicted conversion. Conditions are $350\,^{\circ}\mathrm C$, 1.00 bar, and 3.12 g catalyst, isothermal and constant-pressure. As in Fig. 6, the 1-bar result extrapolates below the 5--15-bar kinetic-fit range and is not experimental validation; no experimental measurements are plotted.
+\end{keyequation}
+
+\clearpage
+\section{Optimization}
+The discrete grid search identifies the best sampled operating point for the Full M4 reactor model. It maximizes completed-bed CO conversion over four inputs: inlet H$_2$/CO ratio, inlet temperature, inlet pressure, and catalyst space time on a CO-feed basis. The Experiment 1 catalyst mass (3.12 g), bed geometry and voidage, and N$_2$/CO inlet ratio are fixed. At each selected H$_2$/CO ratio and space time, the inlet flows are reconstructed as
+\[
+F_{\mathrm{CO,in}}=\frac{W_{\mathrm{cat}}}{\tau_{\mathrm{cat,CO}}},\qquad
+F_{\mathrm{H_2,in}}=r_{\mathrm{H_2/CO}}F_{\mathrm{CO,in}},\qquad
+F_{\mathrm{N_2,in}}=\left(\frac{F_{\mathrm{N_2}}}{F_{\mathrm{CO}}}\right)_{\!\mathrm{Exp1}}F_{\mathrm{CO,in}}.
+\]
+Thus changing space time scales the inlet throughput while preserving N$_2$/CO; N$_2$ is not an independent optimization variable. Each point is an isothermal Full M4 simulation with Ergun pressure drop, solved using BDF. The grid contains 12 H$_2$/CO ratios, 9 inlet temperatures, 9 pressures, and 21 space-time values, for $12\times9\times9\times21=20{,}412$ simulations; all completed. The objective is
+\[
+\max_{r_{\mathrm{H_2/CO}},\,T_{in},\,P_{in},\,\tau_{\mathrm{cat,CO}}}
+X_{\mathrm{CO,out}},\qquad
+X_{\mathrm{CO,out}}=100\left(1-\frac{F_{\mathrm{CO,out}}}{F_{\mathrm{CO,in}}}\right)\%.
+\]
+
+\begin{center}\small\textbf{Table 1.} Best sampled point in the four-factor grid search.\par\smallskip
+\begin{tabularx}{0.96\linewidth}{@{}>{\raggedright\arraybackslash}p{0.34\linewidth}>{\raggedright\arraybackslash}p{0.34\linewidth}X@{}}
+\hline
+Quantity & Best sampled value & Position or role \\
+\hline
+Inlet H$_2$/CO ratio & 5.00 mol/mol & Upper grid bound \\
+Inlet temperature & $370\,^{\circ}\mathrm C$ & Interior grid value \\
+Inlet pressure & 15.0 bar abs & Upper grid bound \\
+Catalyst space time, $W_{cat}/F_{CO,in}$ & $140.4\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$ & Upper grid bound \\
+CO / H$_2$ / N$_2$ inlet flows & 0.080 / 0.400 / 0.19975 mol/h & Derived values \\
+Outlet CO conversion & 99.9999928\% & Maximized objective \\
+Outlet CH$_4$ yield & 99.9999318\% & Predicted output \\
+\hline
+\end{tabularx}
+\end{center}
+
+The maximum is the best sampled grid point, not a continuous or experimentally validated optimum. The selected point lies at the upper bounds for H$_2$/CO, pressure, and space time. The objective does not penalize hydrogen use, low throughput, or operating pressure, and the model is isothermal. Treat the result as exploratory; a practical operating recommendation would require those constraints and objectives to be defined.
+
+\subsection{\texorpdfstring{Independent N$_2$-flow sensitivity}{Independent nitrogen-flow sensitivity}}
+Figure 8 varies N$_2$ alone while holding the Experiment 1 CO and H$_2$ inlet molar flows fixed. This separate sweep is not part of the four-factor optimization, which keeps N$_2$/CO fixed. As N$_2$ rises, reactant dilution and total inlet flow both increase, so the curve represents their combined effect under otherwise fixed inputs.
+
+\begin{center}
+\includegraphics[width=0.90\linewidth,height=0.53\textheight,keepaspectratio]{../results/experiment1_n2_isolated_sensitivity_1bar/n2_conversion_sweep.png}
+\par\smallskip\small\textbf{Figure 8.} Full M4 predicted outlet CO conversion as inlet N$_2$ flow varies from 0.4 to 1.2 mol/h, with CO = 0.320 mol/h and H$_2$ = 0.959 mol/h fixed. The reference point at N$_2$ = 0.799 mol/h gives 78.72\% conversion. Conditions are 350\,$^{\circ}$C, 1 bar absolute, and 3.12 g catalyst, isothermal and constant-pressure.
+\end{center}
+\begin{keyequation}
+\small Conversion decreases from 88.14\% to 70.34\% over the plotted N$_2$ range. The 1-bar calculations are below the 5--15-bar kinetic-fit pressure range; interpret this as a conditional model sensitivity, not experimental validation.
+\end{keyequation}
+
+\clearpage
+\subsection{Four-factor optimization map}
+The pressure-slice figure shows the conversion landscape around the selected grid point. Each panel varies inlet H$_2$/CO ratio and temperature at fixed pressure, with catalyst space time held at its optimized grid value. The star marks the best sampled point at 15 bar and $370\,^{\circ}\mathrm C$.
+\begin{center}
+\includegraphics[width=0.98\linewidth,height=0.65\textheight,keepaspectratio]{../results/experiment1_four_factor_grid_optimization/four_factor_optimization_pressure_slices.png}
+\par\smallskip\small\textbf{Figure 9.} Pressure slices of predicted outlet CO conversion from the four-factor grid. Space time is fixed at $140.4\,\mathrm{kg_{cat}\,s\,mol^{-1}_{CO}}$; the star marks the best sampled point.
+\end{center}
+\begin{keyequation}
+\small Only 5, 9, and 15 bar are shown because 1--4 bar fall below the kinetic-fit pressure range. The shared color scale allows comparison across panels. The figure and table report model predictions, not experimental validation.
 \end{keyequation}
 
 \end{document}
