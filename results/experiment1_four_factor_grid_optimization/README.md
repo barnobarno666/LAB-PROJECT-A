@@ -10,7 +10,7 @@ The search maximizes conversion alone. It does not account for hydrogen consumpt
 
 ## One-factor sensitivity slices
 
-The one-factor sensitivity figure shows outlet CO conversion against H2/CO ratio, inlet temperature, inlet pressure, and catalyst space time. Each curve is a direct slice through the saved grid: the other three factors stay at the best sampled settings. An open circle marks the best sampled value of the factor on that panel. The four panels use independent, zoomed conversion axes so the small differences near complete conversion remain visible; the pressure slice is restricted to the 5–15 bar kinetic-fit range.
+The one-factor sensitivity figure shows outlet CO conversion against H2/CO ratio, inlet temperature, inlet pressure, and catalyst space time. Each curve is a direct slice through the saved grid: the other three factors stay at the best sampled settings. An open circle marks the best sampled value of the factor on that panel. The four panels use independent, zoomed conversion axes so the small differences near complete conversion remain visible. The pressure panel spans 1–15 bar; the 1–4 bar points extrapolate beyond the pressure-dependent kinetic-fit interval, a limitation noted here and not printed on the plot.
 
 The four-panel figure is saved as one_factor_sensitivities_2x2. The same four plots are also saved separately as sensitivity_h2_co_ratio, sensitivity_inlet_temperature, sensitivity_inlet_pressure, and sensitivity_catalyst_space_time. Each standalone plot places the open-circle legend inside the axes. Each figure is available as PNG, SVG, and PDF. Rebuild all eight files by running uv run python results/experiment1_four_factor_grid_optimization/build_one_factor_sensitivities.py.
 

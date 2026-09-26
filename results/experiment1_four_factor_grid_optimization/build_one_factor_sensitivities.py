@@ -64,7 +64,7 @@ FACTORS = (
         "xlabel": r"Inlet pressure, $P_{\mathrm{in}}$ (bar abs)",
         "xformat": "%.0f",
         "yformat": "%.6f",
-        "xticks": (5, 7, 9, 12, 15),
+        "xticks": (1, 5, 9, 12, 15),
     },
     {
         "key": "catalyst_space_time_kg_s_mol_co",
@@ -111,7 +111,10 @@ def _slice(
         row
         for row in records
         if _same_setting(row, optimum, key)
-        and (key != "inlet_pressure_bar_abs" or float(row[key]) >= 5.0)
+        and (
+            key != "inlet_pressure_bar_abs"
+            or 1.0 <= float(row[key]) <= 15.0
+        )
     ]
     selected.sort(key=lambda row: float(row[key]))
     if not selected:
@@ -120,12 +123,12 @@ def _slice(
     x = [float(row[key]) for row in selected]
     y = [float(row["outlet_co_conversion_pct"]) for row in selected]
     expected_optimum_y = float(optimum["outlet_co_conversion_pct"])
-    optimum_index = min(range(len(x)), key=lambda index: abs(x[index] - float(optimum[key])))
-    if abs(y[optimum_index] - expected_optimum_y) > 1e-8:
+    best_index = min(range(len(x)), key=lambda index: abs(x[index] - float(optimum[key])))
+    if abs(y[best_index] - expected_optimum_y) > 1e-8:
         raise RuntimeError(f"The {key} slice does not reproduce the recorded grid maximum.")
     factor["selected_count"] = len(selected)
-    factor["optimum_x"] = float(optimum[key])
-    factor["optimum_y"] = y[optimum_index]
+    factor["best_x"] = x[best_index]
+    factor["best_y"] = y[best_index]
     return x, y
 
 
@@ -211,8 +214,8 @@ def _draw_axis(
         zorder=3,
     )
     ax.scatter(
-        [float(factor["optimum_x"])],
-        [float(factor["optimum_y"])],
+        [float(factor["best_x"])],
+        [float(factor["best_y"])],
         s=58,
         marker="o",
         facecolor=PAPER,
@@ -256,7 +259,7 @@ def _draw_axis(
     elif key == "inlet_temperature_c":
         ax.set_xlim(240, 410)
     elif key == "inlet_pressure_bar_abs":
-        ax.set_xlim(4.5, 15.5)
+        ax.set_xlim(0.5, 15.5)
     else:
         ax.set_xlim(5, 145)
 
