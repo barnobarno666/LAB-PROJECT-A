@@ -1,7 +1,8 @@
-"""Build a short Word paper from the saved four-factor M4 grid search."""
+"""Build the methods and results paper from the saved four-factor M4 grid."""
 
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 
@@ -16,7 +17,33 @@ from docx.shared import Inches, Pt, RGBColor
 HERE = Path(__file__).resolve().parent
 SUMMARY = json.loads((HERE / "optimization_summary.json").read_text(encoding="utf-8"))
 BEST = SUMMARY["best_grid_case"]
-OUTPUT = HERE / "optimization_methods_results.docx"
+REFERENCE = SUMMARY["reference_case"]
+FACTORS = (
+    "h2_co_molar_ratio",
+    "inlet_temperature_c",
+    "inlet_pressure_bar_abs",
+    "catalyst_space_time_kg_s_mol_co",
+)
+with (HERE / "four_factor_grid_search.csv").open(newline="", encoding="utf-8") as source:
+    GRID_ROWS = list(csv.DictReader(source))
+OUTPUT = HERE / "optimization_methods_results_detailed.docx"
+
+
+def slice_row(factor: str, value: float) -> dict[str, str]:
+    matches = [
+        row
+        for row in GRID_ROWS
+        if row["status"] == "completed"
+        and abs(float(row[factor]) - value) < 1e-8
+        and all(abs(float(row[key]) - float(BEST[key])) < 1e-8 for key in FACTORS if key != factor)
+    ]
+    if len(matches) != 1:
+        raise ValueError(f"Expected one saved grid row for {factor}={value}; found {len(matches)}")
+    return matches[0]
+
+
+def slice_conversion(factor: str, value: float) -> float:
+    return float(slice_row(factor, value)["outlet_co_conversion_pct"])
 
 
 def set_cell_shading(cell, fill: str) -> None:
@@ -111,9 +138,27 @@ def add_conversion_equation(doc: Document) -> None:
     paragraph._p.append(math_para)
 
 
-def add_figure(doc: Document, filename: str, caption: str) -> None:
+def add_space_time_equation(doc: Document) -> None:
+    paragraph = doc.add_paragraph(style="Equation")
+    math_para = OxmlElement("m:oMathPara")
+    math = OxmlElement("m:oMath")
+    add_subscript(math, "τ", "CO")
+    add_math_run(math, " = ")
+    fraction = OxmlElement("m:f")
+    numerator = OxmlElement("m:num")
+    denominator = OxmlElement("m:den")
+    add_subscript(numerator, "W", "cat")
+    add_subscript(denominator, "F", "CO,in")
+    fraction.extend((numerator, denominator))
+    math.append(fraction)
+    math_para.append(math)
+    paragraph._p.append(math_para)
+
+
+def add_figure(doc: Document, filename: str, caption: str, *, new_page: bool = False) -> None:
     paragraph = doc.add_paragraph(style="Figure")
     paragraph.paragraph_format.keep_with_next = True
+    paragraph.paragraph_format.page_break_before = new_page
     paragraph.add_run().add_picture(str(HERE / filename), width=Inches(5.72))
     cap = doc.add_paragraph(style="Caption")
     cap.add_run(caption)
@@ -165,6 +210,9 @@ def build() -> None:
     styles["Heading 1"].font.size = Pt(12.5)
     styles["Heading 1"].paragraph_format.space_before = Pt(12)
     styles["Heading 1"].paragraph_format.space_after = Pt(5)
+    styles["Heading 2"].font.size = Pt(11)
+    styles["Heading 2"].paragraph_format.space_before = Pt(9)
+    styles["Heading 2"].paragraph_format.space_after = Pt(3)
 
     equation_style = styles.add_style("Equation", 1)
     equation_style.base_style = normal
@@ -197,34 +245,68 @@ def build() -> None:
 
     doc.add_paragraph("Four Factor Optimization of CO Methanation in a Fixed Bed Reactor", style="Title")
     doc.add_paragraph(
-        "A 20,412-case grid search of the Full M4 reactor model gave a best sampled setting of "
-        "370 °C, 15 bar absolute, H₂/CO = 5.0, and 140.4 kg catalyst·s/mol CO. The predicted "
-        "outlet CO conversion was 99.999993%. This is a model result for the stated grid."
+        "A 20,412-case search of the Full M4 fixed bed model selected H₂/CO = 5.0, 370 °C, "
+        "15 bar absolute, and a catalyst space time of 140.4 kg catalyst·s/mol CO. Predicted outlet "
+        "CO conversion was 99.999993%. The selected point lies on three grid boundaries and is a "
+        "conditional model result, not a measured operating optimum."
     )
 
     doc.add_heading("Methodology", level=1)
+    doc.add_heading("Reactor model and fixed basis", level=2)
     doc.add_paragraph(
-        "The search used the Full M4 fixed bed model on the Experiment 1 basis. Catalyst mass was "
-        "3.12 g, and the inlet N₂/CO molar ratio was fixed at 2.496875. The inherited reactor geometry "
-        "and an assumed particle density of 1250 kg m⁻³ give a bed voidage of 0.98384. Each case was "
-        "integrated to the bed outlet under an isothermal assumption with Ergun pressure drop "
-        "and the BDF solver."
+        "The Full M4 model follows CO, H₂, CH₄, H₂O, CO₂, and N₂ through a catalyst bed. It includes "
+        "CO methanation, CO₂ methanation, and the water gas shift reaction. Species molar balances "
+        "are integrated against catalyst mass. At each axial position, local mole fractions and "
+        "pressure determine the species partial pressures used in the rate expressions. The original "
+        "M4 kinetic constants were retained; no parameter was adjusted to reproduce Experiment 1."
     )
     doc.add_paragraph(
-        "The grid varied inlet H₂/CO ratio, temperature, absolute pressure, and catalyst space time "
-        "on a CO feed basis. Its 12 × 9 × 9 × 21 combinations all completed. At fixed catalyst mass, "
-        "space time set the CO inlet flow; the H₂ and N₂ flows followed from their respective inlet "
-        "ratios. Total inlet flow therefore changed with space time and H₂/CO ratio."
+        "Catalyst mass was held at 3.12 g. The assumed tube diameter and bed length were 25.4 mm "
+        "and 304.8 mm; particle diameter was 3 mm. An assumed particle density of 1250 kg m⁻³ "
+        "sets the bed voidage to 0.98384 for this catalyst charge and geometry. This unusually sparse "
+        "bed is part of the numerical basis, not a measured packed bed property. Temperature was "
+        "constant along the bed, while the Ergun relation supplied the axial pressure change. The "
+        "inlet contained CO, H₂, and N₂, with N₂/CO fixed at 2.496875."
     )
+    doc.add_heading("Factor grid and feed construction", level=2)
     doc.add_paragraph(
-        "The objective was the completed bed outlet CO conversion, defined as"
+        "The four inputs were inlet H₂/CO ratio, temperature, absolute pressure, and catalyst space "
+        "time on an inlet CO basis. Ratio, temperature, and pressure levels came from the earlier "
+        "three-factor map; the 21 space times came from the earlier ratio–space-time sweep. The "
+        "ratio grid includes both the recorded Experiment 1 ratio of 2.996875 and the rounded value "
+        "3.0. Temperature was sampled at 250, 280, 300, 310, 340, 350, 370, 385, and 400 °C. "
+        "Pressure was sampled at 1, 2, 3, 4, 5, 7, 9, 12, and 15 bar absolute. Space time ran from "
+        "8.775 to 140.4 kg catalyst·s/mol CO with geometric spacing."
     )
+    doc.add_paragraph("Catalyst space time was defined as")
+    add_space_time_equation(doc)
+    doc.add_paragraph(
+        "where catalyst mass is in kilograms and inlet CO flow is in mol s⁻¹. At every grid point, "
+        "the selected space time set the CO flow. H₂ flow equaled the selected H₂/CO ratio times "
+        "CO flow; N₂ flow equaled 2.496875 times CO flow. Thus changing space time scaled all three "
+        "feeds together, whereas changing H₂/CO changed the H₂ feed alone at a given space time. "
+        "Neither CO throughput nor total inlet flow was fixed across the optimization."
+    )
+
+    doc.add_heading("Numerical search and figure construction", level=2)
+    doc.add_paragraph(
+        "The Cartesian product contained 12 × 9 × 9 × 21 = 20,412 model cases. Each dry-feed case "
+        "used the model's near-inlet start before integration with SciPy's BDF solver. Relative "
+        "tolerance was 10⁻⁶, and the absolute molar-flow tolerance was 10⁻¹⁴ mol s⁻¹. A case "
+        "counted as completed only if integration reached the full 3.12 g catalyst mass without "
+        "a terminal pressure, temperature, or hydrogen event. All 20,412 cases completed. The "
+        "saved grid records the inlet factors, outlet conversion and methane yield, feed flows, "
+        "outlet pressure, and solver status for each case."
+    )
+    doc.add_paragraph("The objective was outlet CO conversion on the inlet CO basis:")
     add_conversion_equation(doc)
     doc.add_paragraph(
-        "The highest conversion was selected, with no hydrogen, pressure, or throughput cost in the "
-        "objective. Each figure varies one factor across its saved values while the other three "
-        "remain at the selected point. The pressure grid covers 1–15 bar absolute. Kinetic parameters "
-        "were fitted over 5–15 bar, so the 1–4 bar predictions are extrapolations."
+        "Methane yield was calculated as net outlet CH₄ production divided by inlet CO flow and "
+        "reported separately. The case with the largest computed conversion was selected; the "
+        "objective contains no charge for hydrogen, pressure, or loss of throughput. The four "
+        "figures vary one factor at a time around the selected case and use separate enlarged "
+        "vertical scales. The pressure slice includes 1–4 bar points, which extrapolate the "
+        "5–15 bar kinetic fit interval."
     )
 
     doc.add_heading("Results and discussion", level=1)
@@ -274,30 +356,77 @@ def build() -> None:
                         run.font.bold = True
                         run.font.color.rgb = RGBColor(255, 255, 255)
 
-    analysis = doc.add_paragraph(
-        "The selected temperature was an interior grid value; H₂/CO ratio, pressure, and space "
-        "time reached their upper sampled bounds. At the selected values of the other inputs, raising "
-        "H₂/CO from 1.0 to 1.4 increased conversion from 89.27% to 99.14% (Figure 1). Subsequent "
-        "gains were smaller. Temperature peaked at the sampled 370 °C point, with a slight decline "
-        "at 385 and 400 °C (Figure 2)."
-    )
-    analysis.paragraph_format.space_before = Pt(5)
+    doc.add_heading("Best sampled case", level=2)
     doc.add_paragraph(
-        "The pressure and space time slices also approach a plateau (Figures 3 and 4). Over the "
-        "fitted pressure interval, conversion changed from 99.999112% at 5 bar to 99.999993% at "
-        "15 bar. Increasing space time from 8.775 to 140.4 kg catalyst·s/mol CO raised conversion "
-        "from 99.5533% to 99.999993%. At the selected point, CO feed was 0.080 mol h⁻¹. At the "
-        "nominal Experiment 1 inputs, the model predicts 96.94% conversion against a source-reported "
-        "40.63%. This unresolved difference and the assumed bed geometry limit interpretation of the "
-        "optimized model result."
+        f"The highest completed-bed conversion was {BEST['outlet_co_conversion_pct']:.8f}%, with a "
+        f"predicted methane yield of {BEST['outlet_ch4_yield_pct']:.8f}%. Total inlet flow was "
+        "0.67975 mol h⁻¹. Temperature was an interior grid value, while ratio, pressure, and "
+        "space time reached their upper sampled bounds. The grid therefore does not locate "
+        "interior maxima for those three inputs. Methane yield was recorded, not optimized "
+        "as a second objective."
+    )
+    doc.add_heading("Hydrogen ratio and temperature", level=2)
+    doc.add_paragraph(
+        "With temperature, pressure, and space time fixed at the selected setting, conversion rose "
+        f"from {slice_conversion('h2_co_molar_ratio', 1.0):.4f}% at H₂/CO = 1.0 to "
+        f"{slice_conversion('h2_co_molar_ratio', 1.4):.4f}% at 1.4 (Figure 1). At a ratio of 3.0 "
+        f"it was {slice_conversion('h2_co_molar_ratio', 3.0):.4f}%, and at 5.0 it was "
+        f"{BEST['outlet_co_conversion_pct']:.6f}%. Most of the change occurred at the low end of "
+        "the ratio range. Further hydrogen addition had little effect after outlet CO was nearly "
+        "depleted."
+    )
+    doc.add_paragraph(
+        "Along the temperature slice, conversion was "
+        f"{slice_conversion('inlet_temperature_c', 250.0):.6f}% at 250 °C and "
+        f"{slice_conversion('inlet_temperature_c', 350.0):.6f}% at 350 °C (Figure 2). It reached "
+        f"{BEST['outlet_co_conversion_pct']:.6f}% at the sampled 370 °C point, then fell to "
+        f"{slice_conversion('inlet_temperature_c', 400.0):.6f}% at 400 °C. The difference between "
+        "370 and 400 °C is about 0.000032 percentage points. Thus 370 °C is the sampled maximum, "
+        "but the high-temperature peak is shallow on an absolute conversion scale."
+    )
+    doc.add_heading("Pressure and catalyst space time", level=2)
+    doc.add_paragraph(
+        "At the selected ratio, temperature, and space time, the pressure slice gave "
+        f"{slice_conversion('inlet_pressure_bar_abs', 1.0):.4f}% conversion at 1 bar, "
+        f"{slice_conversion('inlet_pressure_bar_abs', 5.0):.6f}% at 5 bar, and "
+        f"{BEST['outlet_co_conversion_pct']:.6f}% at 15 bar (Figure 3). The 1–4 bar portion is "
+        "outside the fitted pressure interval. Within 5–15 bar, the gain is about 0.000880 "
+        "percentage points at this already high conversion. Pressure has no cost in the objective, "
+        "and its selected value is the upper grid bound."
+    )
+    doc.add_paragraph(
+        "The space time slice shows the associated throughput change. Conversion increased from "
+        f"{slice_conversion('catalyst_space_time_kg_s_mol_co', 8.775):.4f}% at "
+        "8.775 kg catalyst·s/mol CO to "
+        f"{slice_conversion('catalyst_space_time_kg_s_mol_co', 35.1):.5f}% at 35.1 and "
+        f"{slice_conversion('catalyst_space_time_kg_s_mol_co', 70.2):.6f}% at 70.2 (Figure 4). "
+        "The 140.4 setting gave the largest conversion, but it lowered the CO inlet flow from "
+        "1.28 mol h⁻¹ at the 8.775 setting to 0.080 mol h⁻¹, a sixteenfold reduction. With "
+        "H₂/CO = 5.0 and the fixed N₂/CO ratio, total inlet flow likewise fell from 10.876 to "
+        "0.67975 mol h⁻¹. The conversion-only objective favors the longer space time despite "
+        "the much smaller feed rate."
+    )
+    doc.add_heading("Limits of interpretation", level=2)
+    doc.add_paragraph(
+        f"The saved optimization summary compares its 2 bar reference case with a source-reported "
+        f"CO conversion of {REFERENCE['source_reported_co_conversion_pct']:.2f}%; the model gives "
+        f"{REFERENCE['outlet_co_conversion_pct']:.2f}% at that saved point. The Experiment 1 "
+        "abstract and results describe atmospheric operation, whereas an appendix states 2 bar. "
+        "The saved comparison uses the appendix pressure and does not validate the model at the "
+        "atmospheric-pressure reading. The reported conversion was not a kinetic fitting target."
+    )
+    doc.add_paragraph(
+        "The assumed bed voidage and isothermal operation also constrain the physical meaning "
+        "of the near-complete predicted conversion. The result is the best sampled case, not a "
+        "continuous optimum. Boundary values for ratio, pressure, and space time, together with "
+        "unpenalized hydrogen use and throughput, preclude an operating recommendation without "
+        "additional constraints and experimental checks."
     )
 
-    doc.add_page_break()
-    add_figure(doc, "sensitivity_h2_co_ratio.png", "Figure 1. Outlet CO conversion across the sampled H₂/CO ratios.")
+    add_figure(doc, "sensitivity_h2_co_ratio.png", "Figure 1. Outlet CO conversion across the sampled H₂/CO ratios.", new_page=True)
     add_figure(doc, "sensitivity_inlet_temperature.png", "Figure 2. Outlet CO conversion across the sampled inlet temperatures.")
 
-    doc.add_page_break()
-    add_figure(doc, "sensitivity_inlet_pressure.png", "Figure 3. Outlet CO conversion across the sampled inlet pressures.")
+    add_figure(doc, "sensitivity_inlet_pressure.png", "Figure 3. Outlet CO conversion across the sampled inlet pressures.", new_page=True)
     add_figure(doc, "sensitivity_catalyst_space_time.png", "Figure 4. Outlet CO conversion across the sampled catalyst space times.")
 
     doc.core_properties.title = "Four Factor Optimization of CO Methanation in a Fixed Bed Reactor"

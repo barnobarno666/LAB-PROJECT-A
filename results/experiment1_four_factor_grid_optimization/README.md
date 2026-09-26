@@ -14,6 +14,10 @@ The one-factor sensitivity figure shows outlet CO conversion against H2/CO ratio
 
 The four-panel figure is saved as one_factor_sensitivities_2x2. The same four plots are also saved separately as sensitivity_h2_co_ratio, sensitivity_inlet_temperature, sensitivity_inlet_pressure, and sensitivity_catalyst_space_time. A sixth figure, conversion_vs_co_throughput, plots conversion against inlet CO feed rate along the space-time slice at the other three best sampled settings. Total feed was not fixed: CO, H2, and N2 feed rates scale together at their fixed ratios, so total feed is proportional to CO throughput. Each standalone plot places the open-circle legend inside the axes. Each figure is available as PNG, SVG, and PDF. Rebuild all six figure sets by running uv run python results/experiment1_four_factor_grid_optimization/build_one_factor_sensitivities.py.
 
+## Methods and results document
+
+`optimization_methods_results_detailed.docx` is the current four-page research-style account of the saved grid search. It contains the model and feed construction, numerical search method, best-case table, four individual sensitivity figures, and discussion of the pressure-source conflict and model limits. The earlier `optimization_methods_results.docx` is retained as the shorter version. `build_optimization_methods_results_docx.py` generates the detailed version from the saved summary, CSV, and figure PNGs.
+
 ## Poster figure
 
 `four_factor_optimization_pressure_slices.png` and `.svg` show H2/CO versus inlet temperature at 5, 9, and 15 bar, with space time fixed at the grid-search optimum. The three panels share one conversion scale. The star marks the optimum in the 15 bar panel. Pressures below 5 bar are omitted because they extrapolate the fitted pressure-dependent kinetics.
