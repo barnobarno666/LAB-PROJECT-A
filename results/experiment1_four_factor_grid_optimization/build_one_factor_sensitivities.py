@@ -35,7 +35,7 @@ OPTIMUM_HANDLE = Line2D(
     markerfacecolor=PAPER,
     markeredgecolor=RUBY,
     markeredgewidth=1.5,
-    label="Best sampled value",
+    label="Optimized value",
 )
 
 FACTORS = (
