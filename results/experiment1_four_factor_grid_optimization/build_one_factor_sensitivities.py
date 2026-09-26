@@ -270,10 +270,10 @@ def _draw_axis(
     ax.set_ylim(max(0.0, low - margin), upper)
 
 
-def _add_optimum_legend(ax: plt.Axes) -> None:
+def _add_optimum_legend(ax: plt.Axes, loc: str = "lower right") -> None:
     legend = ax.legend(
         handles=[OPTIMUM_HANDLE],
-        loc="lower right",
+        loc=loc,
         frameon=True,
         fancybox=False,
         framealpha=0.94,
@@ -366,9 +366,85 @@ def main() -> None:
         _add_optimum_legend(ax)
         _save_figure(fig, f"sensitivity_{factor['stem']}")
 
+    space_time_key = "catalyst_space_time_kg_s_mol_co"
+    throughput_rows = [
+        row for row in records if _same_setting(row, optimum, space_time_key)
+    ]
+    throughput_rows.sort(key=lambda row: float(row["co_feed_mol_h"]))
+    throughput_x = [float(row["co_feed_mol_h"]) for row in throughput_rows]
+    throughput_y = [float(row["outlet_co_conversion_pct"]) for row in throughput_rows]
+    optimum_throughput = float(optimum["co_feed_mol_h"])
+    best_index = min(
+        range(len(throughput_x)),
+        key=lambda index: abs(throughput_x[index] - optimum_throughput),
+    )
+    if abs(throughput_y[best_index] - float(optimum["outlet_co_conversion_pct"])) > 1e-8:
+        raise RuntimeError("The throughput slice does not reproduce the recorded grid maximum.")
+
+    fig, ax = plt.subplots(figsize=(7.2, 5.0))
+    fig.text(
+        0.09,
+        0.97,
+        "Outlet CO conversion vs. CO throughput",
+        ha="left",
+        va="top",
+        fontsize=14.0,
+        fontweight="bold",
+        color=INK,
+    )
+    fig.text(
+        0.09,
+        0.91,
+        _fixed_conditions(space_time_key, optimum),
+        ha="left",
+        va="top",
+        fontsize=8.2,
+        color=MUTED,
+    )
+    fig.subplots_adjust(left=0.135, right=0.975, top=0.81, bottom=0.15)
+    ax.plot(
+        throughput_x,
+        throughput_y,
+        color=NAVY,
+        linewidth=1.7,
+        marker="o",
+        markersize=2.5,
+        markerfacecolor=NAVY,
+        markeredgewidth=0,
+        zorder=3,
+    )
+    ax.scatter(
+        [optimum_throughput],
+        [throughput_y[best_index]],
+        s=58,
+        marker="o",
+        facecolor=PAPER,
+        edgecolor=RUBY,
+        linewidth=1.6,
+        zorder=5,
+    )
+    ax.set_xlabel(r"Inlet CO throughput, $F_{\mathrm{CO,in}}$ (mol h$^{-1}$)", labelpad=6)
+    ax.set_ylabel(r"Outlet CO conversion, $X_{\mathrm{CO}}$ (%)", labelpad=6)
+    ax.set_xlim(0.0, 1.4)
+    ax.xaxis.set_major_locator(MaxNLocator(nbins=5))
+    ax.xaxis.set_major_formatter(FormatStrFormatter("%.2f"))
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=4))
+    ax.yaxis.set_major_formatter(FormatStrFormatter("%.2f"))
+    ax.minorticks_on()
+    ax.set_axisbelow(True)
+    ax.grid(axis="y", which="major", color=RULE, linewidth=0.5, alpha=0.72)
+    ax.tick_params(which="both", direction="in", top=True, right=True)
+    for spine in ax.spines.values():
+        spine.set_linewidth(0.85)
+    low, high = min(throughput_y), max(throughput_y)
+    margin = max(0.12 * (high - low), 1e-8)
+    ax.set_ylim(max(0.0, low - margin), min(100.35, high + margin))
+    _add_optimum_legend(ax, loc="upper right")
+    _save_figure(fig, "conversion_vs_co_throughput")
+
     counts = ", ".join(f"{factor['stem']}={factor['selected_count']}" for factor in FACTORS)
     print(f"Wrote combined and standalone sensitivity figures to {OUTPUT_DIR}")
-    print(f"Completed grid points in slices: {counts}")
+    print(f"Completed grid points in slices: {counts}; CO-throughput={len(throughput_rows)}")
 
 
 if __name__ == "__main__":
