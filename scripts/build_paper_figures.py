@@ -58,9 +58,14 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 
 def save(fig: plt.Figure, name: str) -> None:
     fig.savefig(OUT / name, dpi=600, bbox_inches="tight", facecolor="white")
-    fig.savefig(SVG_OUT / f"{Path(name).stem}.svg", format="svg",
+    svg_path = SVG_OUT / f"{Path(name).stem}.svg"
+    fig.savefig(svg_path, format="svg",
                 bbox_inches="tight", facecolor="white",
                 metadata={"Title": Path(name).stem, "Creator": "Matplotlib"})
+    svg_path.write_text(
+        "\n".join(line.rstrip() for line in svg_path.read_text(encoding="utf-8").splitlines()) + "\n",
+        encoding="utf-8",
+    )
     plt.close(fig)
 
 
@@ -199,11 +204,15 @@ def save_temperature_pressure_map() -> None:
     cf = ax.contourf(temps, pressures, z, levels=levels, cmap="magma", extend="both")
     ax.scatter([350], [5], marker="o", s=32, color="white", edgecolor=NAVY,
                linewidth=1.0, zorder=4, clip_on=False)
-    ax.legend(handles=[Line2D([], [], color="none", marker="o", markersize=4.5,
-                              markerfacecolor="white", markeredgecolor=NAVY,
-                              label="Nominal case (350 °C, 5 bar)")],
-              frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.01),
-              handletextpad=0.45, borderaxespad=0)
+    legend = ax.legend(handles=[Line2D([], [], linestyle="none", marker="o",
+                                       markersize=4.8, markerfacecolor="white",
+                                       markeredgecolor=NAVY,
+                                       label="Reference case (350 °C, 5 bar)")],
+                       loc="upper left", bbox_to_anchor=(0.02, 0.98),
+                       frameon=True, facecolor="white", edgecolor="#BEC8CF",
+                       framealpha=0.95, borderaxespad=0, borderpad=0.4,
+                       handlelength=0.8, handletextpad=0.45)
+    legend.get_frame().set_linewidth(0.6)
     ax.set(xlabel="Inlet temperature (°C)", ylabel="Inlet pressure (bar abs.)",
            xlim=(250, 400), ylim=(5, 15))
     style_axis(ax, grid=False)
@@ -229,11 +238,15 @@ def save_ratio_space_time_map() -> None:
     ref_stime = 35.1
     ax.scatter([ref_ratio], [ref_stime], marker="o", s=30, color="white",
                edgecolor=NAVY, linewidth=1.0, zorder=4)
-    ax.legend(handles=[Line2D([], [], color="none", marker="o", markersize=4.5,
-                              markerfacecolor="white", markeredgecolor=NAVY,
-                              label="1 bar reference")],
-              frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.01),
-              handletextpad=0.45, borderaxespad=0)
+    legend = ax.legend(handles=[Line2D([], [], linestyle="none", marker="o",
+                                       markersize=4.8, markerfacecolor="white",
+                                       markeredgecolor=NAVY,
+                                       label="Experiment 1 inputs (1 bar)")],
+                       loc="upper right", bbox_to_anchor=(0.98, 0.98),
+                       frameon=True, facecolor="white", edgecolor="#BEC8CF",
+                       framealpha=0.95, borderaxespad=0, borderpad=0.4,
+                       handlelength=0.8, handletextpad=0.45)
+    legend.get_frame().set_linewidth(0.6)
     ax.set_yscale("log")
     ax.set(xlabel="Inlet H$_2$/CO molar ratio",
            ylabel="Catalyst space time (kg$_{cat}$ s mol$_{CO}^{-1}$)",
@@ -272,11 +285,15 @@ def save_feed_flow_map() -> None:
                    edgecolor=NAVY, linewidth=0.8, zorder=5)
         ax.set(xlabel=xlab, ylabel=ylab)
         style_axis(ax, grid=False)
-    fig.legend(handles=[Line2D([], [], color="none", marker="o", markersize=4.5,
-                               markerfacecolor="white", markeredgecolor=NAVY,
-                               label="Experiment 1 reference")],
-               frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.01),
-               handletextpad=0.45, borderaxespad=0)
+    legend = fig.legend(handles=[Line2D([], [], linestyle="none", marker="o",
+                                        markersize=4.8, markerfacecolor="white",
+                                        markeredgecolor=NAVY,
+                                        label="Experiment 1 inlet flows")],
+                        loc="lower center", bbox_to_anchor=(0.5, 1.01),
+                        frameon=True, facecolor="white", edgecolor="#BEC8CF",
+                        framealpha=0.95, borderaxespad=0, borderpad=0.4,
+                        handlelength=0.8, handletextpad=0.45)
+    legend.get_frame().set_linewidth(0.6)
     cb = fig.colorbar(cf, ax=axes, pad=0.025, fraction=0.045, ticks=[20, 40, 60, 80, 100])
     cb.set_label("Outlet CO conversion (%)", fontsize=8.0)
     cb.ax.tick_params(labelsize=7.2, length=2)
