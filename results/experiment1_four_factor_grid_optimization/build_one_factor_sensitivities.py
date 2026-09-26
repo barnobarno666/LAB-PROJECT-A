@@ -11,6 +11,7 @@ import matplotlib
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 from matplotlib.ticker import FormatStrFormatter, MaxNLocator
 
 
@@ -25,6 +26,17 @@ RUBY = "#B82601"
 MUTED = "#625e5a"
 RULE = "#d8d2ca"
 PAPER = "#fffdf9"
+OPTIMUM_HANDLE = Line2D(
+    [],
+    [],
+    linestyle="none",
+    marker="o",
+    markersize=6.0,
+    markerfacecolor=PAPER,
+    markeredgecolor=RUBY,
+    markeredgewidth=1.5,
+    label="Best sampled value",
+)
 
 FACTORS = (
     {
@@ -255,6 +267,23 @@ def _draw_axis(
     ax.set_ylim(max(0.0, low - margin), upper)
 
 
+def _add_optimum_legend(ax: plt.Axes) -> None:
+    legend = ax.legend(
+        handles=[OPTIMUM_HANDLE],
+        loc="lower right",
+        frameon=True,
+        fancybox=False,
+        framealpha=0.94,
+        facecolor=PAPER,
+        edgecolor=RULE,
+        fontsize=8.0,
+        borderpad=0.45,
+        handletextpad=0.55,
+        handlelength=0.8,
+    )
+    legend.get_frame().set_linewidth(0.65)
+
+
 def _save_figure(fig: plt.Figure, stem: str, dpi: int = 400) -> None:
     for suffix in (".png", ".svg", ".pdf"):
         output_path = OUTPUT_DIR / f"{stem}{suffix}"
@@ -299,22 +328,12 @@ def main() -> None:
         fontsize=9.0,
         color=MUTED,
     )
-    fig.subplots_adjust(left=0.085, right=0.985, top=0.815, bottom=0.145, wspace=0.30, hspace=0.58)
+    fig.subplots_adjust(left=0.085, right=0.985, top=0.815, bottom=0.13, wspace=0.30, hspace=0.58)
 
     for index, (ax, factor) in enumerate(zip(axes.flat, FACTORS)):
         x, y = slices[str(factor["key"])]
         _draw_axis(ax, factor, optimum, x, y, "abcd"[index])
-
-    fig.text(
-        0.075,
-        0.045,
-        "Open circle: best sampled value for that input. Vertical scales are panel-specific and zoomed. "
-        "Pressure is shown only over the 5–15 bar fitted kinetic range.",
-        ha="left",
-        va="bottom",
-        fontsize=8.0,
-        color=MUTED,
-    )
+    _add_optimum_legend(axes.flat[-1])
     _save_figure(fig, "one_factor_sensitivities_2x2")
 
     for factor in FACTORS:
@@ -339,23 +358,9 @@ def main() -> None:
             fontsize=8.2,
             color=MUTED,
         )
-        fig.subplots_adjust(left=0.135, right=0.975, top=0.81, bottom=0.19)
+        fig.subplots_adjust(left=0.135, right=0.975, top=0.81, bottom=0.15)
         _draw_axis(ax, factor, optimum, x, y, None)
-        pressure_note = (
-            "Pressure values are restricted to the 5–15 bar fitted kinetic range. "
-            if factor["key"] == "inlet_pressure_bar_abs"
-            else ""
-        )
-        fig.text(
-            0.09,
-            0.045,
-            pressure_note
-            + "Open circle: best sampled value. The vertical axis is zoomed to show this slice.",
-            ha="left",
-            va="bottom",
-            fontsize=8.0,
-            color=MUTED,
-        )
+        _add_optimum_legend(ax)
         _save_figure(fig, f"sensitivity_{factor['stem']}")
 
     counts = ", ".join(f"{factor['stem']}={factor['selected_count']}" for factor in FACTORS)
