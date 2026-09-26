@@ -16,7 +16,9 @@ from matplotlib.ticker import MaxNLocator
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output" / "paper" / "figures"
+SVG_OUT = ROOT / "output" / "paper" / "final svgs"
 OUT.mkdir(parents=True, exist_ok=True)
+SVG_OUT.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(ROOT / "src"))
 
 NAVY = "#183B56"
@@ -45,6 +47,7 @@ plt.rcParams.update({
     "savefig.dpi": 600,
     "savefig.bbox": "tight",
     "savefig.pad_inches": 0.04,
+    "svg.fonttype": "none",
 })
 
 
@@ -55,6 +58,9 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 
 def save(fig: plt.Figure, name: str) -> None:
     fig.savefig(OUT / name, dpi=600, bbox_inches="tight", facecolor="white")
+    fig.savefig(SVG_OUT / f"{Path(name).stem}.svg", format="svg",
+                bbox_inches="tight", facecolor="white",
+                metadata={"Title": Path(name).stem, "Creator": "Matplotlib"})
     plt.close(fig)
 
 
