@@ -196,7 +196,7 @@ def save_temperature_pressure_map() -> None:
     z = np.array([[lookup[(t, p)] for t in temps] for p in pressures])
     fig, ax = plt.subplots(figsize=(6.2, 3.8), constrained_layout=True)
     levels = np.linspace(90, 100, 11)
-    cf = ax.contourf(temps, pressures, z, levels=levels, cmap="cividis", extend="both")
+    cf = ax.contourf(temps, pressures, z, levels=levels, cmap="magma", extend="both")
     ax.scatter([350], [5], marker="o", s=32, color="white", edgecolor=NAVY,
                linewidth=1.0, zorder=4, clip_on=False)
     ax.legend(handles=[Line2D([], [], color="none", marker="o", markersize=4.5,
@@ -224,7 +224,7 @@ def save_ratio_space_time_map() -> None:
     z = np.array([[lookup[(x, y)] for x in ratios] for y in stimes])
     fig, ax = plt.subplots(figsize=(6.15, 3.85), constrained_layout=True)
     levels = np.linspace(20, 100, 17)
-    cf = ax.contourf(ratios, stimes, z, levels=levels, cmap="cividis", extend="both")
+    cf = ax.contourf(ratios, stimes, z, levels=levels, cmap="magma", extend="both")
     ref_ratio = 2.996875
     ref_stime = 35.1
     ax.scatter([ref_ratio], [ref_stime], marker="o", s=30, color="white",
@@ -266,7 +266,7 @@ def save_feed_flow_map() -> None:
         lookup = {(float(r["x_feed_mol_h"]), float(r["y_feed_mol_h"])):
                   float(r["co_conversion_pct"]) for r in subset}
         z = np.array([[lookup.get((x, y), np.nan) for x in xs] for y in ys])
-        cf = ax.contourf(xs, ys, z, levels=np.linspace(20, 100, 17), cmap="cividis",
+        cf = ax.contourf(xs, ys, z, levels=np.linspace(20, 100, 17), cmap="magma",
                          norm=norm, extend="both")
         ax.scatter([refx], [refy], marker="o", s=28, facecolor="white",
                    edgecolor=NAVY, linewidth=0.8, zorder=5)
