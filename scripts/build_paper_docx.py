@@ -271,7 +271,7 @@ def make_paper() -> None:
     header = sec.header.paragraphs[0]
     header.alignment = WD_ALIGN_PARAGRAPH.LEFT
     header.paragraph_format.space_after = Pt(0)
-    set_run_font(header.add_run("Fixed Bed CO Methanation Reactor Model Analysis"),
+    set_run_font(header.add_run("CO Methanation in a Fixed-Bed Reactor"),
                  "Times New Roman", 8, color="333333")
     footer = sec.footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -284,14 +284,8 @@ def make_paper() -> None:
     p.paragraph_format.space_before = Pt(10)
     p.paragraph_format.space_after = Pt(3)
     p.paragraph_format.keep_with_next = True
-    set_run_font(p.add_run("Fixed Bed CO Methanation Reactor Model Analysis"),
+    set_run_font(p.add_run("One-Dimensional Modeling of CO Methanation in a Fixed-Bed Reactor"),
                  "Times New Roman", 20, bold=True)
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.paragraph_format.space_after = Pt(5)
-    p.paragraph_format.keep_with_next = True
-    set_run_font(p.add_run("Governing balances, axial profiles, and operating-condition sensitivity"),
-                 "Times New Roman", 10.5, italic=True, color="333333")
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.space_after = Pt(12)
@@ -303,19 +297,16 @@ def make_paper() -> None:
     p.paragraph_format.keep_with_next = True
     set_run_font(p.add_run("Abstract"), "Times New Roman", 10.5, bold=True)
     abstract = (
-        "A one-dimensional fixed-bed reactor model is used to examine CO methanation, "
-        "compare independent literature kinetics with the reported Experiment 1 result, "
-        "and quantify sensitivity to selected operating inputs. The full M4 formulation "
-        "couples CO and CO₂ methanation with water-gas shift, species balances, heat exchange, "
-        "and Ergun pressure drop. At 350 °C and 1 bar absolute, the no-fit Full M4 prediction "
-        "is 78.72% CO conversion, compared with the source-reported 40.63%. This comparison "
-        "is conditional: 1 bar is below the Full M4 fitted pressure interval of 5–15 bar, and "
-        "the source report gives conflicting pressure entries. A separate assumed 5 bar case "
-        "predicts 95.81% conversion and a peak gas temperature of 819.7 K. Sensitivity sweeps "
-        "show substantial dependence on H₂/CO ratio, catalyst space time, and nitrogen flow. "
-        "These results describe model behavior under stated inputs; they do not validate the "
-        "model against the experiment. Integrations used SciPy solve_ivp with the Radau or "
-        "BDF stiff solver, as specified for each simulation case."
+        "A one-dimensional fixed-bed model was used to evaluate CO methanation with the Full M4 "
+        "kinetics of Celoria et al. Species, energy, and Ergun pressure balances were integrated "
+        "in Python with SciPy solve_ivp using Radau or BDF. At 350 °C, 1 bar absolute, and 3.12 g "
+        "catalyst, Full M4 predicts 78.72% CO conversion without parameter adjustment; the "
+        "reported Experiment 1 value is 40.63%. This comparison is affected by conflicting "
+        "pressure values in the source report and lies below the model's 5–15 bar fitted "
+        "pressure range. A separate assumed 5 bar bed predicts 95.81% outlet conversion and a "
+        "peak gas temperature of 819.7 K (546.5 °C), above the fitted temperature range of "
+        "250–400 °C. Sweeps of inlet temperature, pressure, H₂/CO ratio, catalyst space time, "
+        "and N₂ flow characterize the model's response under specified conditions."
     )
     p = doc.add_paragraph()
     p.paragraph_format.left_indent = Inches(0.12)
@@ -333,18 +324,16 @@ def make_paper() -> None:
 
     doc.add_heading("Introduction", level=1)
     add_body(doc,
-        "CO methanation converts carbon monoxide and hydrogen to methane and water. "
-        "A reactor model for this exothermic system must track changes in gas composition "
-        "along with heat release and pressure loss. Literature kinetic expressions can also "
-        "behave differently when transferred between catalysts or outside their fitted ranges."
+        "CO methanation is strongly exothermic, so local rates change with gas composition and "
+        "temperature along a packed bed. A reactor calculation must also account for heat "
+        "exchange and pressure loss."
     )
     add_body(doc,
-        "This study applies the Full M4 rate model reported for mixed CO and CO₂ methanation "
-        "to a one-dimensional fixed-bed calculation [1]. It first compares a no-fit prediction "
-        "with the Experiment 1 source value at a common 1 bar basis, alongside two separate "
-        "literature rate formulations [2, 3]. It then examines an assumed reactor profile and "
-        "saved parameter sweeps. The comparison and sweeps retain their domain limits and "
-        "input assumptions; no kinetic parameter is adjusted to match the reported conversion."
+        "Here, the Full M4 kinetics of Celoria et al. [1] are applied to a one-dimensional "
+        "fixed-bed reactor. Its unadjusted prediction at the selected Experiment 1 basis is "
+        "compared with two other literature rate laws [2, 3] and the reported conversion [5]. "
+        "A separate assumed 5 bar case and operating sweeps are used to examine axial behavior "
+        "and input sensitivity."
     )
 
     doc.add_heading("Methodology", level=1)
@@ -352,8 +341,8 @@ def make_paper() -> None:
     add_body(doc,
         "The bed is represented as a steady, one-dimensional plug-flow reactor. The Full M4 "
         "network contains three reversible reactions, written below in the forward directions "
-        "used to define the stoichiometric matrix. The WGS rate sign is converted consistently "
-        "from the published reverse water-gas-shift convention when required by a source model."
+        "used to define the stoichiometric matrix. The published reverse water-gas-shift rate "
+        "is sign-reversed for the forward direction used here."
     )
     for reaction in (
         "CO₂ + 4 H₂ ⇌ CH₄ + 2 H₂O",
@@ -366,8 +355,8 @@ def make_paper() -> None:
         "the published Langmuir–Hinshelwood–Hougen–Watson form and central parameter values "
         "[1]. For comparison, the Kopyscinski implementation uses the corrected square-root "
         "CO adsorption term from its published corrigendum [2]. The Quindimil implementation "
-        "uses its reported CO₂/H₂ kinetic basis; the limitation in transferring that rate law "
-        "to a CO/H₂/N₂ inlet is treated explicitly in the results [3]."
+        "was fitted to CO₂/H₂ feeds [3]; applying it to the CO/H₂/N₂ comparison is outside that "
+        "feed scope."
     )
 
     doc.add_heading("Material, energy, and momentum balances", level=2)
@@ -397,14 +386,15 @@ def make_paper() -> None:
 
     doc.add_heading("Numerical solution and simulation cases", level=2)
     add_body(doc,
-        "The Python implementation integrates the balance equations with scipy.integrate.solve_ivp "
-        "from SciPy 1.18.1 [4]. The reactor equations are solved with the implicit stiff methods "
-        "Radau or BDF. The principal profile configurations use relative tolerance 10⁻⁶, absolute "
+        "The Python implementation integrates the balance equations with "
+        "scipy.integrate.solve_ivp from SciPy 1.18.1 [4], using the implicit Radau or BDF "
+        "method as listed in Table 1. The principal profile runs use relative tolerance 10⁻⁶, "
+        "absolute "
         "flow tolerance 10⁻¹⁰ mol s⁻¹, temperature tolerance 10⁻⁵ K, and pressure tolerance "
         "0.1 Pa. The independent literature-model profiles use Radau with relative tolerance "
         "10⁻⁸ and absolute flow tolerance 10⁻¹⁴ mol s⁻¹. Dense solver output is sampled at 401 "
         "positions for reactor profiles and 101 catalyst-mass positions for the three-model "
-        "comparison. The saved sweeps report completed-bed outlet metrics."
+        "comparison. Sweep results are reported at the bed outlet."
     )
     add_body(doc,
         "A dry CO/H₂ inlet has zero initial H₂O, while the Full M4 CO₂ rate contains a water "
@@ -424,16 +414,16 @@ def make_paper() -> None:
         [1.42, 3.54, 1.50]
     )
     add_body(doc,
-        "The Full M4 kinetic fit covers 250–400 °C and 5–15 bar. Values interpolated between "
-        "the reported fit nodes remain model interpolations. The 1 bar Experiment 1 comparisons "
-        "and sensitivities are pressure extrapolations. The assumed reactor case uses a 0.0254 m "
+        "The Full M4 kinetic fit covers 250–400 °C and 5–15 bar. The 1 bar Experiment 1 "
+        "comparison and sensitivity runs are pressure extrapolations. The assumed reactor case "
+        "uses a 0.0254 m "
         "tube, 0.3048 m bed, 0.4 void fraction, 3 mm particles, and 750 kg catalyst m⁻³ bed; "
-        "these are specified modelling inputs, not dimensions or packing measurements confirmed "
+        "these are specified modeling inputs, not dimensions or packing measurements confirmed "
         "by Experiment 1."
     )
 
     doc.add_heading("Results and Discussion", level=1)
-    doc.add_heading("No-fit comparison with Experiment 1", level=2)
+    doc.add_heading("Comparison with Experiment 1", level=2)
     add_body(doc,
         "The common comparison basis is 350 °C, 1.00 bar absolute, 3.12 g catalyst, and inlet "
         "flows of 0.320 mol h⁻¹ CO, 0.959 mol h⁻¹ H₂, and 0.799 mol h⁻¹ N₂. The source reports "
@@ -450,41 +440,37 @@ def make_paper() -> None:
         [1.08, 1.18, 1.43, 2.77]
     )
     add_body(doc,
-        "Full M4 overpredicts the source value by 38.09 percentage points under this one-bar "
-        "basis. The pressure choice is itself uncertain in the source material: its abstract and "
-        "discussion describe atmospheric operation, while Appendix A lists 2 bar. This comparison "
-        "uses 1 bar absolute. The Full M4 prediction therefore lies below its fitted pressure "
-        "range. The Kopyscinski result is at the edge of its stated pressure range, but the "
-        "catalyst formulation and reactor arrangement differ from the current case. The Quindimil "
-        "model was fitted to CO₂/H₂ methanation, so applying it to a CO/H₂/N₂ feed extrapolates "
-        "the feed scope as well as the pressure. Its implementation is reduced relative to the "
-        "full printed rate expression because the source parameter table does not provide an "
-        "independent K_H₂ value for one denominator term. The three predictions are thus "
-        "transferability checks, not a ranking against a shared catalyst dataset."
+        "Table 2 and Figure 1 show that Full M4 predicts 78.72% conversion at the selected "
+        "1 bar basis, 38.09 percentage points above the reported 40.63%. The source describes "
+        "atmospheric operation in its abstract and discussion but lists 2 bar in Appendix A [5]. "
+        "The 1 bar calculation is below the Full M4 fitted pressure interval."
+    )
+    add_body(doc,
+        "Kopyscinski predicts nearly complete conversion, but it describes a different catalyst "
+        "and reactor. Quindimil's rate law was fitted to CO₂/H₂ feeds and is "
+        "evaluated below its pressure range here. Its implemented expression is also reduced "
+        "because the published parameter table lacks an independent K_H₂ required by one "
+        "denominator term. These results assess transfer of literature kinetics across different "
+        "conditions; they do not rank models for a common catalyst."
     )
     add_figure(doc, "figure_01_model_comparison.png", 1,
-        "CO conversion versus catalyst mass for the three independent no-fit models. The horizontal dashed line and circular point mark the source-reported Experiment 1 conversion at 3.12 g. The models are evaluated separately at 1 bar; curves are not fitted to the measured point.")
+        "CO conversion versus catalyst mass for three literature models evaluated without refitting. The dashed line and circular point mark the reported Experiment 1 conversion at 3.12 g.")
 
     doc.add_heading("Assumed Full M4 reactor profile", level=2)
     add_body(doc,
-        "The illustrative profile uses a total inlet flow of 0.05 mol s⁻¹ at 350 °C and 5 bar, "
-        "with CO:H₂:N₂ = 1:4:25. The bed has a 1 in diameter and 12 in length, a specified "
-        "void fraction of 0.4, and 3 mm particles. Heat exchange is enabled with a 350 °C wall "
-        "and U = 10 W m⁻² K⁻¹; pressure loss follows Ergun. At 0.11583 kg catalyst, the model "
-        "predicts 95.81% outlet CO conversion and 87.33% methane yield. The peak gas temperature "
-        "is 819.66 K (546.5 °C), reached about 3.5 cm into the bed, and the outlet pressure is "
-        "4.9405 bar."
+        "Figure 2 shows the assumed 5 bar Full M4 bed described in Table 1. The total inlet flow "
+        "is 0.05 mol s⁻¹ with CO:H₂:N₂ = 1:4:25; the wall is held at 350 °C with U = 10 W m⁻² K⁻¹. "
+        "At 0.11583 kg catalyst, the model predicts 95.81% outlet CO conversion and 87.33% "
+        "methane yield. Gas temperature peaks at 819.66 K (546.5 °C) about 3.5 cm from the "
+        "inlet, while pressure falls to 4.9405 bar at the outlet."
     )
     add_figure(doc, "figure_02_assumed_reactor_profiles.png", 2,
         "Axial CO conversion, gas temperature and pressure for the assumed Full M4 case. The temperature rise is concentrated near the inlet; the small pressure change is plotted on a separate right-hand axis. A circular point marks the inlet condition in each panel.")
     add_body(doc,
-        "The species profiles show CO depletion with CH₄ and H₂O formation over the same inlet "
-        "region. CO₂ remains a minor intermediate in this assumed case, while N₂ is inert in the "
-        "reaction network. The displayed concentration range omits N₂ so the reactive species "
-        "remain legible. The predicted hot spot exceeds the 400 °C upper kinetic-fit temperature, "
-        "so rates in part of this profile involve temperature extrapolation. The high conversion "
-        "does not establish reactor performance because the geometry, thermal boundary condition, "
-        "feed and loading are assumptions."
+        "In Figure 3, CO depletion coincides with CH₄ and H₂O formation near the inlet. CO₂ "
+        "remains a minor intermediate; N₂ is included in the material balance but omitted from "
+        "the plot scale. The calculated hot spot exceeds the 400 °C upper kinetic-fit temperature, "
+        "so rates in part of the bed require temperature extrapolation."
     )
     add_figure(doc, "figure_03_species_profiles.png", 3,
         "Reactive-species gas concentrations along the assumed Full M4 bed. The logarithmic ordinate omits initial zero concentrations; nitrogen is omitted from the panel for scale clarity and remains in the simulated material balance.")
@@ -496,81 +482,74 @@ def make_paper() -> None:
                 float(r["inlet_pressure_bar_abs"]) >= 5.0]
     fit_values = [float(r["outlet_co_conversion_pct"]) for r in fit_rows]
     add_body(doc,
-        f"The stored 22 × 22 Full M4 sweep completed all 484 cases across 250–400 °C and "
-        f"1–15 bar. This contour focuses on the published 5–15 bar pressure-fit interval, where "
-        f"outlet conversion ranges from {min(fit_values):.2f}% to {max(fit_values):.2f}%. The "
-        f"nominal 350 °C and 5 bar point gives 95.81%; the 1–<5 bar cases are omitted from this "
-        f"figure because they lie outside the Full M4 pressure-fit range."
+        f"Figure 4 shows the 5–15 bar subset of a 22 × 22 Full M4 sweep over 250–400 °C "
+        f"and 1–15 bar. All 484 runs completed. Over the plotted pressure interval, outlet "
+        f"conversion ranges from {min(fit_values):.2f}% to {max(fit_values):.2f}%; the nominal "
+        f"350 °C, 5 bar point gives 95.81%. Cases below 5 bar are omitted because they lie "
+        f"outside the fitted pressure range."
     )
     add_figure(doc, "figure_04_temperature_pressure_map.png", 4,
         "Full M4 outlet CO conversion over the 5–15 bar pressure-fit interval and 250–400 °C inlet-temperature range. The circular marker identifies the 350 °C, 5 bar nominal case. Other assumed bed inputs are held fixed.")
     add_body(doc,
-        "Inlet conditions inside the published fit rectangle do not guarantee that every local "
-        "bed state remains in the fit domain. Across the full saved sweep, 469 of 484 runs reach "
-        "a sampled peak bed temperature above 400 °C; the peak-temperature range is 288.4–603.1 °C. "
-        "The contour is conditional on the assumed feed, geometry and heat transfer. Many bed "
-        "trajectories also use local temperature extrapolation even though their inlet temperatures "
-        "fall within the reported range."
+        "Inlet conditions within the fitted interval do not guarantee that the entire bed stays "
+        "there. Across all 484 runs, including those below 5 bar, 469 reach a sampled peak bed "
+        "temperature above 400 °C; peak temperatures range from 288.4 to 603.1 °C. Many plotted "
+        "trajectories therefore involve local temperature extrapolation."
     )
 
     doc.add_heading("H₂/CO ratio and catalyst space time", level=2)
     ratio_meta = read_json(ROOT / "results" / "experiment1_ratio_contact_time_sweep_1bar" /
                            "sweep_metadata.json")
     add_body(doc,
-        "The 462-cell isothermal Full M4 sweep varied H₂/CO from 1 to 5 and catalyst space time "
+        "Figure 5 summarizes a 462-case isothermal Full M4 sweep of H₂/CO from 1 to 5 and "
+        "catalyst space time "
         "from 8.775 to 140.4 kg_cat s mol_CO⁻¹ at 350 °C and 1 bar. Catalyst mass was held at "
         "3.12 g; CO and N₂ flows were scaled together, H₂ was reset from the selected ratio, and "
-        "N₂/CO was held at the Experiment 1 value. The predicted conversion range is "
+        "N₂/CO was held at the Experiment 1 value. Outlet conversion ranges from "
         f"{ratio_meta['conversion_range_pct'][0]:.2f}–{ratio_meta['conversion_range_pct'][1]:.2f}%. "
         "At the reference ratio of 2.9969 and space time of 35.10 kg_cat s mol_CO⁻¹, the model "
         "returns 78.72%. Increasing H₂/CO or space time generally raises conversion over the "
         "sampled region, with diminishing change toward the high-conversion boundary."
     )
     add_figure(doc, "figure_05_ratio_space_time_map.png", 5,
-        "Full M4 outlet conversion across the H₂/CO and catalyst-space-time grid. The circular point marks the 1 bar Experiment 1 reference calculation. All cells are isothermal no-fit predictions below the 5–15 bar Full M4 pressure-fit interval.")
+        "Full M4 outlet conversion across the H₂/CO and catalyst-space-time grid. The circular point marks the 1 bar Experiment 1 reference calculation. All cells are isothermal predictions without refitting and lie below the 5–15 bar Full M4 pressure-fit interval.")
 
     doc.add_heading("Absolute feed-flow sensitivity", level=2)
     add_body(doc,
-        "Two saved 1 bar contours vary absolute inlet flows while holding temperature at 350 °C "
-        "and catalyst mass at 3.12 g. The first varies H₂ and CO with N₂ fixed at 0.799 mol h⁻¹. "
-        "The second varies H₂ and N₂ with CO fixed at 0.320 mol h⁻¹. The combined grid contains "
-        "819 completed cases and predicts 15.91–92.30% conversion. Both panels are conditional "
-        "Full M4 sensitivities; the 1 bar pressure is outside the 5–15 bar fitted interval."
+        "Figure 6 varies absolute inlet flows at 350 °C, 1 bar, and 3.12 g catalyst. Panel (a) "
+        "varies H₂ and CO with N₂ fixed at 0.799 mol h⁻¹; panel (b) varies H₂ and N₂ with CO "
+        "fixed at 0.320 mol h⁻¹. The two grids contain 819 completed cases, with predicted "
+        "conversion from 15.91% to 92.30%. The pressure is below the Full M4 fitted interval."
     )
     add_figure(doc, "figure_06_feed_flow_sensitivities.png", 6,
-        "No-fit Full M4 feed-flow sensitivity at 1 bar. Panel (a) varies CO and H₂ at fixed N₂; panel (b) varies N₂ and H₂ at fixed CO. Circular points show the Experiment 1 inlet flows. A common color scale is used.")
+        "Full M4 feed-flow sensitivity at 1 bar. Panel (a) varies CO and H₂ at fixed N₂; panel (b) varies N₂ and H₂ at fixed CO. Circular points mark the Experiment 1 inlet flows; both panels share a color scale.")
     add_body(doc,
-        "At fixed N₂, conversion increases as H₂ supply rises relative to CO. In the second panel, "
-        "increasing N₂ at fixed CO and H₂ lowers the calculated conversion because inert dilution "
-        "and total inlet throughput change together. These contours should not be interpreted as "
-        "an independent effect of total flow or dilution without specifying which inlet streams "
-        "remain fixed."
+        "At fixed N₂, conversion rises with H₂ supply relative to CO. In panel (b), added N₂ "
+        "lowers conversion at fixed reactive flows; dilution and total inlet flow both change."
     )
 
-    doc.add_heading("Isolated nitrogen-flow sensitivity", level=2)
+    doc.add_heading("Nitrogen-flow sensitivity at fixed reactive flows", level=2)
     add_body(doc,
-        "The 42-case N₂ sweep holds CO at 0.320 mol h⁻¹ and H₂ at 0.959 mol h⁻¹ while varying "
-        "N₂ from 0.400 to 1.200 mol h⁻¹. Predicted conversion falls from 88.14% to 70.34%; "
+        "Figure 7 shows a 42-case N₂ sweep with CO held at 0.320 mol h⁻¹ and H₂ at 0.959 mol h⁻¹. "
+        "As N₂ varies from 0.400 to 1.200 mol h⁻¹, predicted conversion falls from 88.14% to 70.34%; "
         "the reference N₂ flow of 0.799 mol h⁻¹ gives 78.72%. Since reactive flows are fixed, "
-        "this curve captures the combined effect of added dilution and increased total flow. "
-        "It is a conditional 1 bar model sensitivity, not experimental validation."
+        "the curve captures the combined effect of dilution and increased total flow at 1 bar, "
+        "below the fitted pressure range."
     )
     add_figure(doc, "figure_07_nitrogen_sensitivity.png", 7,
         "Full M4 conversion as N₂ flow changes with CO and H₂ held at their Experiment 1 values. The circular marker identifies the reference N₂ feed. The model is evaluated isothermally at 350 °C and 1 bar.")
 
     doc.add_heading("Conclusions", level=1)
     add_body(doc,
-        "The coupled fixed-bed calculation produces internally consistent conversion, temperature, "
-        "composition and pressure profiles and supports controlled parameter sweeps. At the "
-        "selected one-bar Experiment 1 basis, Full M4 predicts 78.72% CO conversion against the "
-        "reported 40.63%, with no parameter fitting. The difference, the source pressure "
-        "inconsistency, and the Full M4 pressure-fit limit prevent treating this comparison as "
-        "validation. The assumed 5 bar profile also reaches a gas temperature above the published "
-        "kinetic-fit range. The sensitivity maps are useful for identifying model response to "
-        "feed composition and catalyst space time, but their conclusions remain conditional on "
-        "the assumed geometry, thermal inputs and kinetic domain. Experimental validation requires "
-        "a resolved pressure basis, confirmed reactor dimensions and packing, and matched catalyst "
-        "kinetic data over the local temperature and pressure histories."
+        "At the selected 1 bar Experiment 1 conditions, Full M4 predicts 78.72% CO conversion, "
+        "compared with the reported 40.63%. Because 1 bar lies below the fitted pressure range "
+        "and the source gives conflicting pressure values, this difference does not establish "
+        "predictive accuracy. In the separate assumed 5 bar bed, conversion reaches 95.81%, but "
+        "the calculated 546.5 °C hot spot exceeds the published temperature-fit range. Over the "
+        "specified sensitivity cases, conversion rises with H₂/CO and catalyst space time and "
+        "falls as N₂ flow increases at fixed CO and H₂. An experimental comparison requires a "
+        "resolved pressure basis, measured reactor geometry and packing, and kinetics for the "
+        "catalyst and local bed conditions."
     )
     doc.paragraphs[-1].paragraph_format.keep_together = True
 
@@ -587,8 +566,8 @@ def make_paper() -> None:
         "Experiment 1 source report and data supplied with the project, unpublished project material.")
 
     props = doc.core_properties
-    props.title = "Fixed Bed CO Methanation Reactor Model Analysis"
-    props.subject = "Paper-style report of model methods, plotted results, and operating sensitivities"
+    props.title = "One-Dimensional Modeling of CO Methanation in a Fixed-Bed Reactor"
+    props.subject = "Reactor methodology, profiles, and operating sensitivities"
     props.author = "Barno and Ashiq"
     props.keywords = "CO methanation, fixed bed, Full M4, SciPy, Radau, BDF"
     doc.save(OUTPUT)
